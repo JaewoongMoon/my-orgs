@@ -1,0 +1,3 @@
+* run multiple shells
+C-u M-x shell
+
