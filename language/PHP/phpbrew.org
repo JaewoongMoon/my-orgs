@@ -23,6 +23,11 @@ $ chmod +x phpbrew
 # Move phpbrew to somewhere can be found by your $PATH
 $ sudo mv phpbrew /usr/local/bin/phpbrew
 $ phpbrew init
+# I assume you're using bash
+echo "[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc" >> ~/.bashrc
+
+# For the first-time installation, you don't have phpbrew shell function yet.
+source ~/.phpbrew/bashrc
 #+END_SRC
 
 * 사용법
@@ -31,15 +36,23 @@ $ phpbrew init
 $ phpbrew known
 #릴리즈 정보를 업데이트
 $ phpbrew update
-#원하는 버전을 설치
+#원하는 버전을 설치. 직접 소스코드를 받아서 빌드하므로 시간이 좀 걸린다. 
 $ phpbrew install 5.4.45 +default
 #특정버전을 지우기
 $ phpbrew clean php-5.4.45
 #Variants(추가모듈) 목록보기 
 $ phpbrew variants
+#사용중인 PHP 버전 변경
+$ phpbrew switch php-5.4.45
+#설치된 php 리스트
+$ phpbrew list
 #+END_SRC
+
 
 
 
 * 참고 
 https://coderwall.com/p/hguzxa/phpbrew-on-ubuntu-16-04-php7
+https://github.com/phpbrew/phpbrew/wiki/Quick-Start
+
+

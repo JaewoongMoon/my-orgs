@@ -1,0 +1,7 @@
+* 서문
+아파치2와 PHP7 을 설치, 연동하기 위한 절차를 기술한다. 
+
+* 아파치 및 의존 라이브러리 설치
+$ sudo apt-get install apache2
+$ sudo apt-cache search php7-*
+$ sudo apt-get install libapache2-mod-php7.0 php7.0-mysql php7.0-curl php7.0-json

@@ -2,12 +2,17 @@
 
 ** Function Table
 
-| Function              | Command (M-x)                    | Shortcut          |
-|-----------------------+----------------------------------+-------------------|
-| Subtree cycling       | org-cycle                        | <TAB>             |
-| Global cycling        | org-global-cycle                 | S-<TAB>           |
-| Initial Visibility    | custom-var => org-startup-folded |                   |
-| Set startup visiblity | org-set-startup-visiblity        | C-u C-u <TAB>     |
-| Outline show all      | outline-show-all                 | C-u C-u C-u <TAB> |
-|                       |                                  |                   |
+| Function                    | Command (M-x)                    | Shortcut          |
+|-----------------------------+----------------------------------+-------------------|
+| Subtree cycling             | org-cycle                        | <TAB>             |
+| Global cycling              | org-global-cycle                 | S-<TAB>           |
+| Initial Visibility          | custom-var => org-startup-folded |                   |
+| Set startup visiblity       | org-set-startup-visiblity        | C-u C-u <TAB>     |
+| 모든 아웃라인을 보이게한다. | outline-show-all                 | C-u C-u C-u <TAB> |
+|                             |                                  |                   |
 
+
+* 이미지
+#+CAPTION: This is the caption
+#+NAME: fig:SED-HRD34099
+[[./img/2.png]]

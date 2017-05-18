@@ -24,30 +24,23 @@ php --version
 
 *** Apache server
 **** basic command
-***** install 
 #+BEGIN_SRC shell-script
-sudo apt install apache2
-#+END_SRC
-***** version check 
-#+BEGIN_SRC shell-script
-httpd -v
-#+END_SRC
-***** config file 
-#+BEGIN_SRC shell-script
-/etc/apache2/apache2.conf
-#+END_SRC
-***** restart 
-#+BEGIN_SRC shell-script
-sudo service apache2 restart
+# install 
+$ sudo apt install apache2
+# version check 
+$ httpd -v
+# config file 
+$ cat /etc/apache2/apache2.conf
+# restart
+$ service apache2 restart
 #+END_SRC
 **** Apache mode rewirte module
-***** check
 #+BEGIN_SRC shell-script
-apache2ctl -M
-#+END_SRC
-***** install 
+# check
+$ apache2ctl -M
+#  install 
 #+BEGIN_SRC shell-script
-sudo a2enmod rewrite
+$ sudo a2enmod rewrite
 #+END_SRC
 **** Enable apache support for .htaccess 
 httpd.conf : AllowOverride None -> AllowOverride FileInfo
