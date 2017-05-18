@@ -15,4 +15,4 @@
 * 이미지
 #+CAPTION: This is the caption
 #+NAME: hqdefault-image
-  [[./img/hqdefault.jpg]
+[[./img/hqdefault.jpg]]
