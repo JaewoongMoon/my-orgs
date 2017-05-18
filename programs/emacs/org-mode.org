@@ -14,5 +14,5 @@
 
 * 이미지
 #+CAPTION: This is the caption
-#+NAME: fig:SED-HRD34099
-[[./img/2.png]]
+#+NAME: hqdefault-image
+  [[./img/hqdefault.jpg]
