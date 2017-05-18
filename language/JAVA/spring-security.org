@@ -1,0 +1,299 @@
+
+* 서론
+Spring Security를 이용해서 웹 사이트 인증을 구현하려고 하였으나 상당히 시행착오를 겪고 있다.  
+한국어웹에서 몇 가지 자료를 찾았지만 아쉬운 점이 있었다. 너무 기초여서 별 도움이 되지 않거나, 아니면 너무 복잡해서 의욕이 꺾여버렸다.
+내가 원하는 것은 단순히 내가 작성한 로그인 기능을 그대로 사용하면서, Spring Security가 지원해주는 보안 기능의 혜택을 받고 싶은 것인데!
+
+막막한 심정으로 헤매던 중 원문으로 되어있는 Spring Security 매뉴얼(Spring Security Reference Documentation-Ben Alex, Luke Taylor)
+을 발견하였다. 136페이지 볼륨인데, 기초부터 시작하기 때문에 할만하다는 생각이 들었다. 
+이 매뉴얼을 읽고 나름대로 이해한 점을 정리해둔다. 나처럼 헤매는 사람들한테 도움이 되길 바라며... 
+
+** 버전에 대해서
+매뉴얼에서 사용하고 있는 스프링 시큐리티의 버전은 3.0.8 이지만, 내가 사용한 버전은 3.2.7 이다. 
+기본적인 부분은 크게 차이가 없을 거라 생각한다. 
+
+
+** 용어 사용 시 한글과 영단어 표기의 기준에 대해서
+개념을 확실히 하기 위해서 영단어를 같이 표기하는 것이 좋다고 판단될 경우, 
+자바 클래스나 인터페이스명 그 자체를 나타낼 경우를 제외하고는 한글로 표기했다. 
+예를들면, Spring Security는 (굳이 영어로 표기하지 않아도 이해하므로) 
+스프링 시큐리티로 통일해서 표기했다. 한편, SecurityContext는 스프링 시큐리티에 실제로 존재하는 
+인터페이스이므로 SecurityContext로 표기했다. 
+
+** 매뉴얼의 구조에 대해서 
+원문 매뉴얼은 전체 5개 파트로 되어있다. 
+
+*** Part I. 시작하기 
+기초파트이다. Spring Security가 제공하는 가장 기본적인 방식인 xml 에 설정정보를 저장하는 방식에 대해 설명한다. 
+매뉴얼에서는 이 방식을 네임스페이스 설정(Namespace Configuration)이라고 부르고 있다. 
+여기서는 자바 코드가 등장하지 않는다. 
+
+*** Part II. 아키텍처와 구현
+여기서부터 자바 코드가 등장한다. 
+중요한 자바 클래스들에 대한 설명과 인증과정에 대한 설명을 하고 있다. 커스터마이징을 하려면 꼭 읽어봐야 하는 부분이다. 
+
+*** Part III. Web Application 보안
+
+Security Filter Chain과 중요한 보안 필터 클래스들, 각종 인증방법, 세션 관리 등에 대해 설명한다. 
+
+*** Part IV. 권한
+권한 관리와 접근 관리 (Access Control) 등에 대해 설명한다. 
+
+*** Part V. 추가 토픽들
+도메인 오브젝트 보안 (ACLs), LDAP 인증, X.509 인증 등에 설명한다. 슬슬 머리가 아파오기 시작한다. 
+여기는 필요가 생겼을 때 읽으면 될 것 같다. 
+
+** 기본 개념
+
+가장 기본적인 개념은 알고가야 하므로...
+
+*** 인증(Authentication)
+내가 이해하는 인증의 개념은 여권(Passport)이다. 인증은 내가 정말 나인지 증명하는 것이라 할 수 있다. 
+내가 나라는 것을 어떻게 증명할 수 있는가? 나만이 가지고 있는 어떤 것을 내보일 수 있다면 가능할 것이다. 
+예를들면, 국가에서 발행한 주민등록증, 운전면허증, 여권 등을 가지고 있다면 내가 나라는 것을 증명하는 하나의 방법이 될 것이다. 
+
+*** 권한(Authorization)
+내가 이해하고 있는 권한의 개념은 비자(Visa)이다. 비자의 종류에는 여행 비자, 취업 비자, 배우자 비자 등이 있다. 
+비자는 외국인이 그 나라에서 취할 수 있는 행동을 제한한다. 예를 들면 어떤 외국인 A가 B나라의 여행 비자를 가지고 있다고 할 때,
+A는 여기 저기 돌아다니면서 관광은 할 수 있어도 돈을 벌기 위한 활동은 할 수 없다. A는 B나라에서 취업 활동을 할 권한이 없는 것이다.
+
+* Part I. 시작하기
+
+스프링 시큐리티에 대한 기초적인 내용들을 다룬다.
+
+
+** 소개
+*** Spring Security 가 무엇인가?
+*** 역사
+*** 릴리즈 넘버링
+*** 설치하기
+
+** 네임스페이스 설정
+
+** 샘플 어플리케이션
+
+** 스프링시큐리티 커뮤니티 
+
+
+
+* Part II. 아키텍처와 구현
+
+xml 설정에 어느정도 익숙해진 유저를 위해 커스터마이징을 하는 방법에 대해 안내한다.
+커스터마이징을 위한 정보로서 아키텍처와 자바 인터페이스, 구현 클래스 등에 대해 설명한다.
+
+** 기술적인 개요
+스프링 시큐리티 3.0은 자바 런타임 5.0이상을 요구한다. 
+
+** 핵심 컴포넌트들
+핵심 클래스들은 spring-security-core jar에 있다. *이 클래스들은 웹과 관련이 없다.*
+실제로 메이븐에서 의존성을 확인해봐도 spring-core, spring-beans등에는 의존성이 있지만, 
+web 관련 프레임웍에는 의존성이 없는 것을 확인할 수 있다. 
+참고로 웹과 관련된 클래스들은 spring-security-web jar에 있다. 
+
+*** SecurityContextHolder, SecurityContext and Authentication Objects
+
+*SecurityContextHolder 는 가장 핵심적인 클래스이며, 어플리케이션 보안 설정에 대한 값을 
+저장하는 클래스이다.*
+
+다양한 정보를 SecurityContext에서 얻을 수 있다. 예를들면, 다음은 현재 인증된 사용자의 정보를
+얻는 코드이다.[fn:1]
+
+#+BEGIN_SRC java
+  Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  if (principal instanceof UserDetails) {
+      String username = ((UserDetails)principal).getUsername();
+  } else {
+      String username = principal.toString();
+  }
+#+END_SRC
+
+SecurityContextHolder.getContext() 가 리턴하는 것은 SecurityContext인터페이스의 인스턴스이다. 
+SecurityContext로부터 Authentication객체를, Authentication객체로부터 Principal(유저정보)을 얻을 수 있다는 것을 
+알 수 있다. 
+
+[fn:1]principal은 스프링 시큐리티에서 유저 정보를 나타내는 용어로 쓰인다. 
+영어 사전을 찾아보면 "본인" 이라는 뜻이 있다. 
+
+
+*** The UserDetailsService
+**** UserDetails
+UserDetails는 Spring Security의 핵심적인 인터페이스이다. 
+이 인터페이스에는 Spring Security에서 필요로 하는 몇 가지 메서드가 정의되어 있다. 
+그리고 일종의 어댑터로 생각하면 좋다. 
+어플리케이션 DB와 Spring Security의 SecurityContextHolder 사이를 연결하는 어댑터인 것이다.
+
+**** The UserDetails Service
+UserDetailsService 인터페이스는 UserDetails를 제공받기 위한 인터페이스이다. 
+인터페이스에 정의된 메서드는 다음과 같다. 
+
+#+BEGIN_SRC java
+UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+#+END_SRC
+
+로그인을 처리하는 서비스를 작성할 때 이 UserDetailsService 인터페이스를 구현하도록 하면 된다.
+username(로그인ID)에 해당되는 유저 정보를 UserDetails 인터페이스를 구현한 클래스에 담아 
+리턴하도록 작성하면 된다. 혹은, 스프링에서 제공하는 클래스를 그대로 이용하는 방법도 있다. 
+
+**** 스프링시큐리티에 커스터마이징한 UserDetailsService 등록하기
+1) UserDetailsService를 구현하였으면 그 것을 먼저 스프링의 빈으로 등록한다. 
+2) xml 설정파일의 authentication-provider 태그에 user-service-ref 속성 값으로 해당 빈을 지정해준다. 
+(참고로 user-service-ref에 이름을 지정할 때 스프링이 @Service 어노테이션으로 등록한 
+UserDetailsService를 찾지 못했기 때문에 xml에 직접 UserDetailsService를 등록하였다.)
+
+*** GrantedAuthority
+principal 이외에 Autehntication이 제공하는 또 다른 중요한 메서드는 getAuthorities()이다. 
+이 메서드는 GrantedAuthority 객체의 배열을 제공한다. (하나의 유저가 여러개의 권한을 가지고 있을 수 
+있다는 것을 추측할 수 있다.)
+GrantedAuthority는 그 이름처럼 어떤 유저에게 부여된 권한을 의미한다. 권한은 보통 "역할(roles)"이다. 
+그리고 스프링 스큐리티에서는 ROLE_USER, ROLE_ADMIN 처럼 표기된다. 
+이 권한들은 나중에 웹 권한, 메서드 권한, 도메인 오브젝트 권한 등으로 설정될 수 있다. 
+
+보통 GrantedAuthority객체는 어플리케이션 전체에 걸친 퍼미션이다. 
+
+*** Summary
+
+** 인증
+*** 스프링 시큐리티에서의 인증이란?
+*** SecurityContextHolder의 내용을 직접 세팅하기
+
+** 웹 어플리케이션에서의 인증
+세 가지의 중요 클래스를 알아야 한다. 
+
+*** ExceptionTranslationFilter
+ExceptionTranslationFilter는 모든 종류의 Spring Security Exception를
+ 감지하는 책임을 가지고 있는 클래스이다. 
+
+그리고 해당 Exception들은 주로 (권한 서비스의 메인 프로바이더인)
+AbstractSecurityInterceptor에 의해 생성되고 던져진다. 
+
+
+*** AuthenticationEntryPoint
+유저가 인증이 안된 상태에서 권한이 필요한 페이지에 접근하려고 할 때, 로그인 페이지로 리다이렉트되도록 하는 동작을 책임지는 클래스이다. 
+
+
+*** AuthenticationManager
+유저로부터 입력받은 인증정보(credential)를 토대로 인증 작업을 수행한다. 
+참고로 인증정보는 다양한 방법으로 입력받을 수 있다. Web이라면 베이직 인증 또는 폼 베이스 로그인 등의 방법이 있다. 
+인증이 성공하면 유저의 정보를 SecurityContextHolder에 저장해둔다. 그리고 유저가 요청했던 페이지로 이동시킨다.
+인증이 실패하면 인증 요청 페이지로 리다이렉트시킨다. 
+
+*** 요청들 사이의 SecurityContext 저장하기 
+
+* Part III. 웹 어플리케이션 보안
+스프링 시큐리티의 웹 인프라스트럭쳐는 모두 표준 서블릿 필터에 기초하고 있다. 
+이 말은 다른 MVC 프레임웍같은 것에 의존하지 않는다는 말이다. 
+
+** 시큐리티 필터 체인
+*** DelegratingFilterProxy
+서블릿 필터는 그 기본 스펙에 따라 web.xml에 선언해야만 한다.
+한편, 스프링 시큐리티의 필터클래스들은 모두 스프링 빈으로 관리된다. 이 말은 어플리케이션 컨텍스트에 정의된다는 뜻이다. 
+문제는 스프링 시큐티리 필터 클래스들은  스프링 빈으로 관리되면서도 필터처럼 동작해야 한다는 것이다. 
+스프링 시큐리티에서는 이 요구사항을 만족시키기 위해 DelegatingFilterProxy라는 클래스를 제공한다. 
+이 클래스는 어플리케이션 컨텍스트와 web.xml 사이의 링크를 담당한다. 
+이름이 나타내듯이 실제 필터와 같은 일을 하는 것은 아니고 스프링 시큐리티 필터들에 요청을 전달해주는 일을 한다. 
+다음과 같이 web.xml에 일반 필터처럼 등록한다. 
+
+#+BEGIN_SRC xml
+  <filter>
+    <filter-name>myFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>myFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+#+END_SRC
+
+*** FilterChainProxy
+필터는 각각 보안과 관련된 하나씩의 책임을 갖고 있다. 
+
+필터의 순서는 매우 중요한데, 이들 사이에 의존성을 가지고 있기 때문이라고 한다. 
+(구체적으로 어떤 의존성일까?)
+
+네임스페이스 설정을 사용하고 있다면, 스프링 시큐리티가 자동으로 설정을 해주기 때문에 프로그래머가 특별히 할 것은 없다. 
+
+
+
+
+*** Filter Ordering
+스프링 시큐리티 필터는 9개가 있으며 순서대로 다음과 같다. 
+간단하게나마 왜 있는 것이며 어떤 역할을 하는 것인지까지는 알 필요가 있을 것이다.
+
+**** ChannelProcessingFilter
+웹 요청이 요구되는 채널로부터 온 것인지 체크한다. 
+채널이란 프로토콜로 이해하면 될 것 같다. 
+주된 용도는 웹 요청이 HTTPS 프로토콜을 이용한 것인지 체크하는 용도라고 한다. 
+만약 어플리케이션은 HTTPS 를 통해 통신하기를 원하나 웹 요청은 HTTPS 를 사용하지 않았을 경우, 
+HTTPS를 포함한 URL로 리다이렉트시키는 일을 하는 듯 하다.  
+
+
+**** SecurityContextPersistenceFilter
+SecurityContextRepository에서 SecurityContext를 로드하고 저장하는 일을 담당함. 
+웹 요청이 시작될 때 SecurityContext가 SecurityContextHolder에 저장되어 유지되고, 
+웹 요정이 종료될 때 만약 어떤 변경사항이 있으면 HttpSession에 저장된다.  
+
+SecurityContext는 어플리케이션 보안 설정 값이나, 현재 로그인한 유저의 인증정보등을 저장하는
+ 객체로 알고 있다. 설명을 보고 예상컨대, 매번 요청이 들어올 때마다 SecurityContextRepositiry에서
+ SecurityContext를 찾고 없으면 로그인화면으로 리다이렉트?
+
+so a SecurityContext can be set up in the SecurityContextHolder at the beggining
+of a web request, and any changes to the SecurityContext can be copied to the 
+HttpSession when the web request ends (ready for use with the next web request)
+
+
+**** ConcurrentSessionFilter
+
+because it uses the SecurityContextHolder functionality 
+but need to update the SessionRegistry to reflect ongoing request from the principal
+(?)
+
+
+**** Authentication processing mechanisms
+UsernamePasswordAuthenticationFilter, CasAuthenticationFilter, 
+BasicAuthenticationFilter 등- so that the SecurityContextHolder can be modified
+to contain a valid Authentication request token
+
+**** SecurityContextHolderAwareRequestFilter
+
+
+**** RememberMeAuthenticationFilter
+
+
+**** AnonymousAuthenticationFilter
+
+
+**** ExceptionTranslationFilter
+그 자체로 보안 필터의 기능은 하지 않지만, 보안 인터셉터들에 의해 예외가 발생했을 때
+그 것을 받아서 적절한 HTTP 응답으로 만들어 주는 일을 한다. 
+
+**** FilterSecurityInterceptor
+앞의 모든 필터들의 정보를 토대로 최종 결정을 내린다.
+
+
+*** 요청 매칭과 Http방화벽
+
+*** 다른 필터-기반의 프레임워크 사용하기
+
+** 핵심 보안 필터들
+스프링 시큐리티를 사용하는 모든 웹 어플리케이션이 사용하는 중요한 필터가 몇 개 있다. 
+다음에 설명하는 네 개의 필터는 중요한 필터들이니 알아둘 필요가 있다. 
+
+*** FilterSecurityInterceptor
+
+*** ExceptionTranslateFilter
+
+*** SecurityContextPersistenceFilter
+
+*** UsernamePasswordAuthenticationFilter
+
+** 기본 인증과 다이제스트 인증
+** 나를 기억해(Remeber-me) 인증
+** 세션 관리
+** 익명(Anonymous) 인증
+
+* Part IV. 권한
+** 권한 아키텍처
+** 보안 오브젝트 구현
+** 표현 기반의 접근 제어
+
+

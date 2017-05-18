@@ -1,0 +1,13 @@
+* Org Mode
+
+** Function Table
+
+| Function              | Command (M-x)                    | Shortcut          |
+|-----------------------+----------------------------------+-------------------|
+| Subtree cycling       | org-cycle                        | <TAB>             |
+| Global cycling        | org-global-cycle                 | S-<TAB>           |
+| Initial Visibility    | custom-var => org-startup-folded |                   |
+| Set startup visiblity | org-set-startup-visiblity        | C-u C-u <TAB>     |
+| Outline show all      | outline-show-all                 | C-u C-u C-u <TAB> |
+|                       |                                  |                   |
+
