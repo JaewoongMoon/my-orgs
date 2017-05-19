@@ -1,13 +1,25 @@
-
-
 * 이론
 ** XXE (XML eXternal Entity) Injection 이란?
 XML의 DTD의 외부 Entity 참조기능을 악용하여 중요 파일 열람, DOS등의 행위를 시도하는
 공격임. 
 
 ** 사례
+구글, 페이스북등 세계적인 회사들의 서버에서도 취약점이 발견된 적이 있다. 
 
-y
+페이스북 XXE 취약점
+https://threatpost.com/xxe-bug-patched-in-facebook-careers-third-party-service/110151/
+
+구글 XXE 취약점
+http://securityaffairs.co/wordpress/23943/hacking/hacking-google-server-with-xml.html
+
+워드프레스 XXE 취약점
+https://packetstormsecurity.com/files/121492/wpadvancedxml-xxe.txt
+
+또한 관련된 취약점을 CVE 데이터베이스에서 찾아보면 엄청나게 많은 것을 알 수 있다. 
+
+http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=xxe 
+
+
 
 ** XML?
 데이터 교환용의 마크업 언어
@@ -110,18 +122,10 @@ XML에서는 foo의 값을 출력하게 되어있다.
 foo의 값을 SYSTEM "file:///etc/passwd" 로 변경되었다. 
 그 결과 다음과 같이 시스템 파일이 노출된다. 
 
-
-* 추가로 생각할 수 있는 공격방법
-** 
-
-
-
 * 방어방법
+XML을 파싱할 때 외부 참조를 허용하지 않는다. 
 
-** 생각할 수 있는 방법
-XML 입력에서 외부 참조를 허용하지 않는다. 
-
-** PHP 플래그의 의미
+** 관련 PHP 플래그의 의미
 LIBXML_NOENT : XML을 파싱할 때 엔터티 참조를 허용한다. (외부/내부 모두)
 LIBXML_DTDLOAD :외부 참조 DTD 서브셋을 로드
 
@@ -141,6 +145,4 @@ http://php.net/manual/en/libxml.constants.php
 http://php.net/manual/en/language.operators.bitwise.php
 
 http://stackoverflow.com/questions/38807506/what-does-libxml-noent-do-and-why-isnt-it-called-libxml-ent
-
-https://beistlab.files.wordpress.com/2015/01/grayhash_intro_xxe.pdf
 
