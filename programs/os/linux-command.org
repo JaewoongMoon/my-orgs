@@ -1,0 +1,8 @@
+* curl 
+** desc
+Command Line data transfer tool.
+
+** option
+-d  : Send POST message
+@ : Send File to POST message
+
