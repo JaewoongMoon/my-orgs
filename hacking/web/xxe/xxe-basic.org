@@ -39,11 +39,14 @@ XHTML, RSS, XML-RPC, SOAP 등 많은 곳에 사용된다.
 
 ** DTD?
 Document Type Definition 의 약자로 XML문서에 사용될 구성요소를 정의해 놓은 것이다.
+
 위의 XML에서 recipe, title 등의 구성요소를 사용할 수 있다고 정의해놓은 것이 DTD이다.
 
 ** 엔터티?
 XML에서 데이터를 참조하기 위한 방법. DTD에서 ENTITY라는 키워드를 사용해서 정의한다.
+
 그리고 XML본문에서 참조하여 사용한다. 
+
 일반 엔터티 참조는 &로 시작하여 ;으로 끝난다.
 
 
