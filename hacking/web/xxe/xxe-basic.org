@@ -118,6 +118,11 @@ XML에서는 foo의 값을 출력하게 되어있다.
 
 이 XML 문자열을 입력한 결과는 다음과 같다.  
 
+#+NAME: 1
+[[./img/1.png]]
+
+[[./img/2.png]]
+
 
 ** 공격문자열
 
@@ -127,9 +132,11 @@ XML에서는 foo의 값을 출력하게 되어있다.
 <test><testing>&foo;</testing></test>
 #+END_SRC
 
-foo의 값을 SYSTEM "file:///etc/passwd" 로 변경되었다. 
+foo의 값을 SYSTEM "file:///etc/passwd" 로 변경하였다.
 
 그 결과 다음과 같이 시스템 파일이 노출된다. 
+
+[[./img/3.png]]
 
 * 방어방법
 XML을 파싱할 때 외부 참조를 허용하지 않는다. 
