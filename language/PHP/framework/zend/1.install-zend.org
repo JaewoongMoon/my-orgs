@@ -2,8 +2,8 @@
 
 * 서문
 Zend 프레임웍을 설치/사용해보고 결과를 정리한다. 
-https://docs.zendframework.com/tutorials/getting-started/overview/
-를 참고로 정리하였다. 
+공식 홈페이지의 매뉴얼 (https://docs.zendframework.com/tutorials/getting-started/overview/)
+을 참고로 정리하였다. 
 
 * Zend 설치
 #+BEGIN_SRC shell-script
@@ -87,3 +87,6 @@ $sudo apt-get install curl php-cli php-mbstring git unzip composer
 $composer self-update
 $composer install
 #+END_SRC
+
+* 참고자료
+https://docs.zendframework.com/tutorials/getting-started/overview/

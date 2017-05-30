@@ -2,20 +2,36 @@
 
 * 시작하기 : A skeleton application
 간단한 웹 프로그램을 만들면서 감을 익혀보자. 
+먼저 다음 명령으로 스켈레톤 프로젝트를 생성한다.
+설치할 경로는 /var/www/zend-training 로 설정하였다.
 #+BEGIN_SRC shell-script
-$composer create-project -s dev zendframework/skeleton-application /var/www/zend-training
+$ composer create-project -s dev zendframework/skeleton-application [설치할경로]
 #+END_SRC
 
 프로젝트를 만들 때 최소 필요사항으로 만들 것인지 물어보는데, 이 때 N으로 대답하지 않으면 필요한 
 모듈들(db, form검증 관련)이 설치되지 않으므로 주의한다. 
 
-** Modules
-프로젝트는 여러개의 모듈로 구성된다. 예를들면, 예제에서는 앨범 모듈을 만드는 것을 안내하고 있다. 
+* 모듈
+프로젝트는 여러개의 모듈로 구성된다. 모듈은 일종의 도메인처럼 생각하면 될 것 같다. 
+예제에서는 앨범 모듈을 만드는 것을 설명하고 있다. 
 
-*** Setting up the Album module
+** 앨범 모듈 세팅하기
 1) 수동으로 디렉토리 구조를 만든다. 디렉토리 구조는 다음과 같다. 
-
-2) Module.php 파일을 만든다. 
+디렉토리명을 보면 대략적인 역할을 추측가능하다.
+#+BEGIN_SRC shell-script
+zend-training/
+    /module
+        /Album
+            /config
+            /src
+                /Controller
+                /Form
+                /Model
+            /view
+                /album
+                    /album
+#+END_SRC
+2) Module.php 파일 생성
 
 *** Autoloading
 composer.json 파일에 album 컨텍스트를 추가한다. 
@@ -31,3 +47,6 @@ This is done in the application's *config/modules.config.php* file which is prov
 skeleton application. 
 
 modules.config.php 파일에 새로 작성한 album모듈이 로딩되도록 추가해준다. 
+
+* 참고자료
+https://docs.zendframework.com/tutorials/getting-started/modules/
