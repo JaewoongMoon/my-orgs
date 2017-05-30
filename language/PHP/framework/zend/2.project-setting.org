@@ -1,0 +1,33 @@
+#+TITLE: 2. 프로젝트 생성 및 세팅
+
+* 시작하기 : A skeleton application
+간단한 웹 프로그램을 만들면서 감을 익혀보자. 
+#+BEGIN_SRC shell-script
+$composer create-project -s dev zendframework/skeleton-application /var/www/zend-training
+#+END_SRC
+
+프로젝트를 만들 때 최소 필요사항으로 만들 것인지 물어보는데, 이 때 N으로 대답하지 않으면 필요한 
+모듈들(db, form검증 관련)이 설치되지 않으므로 주의한다. 
+
+** Modules
+프로젝트는 여러개의 모듈로 구성된다. 예를들면, 예제에서는 앨범 모듈을 만드는 것을 안내하고 있다. 
+
+*** Setting up the Album module
+1) 수동으로 디렉토리 구조를 만든다. 디렉토리 구조는 다음과 같다. 
+
+2) Module.php 파일을 만든다. 
+
+*** Autoloading
+composer.json 파일에 album 컨텍스트를 추가한다. 
+add Album context to the "composer.json" file which is located in project root. 
+
+*** Configuration
+module.config.php 파일에 album 컨트롤러와 view 파일 경로를 설정해준다.
+JAVA의 spring-servlet 과 비슷한 기능을 한다. 
+
+*** Informing the application about our new module
+We need to tell the *ModuleManager* that this new module exists. 
+This is done in the application's *config/modules.config.php* file which is provided by the
+skeleton application. 
+
+modules.config.php 파일에 새로 작성한 album모듈이 로딩되도록 추가해준다. 
