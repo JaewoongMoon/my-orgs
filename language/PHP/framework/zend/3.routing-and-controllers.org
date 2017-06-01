@@ -1,0 +1,26 @@
+#+TITLE: 라우팅 및 컨트롤러 코드 작성
+
+* Routing and Controllers
+MVC패턴의 컨트롤러와 URL매핑에 대해 설멍한다.
+
+| Page          | Controller      | Action |
+|---------------+-----------------+--------|
+| Home          | AlbumController | index  |
+| Add new album | AlbumController | add    |
+| Edit album    | AlbumController | edit   |
+| Delete album  | AlbumController | delete |
+|---------------+-----------------+--------|
+
+The mapping of a URL to a particular action is done using routes that are defined in the 
+module's *module.config.php* file. We will add a route for our album actions. 
+
+/album URL로 들어왔을 때 동작할 컨트롤러 메서드들의 매핑정보를 설정해준다. 
+
+*** Create the controller
+컨트롤러 파일을 작성한다.
+컨트롤러 파일의 이름은 AlbumController.php 이다. 
+
+*** Initialize the view scripts
+view 파일을 작성
+  
+
