@@ -1,5 +1,13 @@
-* XXE 의 다양한 응용방법
+* XXE 의 다양한 응용 공격들 
 
+** billion laughs
+
+introducing python に載せているらしい。
+DOS 공격의 한 종류이다.
+Good Luck です。
+
+
+ㅠ
 
 * 참고 자료
 

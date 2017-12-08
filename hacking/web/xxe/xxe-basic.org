@@ -1,3 +1,5 @@
+#+TITLE: XXE 공격의 기본에 대해 알아보자.
+
 * 이론
 ** XXE (XML eXternal Entity) Injection 이란?
 XML의 DTD의 외부 Entity 참조기능을 악용하여 중요 파일 열람, DOS등의 행위를 시도하는
@@ -18,6 +20,11 @@ https://packetstormsecurity.com/files/121492/wpadvancedxml-xxe.txt
 또한 관련된 취약점을 CVE 데이터베이스에서 찾아보면 엄청나게 많은 것을 알 수 있다. 
 
 http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=xxe 
+
+관련해서 년도별 증가 추이를 보면 다음과 같다.
+
+https://www.slideshare.net/ebihara/phpcon-2013xmlphpvuln
+83 page
 
 
 

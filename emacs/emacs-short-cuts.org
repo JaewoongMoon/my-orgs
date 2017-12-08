@@ -1,0 +1,4 @@
+
+
+org mode에서 자동 줄바꿈 (line-wrap) 기능
+M-x toggle-truncate-lines 
