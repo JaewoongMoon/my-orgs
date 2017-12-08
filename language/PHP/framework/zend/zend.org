@@ -1,0 +1,50 @@
+
+
+
+
+
+
+
+* File Tree
+작성했던 파일들의 경로와 역할을 정리해둔다.
+#+options: num:nil
+** /module
+프로그래머가 작성한 모듈들이 위치함. 
+*** /Album
+**** /config
+***** module.config.php
+spring-servlet과 비슷.
+URL경로 매핑, view 파일 위치 지정 등
+**** /src
+***** /Controller
+****** AlbumController.php
+컨트롤러
+**** /Form
+**** /Model
+****** Album.php
+모델 객체
+****** AlbumTable.php
+서비스 객체. 내부에 dao 와 비슷한 tableGateway 개체를 가지고 있음. 
+tableGateway객체는 프레임워크에서 생성해서 주입해줌. 
+**** /view
+***** /album
+****** /album
+CRUD view 파일들
+index.ptml
+add.phtml
+edit.phtml
+delete.phtml
+** /config
+*** /autoload
+**** global.php
+전역 환경변수 파일. DB 접속정보 등.
+*** modules.config.php
+로드할 모듈들에 대한 정보
+** /data
+sql 파일(DDL, DML), db 파일
+** /vendor
+zend에서 제공하는 프레임웍 모듈들
+
+
+* Reference
+https://docs.zendframework.com/tutorials/getting-started/overview/

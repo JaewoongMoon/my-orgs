@@ -1,5 +1,6 @@
 * 실전 해킹
 ** 관련 CVE
+
 ** 해당 Zend 프레임웍
 ** 방어코드 in PHP
 이렇게 방어가 되어있다는 것을 보여준다.
@@ -8,3 +9,7 @@
 ** 왜 뚫렸는가?
 
 ** 제대로 막으려면?
+
+* ref
+https://www.sec-consult.com/fxdata/seccons/prod/temedia/advisories_txt/20120626-0_zend_framework_xxe_injection.txt
+

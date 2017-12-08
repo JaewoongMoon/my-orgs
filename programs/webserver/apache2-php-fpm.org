@@ -1,0 +1,53 @@
+#+TITLE: 아파치와 PHP fpm을 연동하기
+
+
+* PHP fpm?
+PHP *FastCGI* Process Manager
+
+웹 페이지 동적 처리를 도와주는 CGI보다 더 빠른 버전. 
+
+웹 요청이 들어올 때마다 새로운 프로세스를 생성하는 것이 아니라 기존 프로세스를 재활용함으로서 속도를 향상시키는 원리라고 한다. 
+
+
+
+* 시스템 요구사항
+
+Ubuntu16.04 환경에서 Apache2 와 php7, php7-fpm 모듈은 이미 설치된 걸로 간주한다.
+
+** Apache 설치
+#+BEGIN_SRC sh
+apt-get -y install apache2
+#+END_SRC
+
+** PHP7 설치
+
+#+BEGIN_SRC sh
+apt-get -y install libapache2-mod-fastcgi php7.0-fpm php7.0
+#+END_SRC
+
+** 아파치 모듈 활성화 및 재시작
+#+BEGIN_SRC sh
+a2enmod actions fastcgi alias
+#restart
+systemctl restart apache2.service
+#+END_SRC
+
+
+* 아파치 설정파일 수정
+** fastcgi 설정 추가
+#+BEGIN_SRC xml
+<IfModule mod_fastcgi.c>
+                AddHandler php7-fcgi .php
+                Action php7-fcgi /php7-fcgi
+                Alias /php7-fcgi /usr/lib/cgi-bin/php7-fcgi
+                FastCgiExternalServer /usr/lib/cgi-bin/php7-fcgi -socket /var/run/php/php7.0-fpm.sock -pass-header Authorization
+</IfModule>
+#+END_SRC
+
+설정이 완료되었으므로 아파치를 재시작하고, phpinfo(); 를 통해서 확인해보면 Server API 부분이 FPMFstCGI 로 변경된 것을 확인할 수 있다. 
+
+
+* 참고자료
+
+
+https://www.howtoforge.com/tutorial/apache-with-php-fpm-on-ubuntu-16-04/

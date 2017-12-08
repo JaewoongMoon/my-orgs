@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-05-29 Mon 11:42 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title></title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="jwmoon" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org75725d7">1. 이론</a>
+<ul>
+<li><a href="#org25da447">1.1. XXE (XML eXternal Entity) Injection 이란?</a></li>
+<li><a href="#orgebefc8f">1.2. 사례</a></li>
+<li><a href="#org7fcdda1">1.3. XML?</a></li>
+<li><a href="#orge6c6b9a">1.4. DTD?</a></li>
+<li><a href="#org477dbc1">1.5. 엔터티?</a></li>
+<li><a href="#orge4c43c3">1.6. 어떻게 공격이 가능한가?</a></li>
+</ul>
+</li>
+<li><a href="#orga633f8f">2. 검증</a>
+<ul>
+<li><a href="#orga04f9f2">2.1. 구동환경</a></li>
+<li><a href="#orgb115d62">2.2. 공격 대상 PHP 페이지</a></li>
+<li><a href="#org919aa3c">2.3. 정상문자열</a></li>
+<li><a href="#org60a020d">2.4. 공격문자열</a></li>
+</ul>
+</li>
+<li><a href="#org7aced24">3. 방어방법</a>
+<ul>
+<li><a href="#org7722123">3.1. 관련 PHP 플래그</a></li>
+</ul>
+</li>
+<li><a href="#orga0bcb79">4. 참고자료</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org75725d7" class="outline-2">
+<h2 id="org75725d7"><span class="section-number-2">1</span> 이론</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-org25da447" class="outline-3">
+<h3 id="org25da447"><span class="section-number-3">1.1</span> XXE (XML eXternal Entity) Injection 이란?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+XML의 DTD의 외부 Entity 참조기능을 악용하여 중요 파일 열람, DOS등의 행위를 시도하는
+공격임. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgebefc8f" class="outline-3">
+<h3 id="orgebefc8f"><span class="section-number-3">1.2</span> 사례</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+구글, 페이스북등 세계적인 회사들의 서버에서도 취약점이 발견된 적이 있다. 
+</p>
+
+<p>
+페이스북 XXE 취약점
+<a href="https://threatpost.com/xxe-bug-patched-in-facebook-careers-third-party-service/110151/">https://threatpost.com/xxe-bug-patched-in-facebook-careers-third-party-service/110151/</a>
+</p>
+
+<p>
+구글 XXE 취약점
+<a href="http://securityaffairs.co/wordpress/23943/hacking/hacking-google-server-with-xml.html">http://securityaffairs.co/wordpress/23943/hacking/hacking-google-server-with-xml.html</a>
+</p>
+
+<p>
+워드프레스 XXE 취약점
+<a href="https://packetstormsecurity.com/files/121492/wpadvancedxml-xxe.txt">https://packetstormsecurity.com/files/121492/wpadvancedxml-xxe.txt</a>
+</p>
+
+<p>
+또한 관련된 취약점을 CVE 데이터베이스에서 찾아보면 엄청나게 많은 것을 알 수 있다. 
+</p>
+
+<p>
+<a href="http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=xxe">http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=xxe</a> 
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7fcdda1" class="outline-3">
+<h3 id="org7fcdda1"><span class="section-number-3">1.3</span> XML?</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+데이터 교환용의 마크업 언어
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;recipe&gt;
+&lt;title&gt;스푼위의 피넛버퍼&lt;/title&gt;
+&lt;ingredientlist&gt;
+&lt;ingredient&gt;피넛버터&lt;/ingredient&gt;
+&lt;/ingredientlist&gt;
+&lt;preparation&gt;
+스푼을 잡고 피넛버터 단지에 넣은 후, 피넛버터를 한 숟갈 덜어낸다. 
+&lt;/preparation&gt;
+&lt;/recipe&gt;
+</pre>
+</div>
+
+<p>
+XHTML, RSS, XML-RPC, SOAP 등 많은 곳에 사용된다.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge6c6b9a" class="outline-3">
+<h3 id="orge6c6b9a"><span class="section-number-3">1.4</span> DTD?</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Document Type Definition 의 약자로 XML문서에 사용될 구성요소를 정의해 놓은 것이다.
+</p>
+
+<p>
+위의 XML에서 recipe, title 등의 구성요소를 사용할 수 있다고 정의해놓은 것이 DTD이다.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org477dbc1" class="outline-3">
+<h3 id="org477dbc1"><span class="section-number-3">1.5</span> 엔터티?</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+XML에서 데이터를 참조하기 위한 방법. DTD에서 ENTITY라는 키워드를 사용해서 정의한다.
+</p>
+
+<p>
+그리고 XML본문에서 참조하여 사용한다. 
+</p>
+
+<p>
+일반 엔터티 참조는 &amp;로 시작하여 ;으로 끝난다.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orge4c43c3" class="outline-3">
+<h3 id="orge4c43c3"><span class="section-number-3">1.6</span> 어떻게 공격이 가능한가?</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+DTD 문법에는 외부 엔터티를 정의할 수 있는 기능이 있다. 
+</p>
+
+<p>
+외부 엔터티는 문서 외부에 존재하는
+값(파일이나 URL등)을 문서 내에서 보여주기 위한 기능이다. 
+</p>
+
+<p>
+이 외부 엔터티는 SYSTEM 이라는 키워드를 이용해서 사용가능하며,
+여기에 중요 파일을 지정할 경우 그 값이 노출된다. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga633f8f" class="outline-2">
+<h2 id="orga633f8f"><span class="section-number-2">2</span> 검증</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orga04f9f2" class="outline-3">
+<h3 id="orga04f9f2"><span class="section-number-3">2.1</span> 구동환경</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+구동환경은 다음과 같다. 최신의 환경으로 세팅하였다. 
+</p>
+
+<p>
+php 7.0
+</p>
+
+<p>
+php-xml
+</p>
+
+<p>
+Apache2
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgb115d62" class="outline-3">
+<h3 id="orgb115d62"><span class="section-number-3">2.2</span> 공격 대상 PHP 페이지</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+다음은 취약점을 갖고 있는 PHP 페이지 코드이다. 
+</p>
+
+<p>
+입력받은 XML 문자열을 파싱한 결과를 출력해주는 간단한 기능을 가지고 있다. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">&lt;html&gt;
+	&lt;body&gt;
+&lt;?php
+
+$xml = $_POST['xml'];
+if ($xml){
+	echo "input length: ".strlen($_POST['xml']);
+	echo '&lt;br&gt;';
+	$dom = new DOMDocument();
+	$dom-&gt;loadXML($xml, LIBXML_NOENT | LIBXML_DTDLOAD);
+	$doc = simplexml_import_dom($dom);
+
+	}
+?&gt;
+	&lt;h1&gt; Vulnerable XML Parser&lt;/h1&gt;
+	&lt;form action="index.php" method='post'&gt;
+		&lt;textarea name="xml" rows="12" cols="100"&gt;&lt;/textarea&gt;
+		&lt;br&gt;
+		&lt;input type="submit" size="55"&gt;
+		&lt;br&gt;
+		&lt;?php echo $doc-&gt;testing; ?&gt;
+	 &lt;/form&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org919aa3c" class="outline-3">
+<h3 id="org919aa3c"><span class="section-number-3">2.3</span> 정상문자열</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-xml">&lt;!DOCTYPE test
+[&lt;!ENTITY foo "xml external entity"&gt;]&gt;
+&lt;test&gt;&lt;testing&gt;&amp;foo;&lt;/testing&gt;&lt;/test&gt;
+</pre>
+</div>
+
+<p>
+DTD에서 foo라는 이름의 엔티티를 정의하였고, 
+XML에서는 foo의 값을 출력하게 되어있다. 
+</p>
+
+<p>
+이 XML 문자열을 입력한 결과는 다음과 같다.  
+</p>
+
+
+<div id="orgee8e986" class="figure">
+<p><img src="./img/1.png" alt="1.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/2.png" alt="2.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org60a020d" class="outline-3">
+<h3 id="org60a020d"><span class="section-number-3">2.4</span> 공격문자열</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+<pre class="src src-xml">&lt;!DOCTYPE test
+[&lt;!ENTITY foo SYSTEM "file:///etc/passwd"&gt;]&gt;
+&lt;test&gt;&lt;testing&gt;&amp;foo;&lt;/testing&gt;&lt;/test&gt;
+</pre>
+</div>
+
+<p>
+foo의 값을 SYSTEM "<a href="file:///etc/passwd">file:///etc/passwd</a>" 로 변경하였다.
+</p>
+
+<p>
+그 결과 다음과 같이 시스템 파일이 노출된다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3.png" alt="3.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7aced24" class="outline-2">
+<h2 id="org7aced24"><span class="section-number-2">3</span> 방어방법</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+XML을 파싱할 때 외부 참조를 허용하지 않는다. 
+</p>
+
+<p>
+예를들어 PHP 에서는 XML을 파싱할 때, 다음의 플래그를 비활성화 한다. 
+</p>
+
+<p>
+(위의 예제 코드는 이 플래그들이 활성화 되어 있다.)
+</p>
+</div>
+
+<div id="outline-container-org7722123" class="outline-3">
+<h3 id="org7722123"><span class="section-number-3">3.1</span> 관련 PHP 플래그</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+LIBXML<sub>NOENT</sub> : XML을 파싱할 때 엔터티 참조를 허용한다. (외부/내부 모두)
+</p>
+
+<p>
+LIBXML<sub>DTDLOAD</sub> :외부 참조 DTD 서브셋을 로드
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga0bcb79" class="outline-2">
+<h2 id="orga0bcb79"><span class="section-number-2">4</span> 참고자료</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="http://hyunmini.tistory.com/66">http://hyunmini.tistory.com/66</a>
+</p>
+
+<p>
+<a href="https://depthsecurity.com/blog/exploitation-xml-external-entity-xxe-injection">https://depthsecurity.com/blog/exploitation-xml-external-entity-xxe-injection</a>
+</p>
+
+<p>
+<a href="https://ko.wikipedia.org/wiki/XML">https://ko.wikipedia.org/wiki/XML</a>
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Document_type_definition">https://en.wikipedia.org/wiki/Document_type_definition</a>
+</p>
+
+<p>
+<a href="http://php.net/manual/en/domdocument.loadxml.php">http://php.net/manual/en/domdocument.loadxml.php</a>
+</p>
+
+<p>
+<a href="http://php.net/manual/en/libxml.constants.php">http://php.net/manual/en/libxml.constants.php</a>
+</p>
+
+<p>
+<a href="http://php.net/manual/en/language.operators.bitwise.php">http://php.net/manual/en/language.operators.bitwise.php</a>
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/38807506/what-does-libxml-noent-do-and-why-isnt-it-called-libxml-ent">http://stackoverflow.com/questions/38807506/what-does-libxml-noent-do-and-why-isnt-it-called-libxml-ent</a>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: jwmoon</p>
+<p class="date">Created: 2017-05-29 Mon 11:42</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
