@@ -103,10 +103,10 @@ public class TestClass {
 #+END_SRC
  
 
-직렬화된 파일
+** 직렬화된 파일
 [[./img/java-serial-ex1.png]]
 
-헥스 에디터로 열어본 모습
+** 헥스 에디터로 열어본 모습
 [[./img/java-serial-ex2.png]]
 
 
