@@ -1,9 +1,11 @@
 
 * 초기작업
 ** 사용자 정보 생성하기
-   git config ---global user.name "Firstname Lastname"
+#+BEGIN_SRC cmd
+   git config --global user.name "Firstname Lastname"
    git config --global user.email "your_email@example.com"
    vi ~/.gitconfig
+#+END_SRC
 
 ** 계정 SSH Key 생성하기
    ssh-keygen -t rsa -C "[이메일]"
@@ -15,10 +17,12 @@
 
 ** 저장소 받아오기
    원격저장소를 로컬로 가져오기
+
    git clone git@github.com:JaewoongMoon/[Git저장소이름] 
 
 ** ssk key 가 있어야 하는 위치
    ~/.ssh
+
    버추얼 머신에는 저 폴더를 통째로 복사해두면 된다.
 
 * 수정/버전관리
@@ -34,10 +38,9 @@
 *** 헤드 (HEAD)
 	최종확정본(Commit)
 	
-***	추가와 확정
+** 추가와 확정
 변경된파일 추가하기
-git add [파일경로/파일명]
-					
+git add [파일경로/파일명]					
 개념 : WorkingTree에 있던 파일을 인덱스에 추가
 
 			변경된 파일을 확정하기
@@ -52,12 +55,14 @@ git add [파일경로/파일명]
 					git rm [파일경로,파일명]
 				staging area에서만 지우기
 					git rm --cached [파일경로,파일명]
-		변경내용발행(push)하기
+
+** 변경내용발행(push)하기
 			git push origin [브랜치명]
 				개념 : 로컬저장소를 원격저장소에 push 하기
 			git push -u origin [브랜치명]
 				차분만 올릴경우
-		가지(branch)치기
+
+** 가지(branch)치기
 			브랜치로 이동하기
 				git checkout [브랜치명]
 			브랜치를 만들면서 새로 만든 브랜치로 이동하기
@@ -69,7 +74,8 @@ git add [파일경로/파일명]
 			수정된 파일과 내용을 확인하기
 				git diff
 				git diff [원래가지] [비교 대상 가지]
-		갱신과 병합(merge)
+
+** 갱신과 병합(merge)
 			로컬저장소를 원격저장소에 맞춰 갱신 
 				원격 master를 현재가지에 병합
 					git pull
@@ -95,10 +101,12 @@ git add [파일경로/파일명]
 					git reset --hard HEAD
 			커밋메세지의 변경
 				git commit --amend
-		꼬리표(tag) 달기
-			git tag 1.0.0 1b2e1d63ff
-		원격저장소 관련
-			리모트 브랜치 삭제
+
+** 꼬리표(tag) 달기
+   git tag 1.0.0 1b2e1d63ff
+
+** 원격저장소 관련
+   리모트 브랜치 삭제
 				git push origin :[브랜치명]
 			리모트 브랜치 상황 보기
 				git remote show origin
