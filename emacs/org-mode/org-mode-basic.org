@@ -42,10 +42,13 @@ TODO
 ** 밑줄
 =_underlined_=
 ** verbatim (한국어로 뭐라 표현해야 할지...)
+~=verbatim=~
+
 HTML에서 <pre>태그에 해당한다. 
 
 텍스트를 있는 그대로 보여주고 싶을 때 사용
-~=verbatim=~
+
+
 
 ** 코드
 =~code~=
