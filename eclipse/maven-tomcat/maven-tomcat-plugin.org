@@ -10,6 +10,8 @@
 
 ** 1. pom.xml의 플러그인 부분(plugins 태그)에 다음을 추가한다. 
 
+참고로, configuration은 옵션이다. 내 경우에는 /drs라는 컨텍스트 패스를 지정해주었다. 
+
 #+BEGIN_SRC xml
 <!-- tomcat-maven plugin setting -->
 			<plugin>
