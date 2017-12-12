@@ -6,8 +6,7 @@
 
 ** 1. 이클립스 메뉴에서 install new software를 클릭한다. 
 ** 2. ADD를 클릭해 다음 사이트를 추가한다. 
-[[.img/install-1.png]]
-
+[[./img/install-1.png]]
 http://ermaster.sourceforge.net/update-site/
 
 ** 3. ermaster를 선택하고 Next를 눌러 설치를 신행한다. 
