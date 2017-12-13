@@ -41,10 +41,10 @@
 
 ** 4. Info 레벨의 아웃풋을 추가 
 
-*** 1. Expressions 탭에서 Add Expression...을 클릭한다. 
+*** 1) Expressions 탭에서 Add Expression...을 클릭한다. 
 [[./img/grep-console-7.png]]
 
-*** 2. Expression 추가
+*** 2) Expression 추가
 (아웃풋을 변환할)로그의 표현식을 적어준다. 
 
 Expession 에 
