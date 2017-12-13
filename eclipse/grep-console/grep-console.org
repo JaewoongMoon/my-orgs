@@ -8,7 +8,7 @@
 
 * 설정/사용법
 
-** 설정창 호출
+** 1. 설정창 호출
 설치하고 이클립스를 재시작하면 콘솔창에 다음과 같이 (?)아이콘이 생겼을 것이다. 
 
 아이콘을 클릭한다. 
@@ -19,7 +19,7 @@
 
 [[./img/grep-console-3.png]]
 
-** 기본 제공 아웃풋 사용하도록 설정
+** 2. 기본 제공 아웃풋 사용하도록 설정
 기본으로 제공하는 아웃풋은 Debug, Warn, Error, Fatal 이다. 
 
 필요하다면 다음과 같이 사용으로 설정한다. 
@@ -28,23 +28,23 @@
 
 또한, Info 레벨은 제공하지 않으므로 추가해준다. 
 
-** Info 레벨의 스타일을 추가 
+** 3. Info 레벨의 스타일을 추가 
 먼저 Info 레벨에서 사용할 스타일(색상, 폰트 등)을 추가해준다. 
 
-1) 스타일 탭에서 New...를 클릭한다. 
+*** 1. 스타일 탭에서 New...를 클릭한다. 
 
 [[./img/grep-console-5.png]]
 
-2) 자기 나름의 스타일을 만든다. 
+*** 2. 자기 나름의 스타일을 만든다. 
 
 [[./img/grep-console-6.png]]
 
-** Info 레벨의 아웃풋을 추가 
+** 4. Info 레벨의 아웃풋을 추가 
 
-1) Expressions 탭에서 Add Expression...을 클릭한다. 
+*** 1. Expressions 탭에서 Add Expression...을 클릭한다. 
 [[./img/grep-console-7.png]]
 
-2) Expression 추가
+*** 2. Expression 추가
 (아웃풋을 변환할)로그의 표현식을 적어준다. 
 
 Expession 에 
@@ -55,7 +55,7 @@ Expession 에
 
 [[./img/grep-console-8.png]]
 
-3) 사용할 스타일 세팅
+*** 3. 사용할 스타일 세팅
 
 Styles & Links 탭에서 먼저 만들어둔 Info 스타일을 선택하고 Assign 클릭, OK 클릭.
 
