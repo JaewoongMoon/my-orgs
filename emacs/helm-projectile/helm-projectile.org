@@ -56,7 +56,7 @@ https://github.com/bbatsov/projectile/issues/80 에서 찾았다.
         "*.tar.gz"
         "*.tgz"
         "*.zip"
-		"*.class"
+        "*.class"
         )
           projectile-globally-ignored-files))
 (projectile-global-mode)
