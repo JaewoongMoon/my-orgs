@@ -1,0 +1,70 @@
+* 개요
+이클립스 콘솔창의 로그에 하이라이팅 기능을 추가해주는 플러그인이다.
+
+* 설치
+이클립스 마켓플레이스에서 grep console을 다운로드 받아 설치한다. 
+
+[[./img/grep-console-1.png]]
+
+* 설정/사용법
+
+** 설정창 호출
+설치하고 이클립스를 재시작하면 콘솔창에 다음과 같이 (?)아이콘이 생겼을 것이다. 
+
+아이콘을 클릭한다. 
+
+[[./img/grep-console-2.png]]
+
+클릭하면 다음과 같은 설정창이 나타난다. 
+
+[[./img/grep-console-3.png]]
+
+** 기본 제공 아웃풋 사용하도록 설정
+기본으로 제공하는 아웃풋은 Debug, Warn, Error, Fatal 이다. 
+
+필요하다면 다음과 같이 사용으로 설정한다. 
+
+[[./img/grep-console-4.png]]
+
+또한, Info 레벨은 제공하지 않으므로 추가해준다. 
+
+** Info 레벨의 스타일을 추가 
+먼저 Info 레벨에서 사용할 스타일(색상, 폰트 등)을 추가해준다. 
+
+1) 스타일 탭에서 New...를 클릭한다. 
+
+[[./img/grep-console-5.png]]
+
+2) 자기 나름의 스타일을 만든다. 
+
+[[./img/grep-console-6.png]]
+
+** Info 레벨의 아웃풋을 추가 
+
+1) Expressions 탭에서 Add Expression...을 클릭한다. 
+[[./img/grep-console-7.png]]
+
+2) Expression 추가
+(아웃풋을 변환할)로그의 표현식을 적어준다. 
+
+Expession 에 
+
+=.*(\Q[INFO]\E).*=
+
+로 적어주고, 이름은 적절히 지어준다. 
+
+[[./img/grep-console-8.png]]
+
+3) 사용할 스타일 세팅
+
+Styles & Links 탭에서 먼저 만들어둔 Info 스타일을 선택하고 Assign 클릭, OK 클릭.
+
+[[./img/grep-console-9.png]]
+
+설정창을 닫으면 하이라이팅된 로그를 볼 수 있다. 
+
+[[./img/grep-console-10.png]]
+
+
+
+
