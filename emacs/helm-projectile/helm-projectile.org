@@ -1,0 +1,77 @@
+
+* 파일명으로 파일을 검색
+헬름-프로젝타일이라고 불리는 기능이다. 
+
+단축키는 C-c p h
+
+이클립스에서는 Ctrl + Shift + r 로 제공하는 기능이다. 
+
+사용의 편리함으로는 이클립스가, 퍼지 매칭(이름을 대충 입력해도 찾아주는 것)의 기능은 이맥스가 뛰어난 것 같다.
+
+* 특정 문자열을 포함하는 파일을 검색
+헬름-프로젝타일-그렙 (helm-projectile-grep)이라고 불리는 기능이다. 
+
+단축키는 C-c p s g
+
+이클립스에서는 프로젝트에서 Ctrl + h 를 누른후 검색어를 입력해서 사용하던 기능이다. 
+
+
+* 프로젝타일 캐시 초기화 
+가끔씩 프로젝타일에서 새로 추가된 파일등을 못찾을 때가 있다. 
+
+그럴 때 다음명령으로 캐시를 초기화하면 프로젝타일이 다시 인덱싱을 수행한다. 
+(아쉽게도 이 과정은 시간이 좀 걸린다.)
+
+M-x projectile-invalidate-cache
+
+* 추가 기능?
+** 프로젝타일의 대상이 되는 파일을 제한할 수 있는가?
+예를 들면, 대상 파일중 .class 확장자를 가진 파일은 제외할 수 있는가?
+
+참고로 이클립스에서는 컴파일된 파일들이 저장되는 폴더에 Derived 속성을 설정함으로서 가능하다. 
+
+https://github.com/bbatsov/projectile/issues/80 에서 찾았다. 
+
+다음 코드를 init.el에 추가한다. 
+#+BEGIN_SRC elisp 
+(require 'projectile)
+(setq projectile-require-project-root nil)
+(setq projectile-enable-caching t)
+(setq projectile-globally-ignored-directories
+      (append '(
+        ".git"
+        ".svn"
+        "out"
+        "repl"
+        "target"
+        "venv"
+        )
+          projectile-globally-ignored-directories))
+(setq projectile-globally-ignored-files
+      (append '(
+        ".DS_Store"
+        "*.gz"
+        "*.pyc"
+        "*.jar"
+        "*.tar.gz"
+        "*.tgz"
+        "*.zip"
+		"*.class"
+        )
+          projectile-globally-ignored-files))
+(projectile-global-mode)
+#+END_SRC
+
+그리고 캐시를 초기화한후 다시 인덱싱을 하면 class파일이 프로젝타일 대상에서 없어진 것을 볼 수 있다. 
+
+* 기타 기능들
+수 많은 기능중에 사용하고 있는 것을 아직 일부이지만 다음과 같은 기능들도 제공한다는 듯 하다. 
+** Select and open multiple files
+** Copy files anywhere
+** Delete files anywhere
+
+
+* 참고 URL
+** 헬름 프로젝타일 공식 튜토리얼
+http://tuhdo.github.io/helm-projectile.html#sec-9-1
+
