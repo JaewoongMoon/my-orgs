@@ -5,7 +5,8 @@
 ~show databases;~
 
 * 사용자 확인하기
-~select host, user, password from user;~
+~use mysql;
+select host, user, from user;~
 
 
 
