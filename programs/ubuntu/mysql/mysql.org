@@ -5,8 +5,10 @@
 ~show databases;~
 
 * 사용자 확인하기
-~use mysql;
-select host, user, from user;~
+#+BEGIN_SRC sql 
+use mysql;
+select host, user, from user;
+#+END_SRC
 
 
 
