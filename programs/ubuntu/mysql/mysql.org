@@ -4,3 +4,13 @@
 * 데이터베이스 스키마 목록 보기 
 ~show databases;~
 
+* 사용자 확인하기
+~select host, user, password from user;~
+
+
+
+* 유저 생성
+
+
+
+* 
