@@ -1,0 +1,6 @@
+* ubuntu에서 mysql 접속
+~mysql -u root -p~
+
+* 데이터베이스 스키마 목록 보기 
+~show databases;~
+

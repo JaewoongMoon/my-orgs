@@ -37,6 +37,11 @@ M-x shirnk-window-horizontally
 
 C-x {
 	
+** 현재 버퍼의 파일 다시 읽어들이기
+이맥스에서 열고 있는 파일을 다른 편집기에서 수정한다거나 했을 때 다시 로드할 필요가 있다. 
+
+M-x revert-buffer
+
 
 * 설정파일 관련
 ** 궁금했던 것
