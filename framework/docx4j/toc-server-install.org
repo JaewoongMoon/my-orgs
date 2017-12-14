@@ -1,0 +1,39 @@
+* 개요
+
+기본 TOC 서버인 
+http://converter-eval.plutext.com:80/v1/00000000-0000-0000-0000-000000000000/convert
+가 동작하지 않는 경우가 왕왕 있으므로 불편하다. 또는, 레포팅 시스템이 내부 네트워크에 있어서 외부 서버인 위의 URL과 통신하지 않는 상태에서 TOC를 사용하고 싶다면 직접 구축해야 한다. 
+
+
+* 설치 순서
+https://converter-eval.plutext.com/server_convert_docx_to_PDF_Linux.html 를 참고해서 설치를 진행해보자. 
+
+#+BEGIN_SRC bash 
+sudo yum localinstall -y PlutextDocumentServices-2.0-28.initd.x86_64.rpm
+#+END_SRC
+
+
+내부 서버(리눅스)에 설치할 경우 다음과 같은 외부접속문제때문에 설치가 안된다. 
+#+BEGIN_SRC log 
+Loaded plugins: fastestmirror, security
+Setting up Local Package Process
+Examining PlutextDocumentServices-2.0-28.initd.x86_64.rpm: PlutextDocumentServices-2.0-28.initd.x86_64
+Marking PlutextDocumentServices-2.0-28.initd.x86_64.rpm to be installed
+Determining fastest mirrors
+#+END_SRC
+
+
+윈도우즈에 설치하는 경우는 msi파일로 설치하면 된다. 매우 쉬움. 
+
+기본 9016포트로 통신하게 된다.
+
+docx4j.properties파일의 com.plutext.converter.URL를 바꾸면된다. 
+
+ex)
+
+http://[서버IP]:9016/v1/00000000-0000-0000-0000-000000000000/convert
+
+
+
+
+
