@@ -1,4 +1,4 @@
-* 아파치2
+* 설정 파일
 우분투에서의 아파치2에 대해 설명한다. 
 다른 배포판과는 다르다. 
 
@@ -36,13 +36,30 @@
 그 중 현재 사용중인 사이트들 설정
 
 
+* 커맨드 
 ** 아파치 상태 확인
-~ps -ef | grep apache2~
+#+BEGIN_SRC bash
+ps -ef | grep apache2
+#+END_SRC
 
 ** 구동/종료 커맨드
-~sudo service apache2 stop~
-~sudo service apache2 start~
-~sudo service apache2 restart~
+#+BEGIN_SRC bash 
+sudo service apache2 stop
+sudo service apache2 start
+sudo service apache2 restart
+#+END_SRC
+
+* 로그 관련
+** 아파치 에러 로그 보기
+#+BEGIN_SRC bash 
+tail -f /var/log/apache2/error.log
+#+END_SRC
+
+
+** 아파치 액세스 로그 보기
+#+BEGIN_SRC bash 
+tail -f /var/log/apache2/access.log
+#+END_SRC
 
 
 * 참고 URL
