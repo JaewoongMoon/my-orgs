@@ -25,7 +25,7 @@
 
 예를 들면, 다음과 같이 test를 입력하고 Ctrl + Space를 누를경우, 테스트 메서드를 만들 수 있는 코드 어시스트를 보여준다. 
 
-[[./image/editor-template-2.png]]
+[[./img/editor-template-2.png]]
 
 
 
