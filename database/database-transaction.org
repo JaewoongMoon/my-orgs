@@ -1,0 +1,65 @@
+* The ACID properties
+
+** Atomic (원자성)
+All work that must be performed by the database inside a transaction
+
+- that is, reading data, deleting data, updating data, and/or inserting data
+
+is treated as a single unit of work. It's literally all-or-nothing. 
+
+If anything fails, then it all fails, and you revert back to the way the universe
+
+was before you'd gone and mucked it all up.
+
+트랜잭션이 부분적으로 실행되다가 중단되지 않는 것을 보장하는 능력. 완전히 실행되거나 실행되지 않거나. 
+
+** Consistent (일관성)
+This is basically /The Principle of Least Astonichiment;/ 
+
+This is, there are no surprises, and everything is as you expect it to be. 
+
+Foreign keys and other constraints are repected, the state of the data prior to 
+
+the transaction is used within the transaction, etc. 
+
+In short a transaction should never, ever leave you with the thought,
+
+/Huh, how did that happen?!/
+
+트랜잭션이 수행을 완료하면 언제나 일관성있는 데이터베이스 상태를 유지하는 것. (무결성 제약 조건 등)
+
+** Isolated (고립성)
+It determines just how much of your transaction you want other users of the 
+
+database to see, and when. 
+
+For example, perhaps you still want to give others read access to the data while
+
+you manipulate it, or maybe you want exclusive access to it until you're done. 
+
+There's a trade-off for each. Basically, isolation is to database transactions
+
+what window curtains are to you when walking around your apartment naked. 
+
+트랜잭션 수행 시 다른 트랜잭션이 끼어들 수 있는 정도. 성능 이슈로 인해 유연히 설정 가능하다. 
+
+** Durable (지속성)
+This means that when the transaction is complete and /committed/, the state
+
+of that data is there to stay. It's permanent. Even if you've screwed it up.
+
+So don't screw it up.
+
+성공적으로 수행된 트랙잭션은 영원히 반영되어야 한다. 
+
+*Untimately, ACID can be boiled down to a very simple concept:*
+
+*Guaranteed to work,or nothing at all*
+
+
+
+* Reference
+clojure web development essential 236p 
+
+https://ko.wikipedia.org/wiki/ACID
+
