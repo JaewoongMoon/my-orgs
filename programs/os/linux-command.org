@@ -9,3 +9,5 @@ Command Line data transfer tool.
 
 * 리눅스 버전확인
 grep . /etc/*-release
+
+

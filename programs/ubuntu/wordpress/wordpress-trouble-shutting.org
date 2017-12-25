@@ -31,3 +31,5 @@ sudo chown -R www-data:www-data [권한을 줄 폴더 경로]
 Settings> 에서 WordPress Address(URL)을 외부에서 접근할 수 있게 IP 혹은 도메인으로 설정하면 된다. 
 
 
+
+
