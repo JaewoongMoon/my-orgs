@@ -1,0 +1,23 @@
+* 3. 샘플 프로그램 공격
+** 공격 원리
+
+*** 리스크 팩터
+- 인증전에 역직렬화가 일어나는가?
+- 역직렬화되는 타입에 제한이 있는가?
+- Does the deserialization host have types available which can be repurposed towards malicious ends?
+
+
+*** 왜 위험한가?
+- ObjectInputStream은 검증하는 기능(Validation feature)을 API에 포함하고 있지 않다. 
+
+
+
+** 공격 페이로드 만들기
+
+** 방어방법
+*** 기본 방어방법
+*** 방어 후 공격이 통하는지 시연
+
+
+** 참고 URL
+https://www.owasp.org/index.php/Deserialization_of_untrusted_data

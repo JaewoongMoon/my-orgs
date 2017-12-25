@@ -1,0 +1,12 @@
+#+TITLE: 공격개요
+* 개요 
+OWASP TOP 2017에 신규 포함
+
+Common-collections 취약점으로 한번 떠들썩했었음
+
+
+* Deserialization 공격 동향
+
+CVE 발표 건수?
+
+
