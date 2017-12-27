@@ -1,0 +1,62 @@
+* Entry Point
+We can identify entry points for deserialization vulnerabilities by reviewing application source code for the use of the class '/java.io.ObjectInputStream/' (and specifically the '/readObject/'method. If an attacker can manipulate the data that is provided to the ObjectInputStream then that data presents an entry point for deserialization attacks. Alternatively, or if the Java source code is unavailable, we can look for serialized data being stored on disk or transmitted over the network, provided we know what to look for!
+
+The Java serialization format begins with a two-byte magic number which is always hex 0xAC ED. This is followed by a two-byte version number. I've only ever seen version 5(0x00 05) but earlier versions may exist and in future later versions may also exist. Following the four-byte header are one or more content elements, the first byte of each should be in the range 0x70 to 0x7E and describes the ty pe of the content element which is used to infer the structure of the following data in the stream. For more details see Oracle's documentation on the Object Serialization Stream Protocol. 
+
+People often say to look for the four-byte sequence 0xAC ED 00 05 in order to identify Java serialization, and in fact some IDS signatures look for this sequence to detect attacks. During my recent client engagement I didn't immediately see those four bytes because the target client application kept a network connection to the server open the entire time it was running and the four-byte header only exists once at the very beginning of a serialization stream. The client's IDS missed my attacks for this reason - my payloads were sent later in the stream and separately from the serialization header. 
+
+We can use an ASCII dump to help identify Java serialization data without relying on the four-byte 0xAC ED 00 05 header. 
+
+The most obvious indicator of Java serialization data is the presence of Java class names in the dump. such as '/java.rmi.dgc.Lease/'. In some cases Java class names might appear in an alternative format that begins with an 'L', ends with a ';', and uses forward slashes to seperate namespace parts and the class name (e.g.'Ljava/rmi/dgc/VMID;'). Along with Java class names, there are some other common strings that appear due to the serialization format specification, such as 'sr' which may represent an object (TC_OBJECT) followed by its class description (TC_CLASSDESC), or 'xp' which may indicate the end of the class annotations (TC_ENDBLOCKDATA) for a class which has no super class (TC_NULL).
+
+Having identified the use of serialized data, we need to identify the offset into that data where we can actually inject a payload. The target needs to call '/ObjectInputStream.readObject/' in order to deserialize and instantiate an object(payload) and support property-oriented programming, however it could call other ObjectInputStream methods first, such as '/readInt/' which will simply read a 4-byte integer from the stream. The readObject method will read the following content types from a serialization stream:
+
+|------+-------------------+-------+------------------------------|
+|  hex | value             | ascii | meaning                      |
+|------+-------------------+-------+------------------------------|
+| 0x70 | TC_NULL           | p     | has no super class           |
+| 0x71 | TC_REFERENCE      |       |                              |
+| 0x72 | TC_CLASSDESC      | r     | class description            |
+| 0x73 | TC_OBJECT         | s     | is a object                  |
+| 0x74 | TC_STRING         | t     |                              |
+| 0x75 | TC_ARRAY          |       |                              |
+| 0x76 | TC_CLASS          |       |                              |
+| 0x77 | TC_BLOCKDATA      |       |                              |
+| 0x78 | TC_ENDBLOCKDATA   | x     | end of the class annotations |
+| 0x7A | TC_BLOCKDATALONG  |       |                              |
+| 0x7B | TC_EXCEPTION      |       |                              |
+| 0x7C | TC_LONGSTRING     |       |                              |
+| 0x7D | TC_PROXYCLASSDESC |       |                              |
+| 0x7E | TC_ENUM           |       |                              |
+|------+-------------------+-------+------------------------------|
+
+
+In the simplest cases an object will be the first thing read from the serialization stream and we can insert our payload directyl after the 4-byte serialization header. We can identify those cases by looking at the first five bytes of the serialization stream. If those five bytes are a four-byte serialization header (0xAC ED 00 05) followed by one of the values listed above then we can attack the target by sending our own four-byte serialization header followed by a payload object. 
+
+In other cases, the four-byte serialization header will most likely be followed by a TC_BLOCKDATA element(0x77) or a TC_BLOCKDATALONG element(0x7A). The former consists of a single byte length field followed by that many bytes making up the actual block data and the latter consists of a four-byte length field followed by that many bytes making up the block of data. If the block data is followed by one of the element types supported by readObject then we can inject a payload after the block data. 
+
+I wrote a tool to support some of my research in this area, *SerializationDumper*, which we can use to identify entry points for deserialization exploits. The tool parses Java serialization streams and dumps them out in a human-readable form. If the stream contains one of the element types supported by readObject then we can replace that element with a payload object. Below is an example of its use:
+
+#+BEGIN_SRC bash 
+$ java -jar SerializationDumper-v1.0.jar ACED00057708af743f8c1d120cb974000441424344
+STREAM_MAGIC - 0xac ed
+STREAM_VERSION - 0x00 05
+Contents
+  TC_BLOCKDATA - 0x77
+    Length - 8 - 0x08
+    Contents - 0xaf743f8c1d120cb9
+  TC_STRING - 0x74
+    newHandle 0x00 7e 00 00
+    Length - 4 - 0x00 04
+    Value - ABCD - 0x41424344
+#+END_SRC
+
+In this example the stream contains a TC_BLOCKDATA followed by a TC_STRING which can be replaced with a payload. 
+
+Objects in a serialization stream are instantiated as they are loaded, rather than after the entire stream has been parsed. This fact allows us to inject payloads into a serialization stream without worrying about correcting the remainder of the stream. The payload will be deserialized and executed before any kind of validation happens and before the application attepts to read further data from the serialization stream. 
+
+
+* Reference
+https://nickbloor.co.uk/2017/08/13/attacking-java-deserialization/
+
+

@@ -1,0 +1,52 @@
+#+TITLE: Object Serialization Stream Protocol
+
+* Overview
+The stream format safisfies the following design goals:
+- Is compact and is structured for eficient reading.
+- Allows skipping through the stream using *only the knowledge of the structure and format* of the stream. Does not requre invoking any per class code. 
+- Requires only stream access to the data. 
+
+* Stream Elements
+A basic structure is needed to represent objects in a stream. Each attribute of the object needs to be represented: its classes, its fields, and data written and later read by class-specific methods. The representation of objects in the stream can be described with a grammar. There are special representations for null objects, new objects, classes, arrays, strings, and back references to any object already in the stream. Each object written to the stream is assigned a handle that is uses to refer back to the object. Handles are assigned sequentially starting from 0x7E0000. The handles restart at 0x7E0000 when the stream is reset. 
+
+A class object is represented by the following:
+
+- Its ObjectStreamClass object.
+
+An ObjectStreamClass object for a Class that is not a dynamic proxy class is represented by the following:
+
+- The Stream Unique Identifier (SUID) of compatible classes.
+- A set of flags indicating various properties of the class, such as whether the class defines a writeObject method, and wheter the class is serializable, externalizable, or an enum type
+- The number of serializable fields
+- The array of fields of the class that are serialized by the default machanismFor arrays and object fields, the type of the field is included as a string which must be in "field descriptor" format (e.g., "Ljava/lang/Object;") as specified in The Java Virtual Machine Specification.
+- Optional block-data records or objects written by the annoteClass method
+- The ObjectStreamClass of its supertype (null if the superclass is not serializable)
+
+An ObjectStreamClass object for a dynamic proxy class is represented by the following:
+
+- The number of interfaces that the dynamic proxy class implements
+- The names of all of the interfaces implemented by the dynamic class, listed in the order that they are returned by invoking the getInterfaces method on the Class object. 
+...
+
+
+* Stream Protocol Versions
+
+
+* Grammar for the Stream Format
+The table below contains the grammar for the stream format. Nonterminal symbols are shown in italics. Terminal symbols in a /fixed width font/. Definitions of nonterminals are follwed by a ":". The definition is followed by one or more alternatives, each on a separate line. The following table describes the notation:
+
+|--------------+----------------------------------------------------------------------------------------------------|
+| Notation     | Meaning                                                                                            |
+|--------------+----------------------------------------------------------------------------------------------------|
+| (/datatype/) | This token has the data type specified, such as byte.                                              |
+| /token[n]/   | A predefined number of occurrences of the token, that is an array.                                 |
+| /x0001/      | A literal value expressed in hexadecimal. The number of hex digits reflects the size of the value. |
+| </xxx/>      | A value read from the stream used to indicate the length of an array.                              |
+|--------------+----------------------------------------------------------------------------------------------------|
+
+** Rules of the Grammar
+
+
+
+* Example
+

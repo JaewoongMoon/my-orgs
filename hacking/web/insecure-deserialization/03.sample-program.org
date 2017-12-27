@@ -21,3 +21,6 @@
 
 ** 참고 URL
 https://www.owasp.org/index.php/Deserialization_of_untrusted_data
+
+
+https://nickbloor.co.uk/2017/08/13/attacking-java-deserialization/

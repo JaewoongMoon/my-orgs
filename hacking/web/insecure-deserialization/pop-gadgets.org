@@ -1,0 +1,58 @@
+* POP Gadgets
+
+Having identified an entry point that allows us to provide our own serialized objects for the target to deserialize, the next thing we need are POP gadgets. If we have access to the source code then we can look for 'readObject' methods and code following calls to 'ObjectInputStream.readObject' in order to work out what potential gadgets exist. 
+
+Often we don't have access to application source code but this doesn't prevent us from exploiting deserialization vulnerabilities because there are lots of commonly used third-party libraries that can be targeted. Researchers including _Chris Frohoff_ and _Gabriel Lawence_ have already found POP gadget chains in various libraries and released a tool called '_/ysoserial/_' that can generate payload objects. This tool greatly simplifies the process of attacking Java deserialization vulnerabilities!
+
+There are a lot of gadget chains included in ysoserial so the next step is to work out which, if any, can be used against the target. Background knowledge about the third-party libraries used by the application, or an information disclosure issue, should be the first port of call. If we know which third-party libraries are used by the target then we can select the appropriate ysoserial payload(s) to try. Unfortunately this information might not be readily available in which case we can, with caution, cycle through the various ysoserial gadget chains until we find one we can use. Care should be taken with this approach as there is always a risk of triggering an unhandled exception and crashing the target application. The target would have to be particularly unstable for this to happen, however, as even an nmap version scan would likely cause the target to crash if it couldn't handle unexcepted/malformed data. 
+
+If the target application responds to a ysoserial payload with a '/ClassNotFoundException/' then chances are that the library targeted by the chosen gadget chain is not available to the target application. A '/java.io.IOException/' with the message '/Cannot run program/' likely means that the gadget chain worked, however the operating system command that the gadget chain attempted to execute was not available on the server.
+
+The ysoserial command execution payloads are blind payloads and the command output is not returned. There are also a couple of limitations due to the use of '/java.lang.Runtime.exec(String)/'. The first is that shell operators such as output redirection and piping are not supported. The second is that parameters to the payload command cannot contain spaces(e.g. we can use "nc -lp 31313 -e /bin/sh" but we can't use "perl -e 'use Socket;..." because the parameter to perl contains a space). Fortunately there's a nice payload encoder/generator available online which can get around these limitations here: _http://jackson.thuraisamy.me/runtime-exec-payloads.html_.
+
+
+* Try it Yourself - DeserLab and SeriaBrute
+It's important to understand serialization and how deserialization exploits work(e.g. property-oriented programming) in order to effectively exploit deserialization vulnerabilities. Doing so is still more involved than other common vulnerability classes so it's helpful to have a target to practice on. Along with this blog post, I've created and released a demo application called '_/DeserLab/_' that implements a custom network protocol on top of the Java serialization format. The application is vulnerable to deserialization attacks and should be exploitable using the information provided in this blog post. 
+
+'_/SerialBrute/_' is a pair of Python script that I wrote and use to automate tesing of ysoserial payloads against arbitrary targets. The first, /SerialBute.py/, can replay a TCP conversation or HTTP request and inject a paylaod at a given point while the second, '/SrlBrt.py/' is a skeleton script that can be altered to deliver payloads where special processing is needed. Both attempts to detect valid and invalid payloads by looking at returend exceptions. These scripts are not intended to be full blown or polished attack tools and should be used with caution due to the risk of knocking an application over but I've personally had great success replaying TCP conversations and injecting ysoserial gadget chains. 
+
+Thank for reading! Have a go at DerserLab if this is something you're interested in and if there's anything I've missed, anything that could do with further explanation, or you have any questions or feedback please leave a comment or get in touch on Twitter (@NickstaDB)!
+
+* References
+Thw following references, mostly mentioned throughout this blog post, may be useful in learning more about (de)serialization vulnerabilities and exploits. 
+
+The following presentations cover property-oriented programming(POP) and, for those who are interested, return-oriented programming(ROP). Note that the ROP presentation is only mentioned due to the similarities with POP (i.e. controlling existing code); the ROP technique itself is not relevant to deserialization exploits. 
+
+...
+
+The following articles and presentations discuss PHP and Java deserialization vulnerabilities:
+
+...
+
+The following talk looks at deserialization vulnerabilities in JSON and XML libraries for Java and .NET:
+
+...
+
+The following sections of the Java documentation describe the serialization data format and the Serializable interface:
+
+...
+
+The tools mentioned throughout  this blog post can be found at the following links:
+
+...
+
+
+Finally, the following people have done significant work around Java deserialization exploitation:
+
+...
+
+
+
+
+
+
+
+
+
+
+
