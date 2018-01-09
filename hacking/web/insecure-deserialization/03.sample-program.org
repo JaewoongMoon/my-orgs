@@ -1,26 +1,94 @@
-* 3. 샘플 프로그램 공격
-** 공격 원리
+#+TITLE: 3. 샘플 프로그램 공격
+* 공격 원리
 
-*** 리스크 팩터
+** 리스크 팩터
 - 인증전에 역직렬화가 일어나는가?
 - 역직렬화되는 타입에 제한이 있는가?
 - Does the deserialization host have types available which can be repurposed towards malicious ends?
 
 
-*** 왜 위험한가?
+** 왜 위험한가?
 - ObjectInputStream은 검증하는 기능(Validation feature)을 API에 포함하고 있지 않다. 
 
 
 
-** 공격 페이로드 만들기
+* 샘플 프로그램 실행
+샘플 시연은 총 3개의 프로그램을 이용한다. 
 
-** 방어방법
-*** 기본 방어방법
-*** 방어 후 공격이 통하는지 시연
+- 공격할 프로그램인 DeserLab 
+- 자바의 직렬화 공격 페이로드를 만들어주는 엔진인 ysoserial
+- ysoserial을 이용해서 반복적으로 브루트포스 공격을 실행하주는 SerialBrute.py
+
+** DeserLab
+공격의 대상이 되는 샘플 프로그램은 DeserLab이다. 
+
+서버 모드와 클라이언트 모드로 나누어져 있다. 
+
+*** 설치 
+아래 git주소에서 소스 코드 및 컴파일된 jar파일을 다운로드 할 수 있다. 
+
+git 주소 : https://github.com/NickstaDB/DeserLab
+
+*** 서버 모드 실행
+DeserLab.jar파일을 다운로드 한 폴더로 이동 후,
+
+=$ java -jar DeserLab.jar -server <listen-address> <listen-port>=
+
+[[./img/deserlab-server.png]]
 
 
-** 참고 URL
+*** 클라이언트 모드 실행
+=$ java -jar DeserLab.jar -client <server-address> <server-port>=
+
+[[./img/deserlab-client.png]]
+
+
+** ysoserial
+*** 설치 
+
+아래의 주소에서 소스 코드 및 컴파일된 jar 파일을 다운로드 받을 수 있다. 
+
+git 주소 : https://github.com/frohoff/ysoserial
+
+
+*** 사용법
+ysoserial.jar파일이 설치된 폴더로 이동 후,
+
+=java -jar ysoserial-[version]-all.jar [payload] '[command]'=
+
+ex)
+=java -jar ysoserial.jar CommonsCollections1 calc.exe > payload=
+
+[[./img/ysoserial-1.png]]
+
+payload라는 이름의 파일로 저장
+
+[[./img/ysoserial-2.png]]
+
+
+
+
+** SerialBrute.py
+*** 설치 
+아래의 주소에서 파이썬 스크립트를 다운로드 받는다. 
+
+git 주소 : https://github.com/NickstaDB/SerialBrute/
+
+그리고 yoserial.jar파일을 같은 폴더에 넣어둔다. 
+
+
+
+
+
+
+* 방어방법
+** 기본 방어방법
+** 방어가 제대로 되는가?
+
+
+* 참고 URL
+** OWASP의 공격의 개요 설명
 https://www.owasp.org/index.php/Deserialization_of_untrusted_data
 
-
+** nickstaDB의 포스트
 https://nickbloor.co.uk/2017/08/13/attacking-java-deserialization/
