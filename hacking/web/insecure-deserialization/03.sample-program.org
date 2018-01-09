@@ -54,14 +54,14 @@ git 주소 : https://github.com/frohoff/ysoserial
 *** 사용법
 ysoserial.jar파일이 설치된 폴더로 이동 후,
 
-=java -jar ysoserial-[version]-all.jar [payload] '[command]'=
+=java -jar ysoserial-[version]-all.jar [payload] [command]=
 
 ex)
 =java -jar ysoserial.jar CommonsCollections1 calc.exe > payload=
 
 [[./img/ysoserial-1.png]]
 
-payload라는 이름의 파일로 저장
+result라는 이름의 파일로 저장
 
 [[./img/ysoserial-2.png]]
 
