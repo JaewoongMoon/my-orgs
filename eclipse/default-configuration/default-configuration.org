@@ -1,0 +1,28 @@
+* 개요
+
+이클립스 개발시 필요한 커스터마이징 내역을 기술한다. 
+
+
+** 다음 에디터로 이동
+Window > Preferences > General > Keys
+
+에서  Next Editor 를 검색
+
+Ctrl + Tab 으로 지정한다. 
+
+[[./img/next-editor.png]]
+
+
+
+** 대응하는 괄호로 이동
+
+기본 단축키는 Ctrl + Shift + p 이지만 캡처 프로그램과 충돌하므로 변경해준다.
+
+Window > Preferences > General > Keys
+
+에서 Go to Matching Bracket 을 검색
+
+Ctrl + Shift + b 로 변경해준다. 
+
+[[./img/matching-bracket.png]]
+
