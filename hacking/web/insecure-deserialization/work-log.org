@@ -97,6 +97,22 @@ ysoserial을 따로 실행시켜 페이로드를 만드는 데 성공하였다.
 
 
 ** 2018.01.10
+Serial Brute는 8개의 함수로 구성됨. 
+
+- dispatchPayloadViaHttp : Dispatch a payload via HTTP
+- dispatchPayloadViaTcpReplay : Dispatch a payload by replaying TCP packets
+- launchAttack : Launch a payload and attempt to confirm whether the POP chain works or not.
+- doGadgetDetection : Attempt to detect available POP gadget chains by brute forcing with an invalid command string
+- getGadgetChains : Get the *gadget chain* or chains to use in the attack
+- checkForYsoserial : check for ysoserial and offer to download it to the current direcotry if not found. 
+- parseTargetFromHttpRequest : Parse the target host and port from the input file containing a HTTP request
+- printUsageAndQuit : Print usage message and quit
+
+원인을 찾기 위해 파이썬 코드를 디버깅할 수 있는 능력이 갖추어져야 한다. 
+
+그래서 pdb에 대해서 공부하고 있다. 
+
+
 
 
 
