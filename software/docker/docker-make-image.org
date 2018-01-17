@@ -1,5 +1,17 @@
 #+TITLE: 이미지 만들고 배포하기
 
+* Docker 기본 명령어
+- FROM : 베이스 이미지를 지정, 반드시 지정해야 하며 어떤 이미지도 베이스 이미지가 될 수 있다. 될 수 있으면 구체적인 버전의 태그 값을 지정하는 것이 좋다. 
+- MAINTAINER : Dockerfile을 관리하는 사람의 이름 또는 이메일. 빌드에 영향을 주지는 않음. 
+- COPY: 파일이나 디렉토리를 이미지로 복사. 
+- ADD: COPY와 비슷하며 몇 가지 추가 기능 있음. src에 URL입력가능. 자동 압축 해제 기능 등
+- RUN: 명령어를 그대로 실행. (ex) RUN bundle install
+- CMD: 도커 컨테이너가 실행되었을 때 실행되는 명령어. 빌드할 때는 실행되지 않는다. 
+- WORKDIR: RUN, CMD, ADD, COPY 등의 작업이 이루어질 기본 디렉토리 설정
+- EXPOSE: 도커 컨테이너가 실행되었을 때 요청을 기다리고 있는 포트
+- VOLUME: 컨테이너 외부에 파일시스템을 마운트할 때
+- ENV: 컨테이너에서 사용할 환경 변수를 지정할 때
+
 
 * 참고
 - 매뉴얼 : https://subicura.com/2017/02/10/docker-guide-for-beginners-create-image-and-deploy.html
