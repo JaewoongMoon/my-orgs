@@ -1,0 +1,6 @@
+#+TITLE:MySQL 기본 커맨드
+
+* MySQL 데몬 시작/종료/상태확인
+** 우분투
+=service mysql [start/stop/restart/status]=
+
