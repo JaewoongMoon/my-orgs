@@ -1,0 +1,40 @@
+* 톰캣 로그의 한글이 깨질 때 
+
+어플리케이션에서는 모든 인코딩이 UTF-8로 되어있다. 그런데, 서버에만 올리면 로그에 한글이 깨지는 경우
+
+특히 그 깨지는 부분이 모두 물음표(?) 로 표시되고 있을 때.
+
+
+* 해결 
+
+먼저, 원인인 부분을 특정하기 위해 로그파일을 다운로드 받아본다. 
+
+다운로드받은 로그파일을 메모장등으로 열어보자. 한글이 깨져서 보이는가?
+
+*깨진다면 톰캣의 설정에 문제가 있는 것이다.*
+
+*안깨진다면 터미널의 설정에 문제가 있는 것이다.*
+
+
+터미널 설정 문제일 경우는 터미널의 인코딩을 바꿔본다. 
+
+톰캣의 문제일 경우를 설명한다. 
+
+리눅스일 경우 catalina.sh , 윈도우즈일 경우 catalina.bat를 수정한다. 
+
+다음 코드를 추가한다. 
+
+(참고로 나의 경우 catalina.sh의 247 라인, logging.properties를 읽어들이기 전에 추가하여서 해결하였다.)
+
+#+BEGIN_SRC bash 
+JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8 -Dfile.client.encoding=UTF-8 -Dclient.encoding.override=UTF-8"
+#+END_SRC
+
+
+추가한 후 톰캣을 재기동한 후 확인해본다. 
+
+
+* 기타 URIEncoding에 대해서
+인터넷을 찾아보면 server.xml의 Connector 설정의 URIEncoding을 UTF-8로 설정하라는 경우도 있는데, 톰캣 7 이상부터는 기본 URIEncoding값이 UTF-8이므로 명시를 해주건 해주지않건 동일하다. 또한, 애초에 URIEncoding의 의미가 웹 요청시 URI 바이트를 어떤 인코딩을 사용해서 해석할 지에 대한 것이므로, 로그 파일의 한글이 깨지는 것과는 무관하지 않냐는 생각이다.
+
+참고 URL : https://stackoverflow.com/questions/35271612/what-is-the-point-of-tomcats-setting-uriencoding

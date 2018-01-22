@@ -1,0 +1,35 @@
+
+* 개요
+우분투에서 워드프레스를 운영할 때 생겼던 문제들을 정리해둔다.
+
+** 폴더 권한 문제
+예를 들면, 이미지를 업로드하려고 하자 다음과 같은 에러가...
+
+#+BEGIN_SRC log 
+Unable to create directory wp-content/uploads/2017/12. Is its parent directory writable by the server?
+#+END_SRC
+
+*** 원인
+우분투에서 아파치를 구동하는 계정은 www-data인데, 이 계정이 워드프레스가 위치해 있는 폴더에 권한을 가지고 있지 않기 때문에 발생한다. 
+
+*** 해결
+www-data 유저에게 워드프레스를 설치한 폴더에 쓰기 권한을 준다. 
+
+#+BEGIN_SRC log
+sudo chown -R www-data:www-data [권한을 줄 폴더 경로]
+#+END_SRC
+
+
+
+** 외부에서 봤을 때 사이트 접근은 되는데, CSS파일 등을 못 불러오는(404에러) 문제
+
+*** 원인
+소스코드를 확인해보니 링크의 도메인이 모두 localhost로 되어 있었다. 그래서 로컬 웹 브라우저에서는 잘 보이지만 다른 PC에서는 보이지 않았던 것. 
+
+
+*** 해결
+Settings> 에서 WordPress Address(URL)을 외부에서 접근할 수 있게 IP 혹은 도메인으로 설정하면 된다. 
+
+
+
+

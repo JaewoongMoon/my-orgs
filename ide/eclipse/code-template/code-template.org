@@ -1,0 +1,52 @@
+* 코드 템플릿
+메서드나 클래스 등에 기본적으로 필요한 주석/코드 등을 미리 만들어 놓고, 
+
+필요한 부분에 커서를 위치하고 Alt + Shft + j 를 누르면 해당 템플릿을 추가해주는 기능이다. 
+
+이 기능은 메서드 생성시나 클래스 생성 시에 자동으로 추가되도록 설정할 수도 있다. 
+
+** 경로 : Windows > Preferences > Java > Code Style > Code Templates
+
+[[./img/code-template-1.png]]
+
+
+** 자주쓰는 스타일
+주로 주석을 자동입력하고 싶을 때 많이 사용한다.
+
+- Files 템플릿은 공백으로 처리한다. 필요하다면 라이센스 관련 문구가 들어간 템플릿을 만든다.
+
+- Types 템플릿은 다음과 같이 설정한다.
+#+BEGIN_SRC java
+/**
+ * @author	Jae-Woong Moon(mjw8585@gmail.com)
+ * @brief	 
+ * @date	${date}
+ */
+#+END_SRC
+
+- Methods 템플릿은 다음과 같이 설정한다. 
+#+BEGIN_SRC java
+/**
+ * @brief 
+ * ${tags}
+ */
+#+END_SRC
+
+
+* 에디터 템플릿
+
+위의 코드 템플릿 기능과 헷갈리니까 에디터 템플릿이라고 부르도록 하겠다. 
+
+특정 문자열(축약어)을 입력하고 Ctrl + Space를 눌러서 템플릿으로 변환할 수 있는 기능이다.
+
+** 경로 : Windows > Preferences > Java > Editor > Templates
+
+[[./img/editor-template-1.png]]
+
+** 사용 예 
+다음과 같이 test를 입력하고 Ctrl + Space를 누를경우, 테스트 메서드를 만들 수 있는 코드 어시스트를 보여준다. 
+
+[[./img/editor-template-2.png]]
+
+
+
