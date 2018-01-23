@@ -1,0 +1,30 @@
+* 보충 지식
+
+Class가 Serialization/Deserialization을 통해 전동되기 위해서는 다음과 같이 몇 가지 규칙을 만족해야 한다. 
+1. Serialization/Deserialization은 객체의 인스턴스 정보를 전송하는 것이기 때문에 전송측과 수신측 모두 classpath안에 전달될 객체에 대한 정보를 갖고 있어야 한다. 
+2. 전송될 객체는 java.io.Serializable을 implement해야 한다. 
+3. 'transient'키워드가 표시된 field는 상태 정보가 전달되지 않는다. 
+4. Serialization/Deserialization은 이미 생성된 객체의 인스턴스를 복사하는 것이며 객체의 인스턴스를 새로 생성하는 것이 아니기 때문에 Constructor가 실행되지 않는다. 
+
+
+
+* Apache Common Collections1 취약점 원리
+- 이 취약점은 Java의 직렬화 과정 자체가 취약한 것이 아니라, 이 공격에 적합하도록 작성된 취약한 클래스 때문에 발생하는 것임
+- 공격자는 서버 측에 존재하는 클래스들 중에서 임의의 메서드(주로 "Runtime.exec")를 실행할 수 있도록 작성된 취약한 클래스가 존재해야만 공격을 실행할 수 있다. 
+- 예를 들면, Apache commons-collection 에서 발생한 Java Deserialization 취약점에 사용된 취약한 클래스는 AnnotationInvocationHandler이다. 
+- 이 클래스는 readObject()메서드를 커스터마이징해서 다양한 클래스들과 연결되어 있고, 복잡한 호출과정을 통해 InvokerTransformer 클래스에 접근할 수 있다. 
+- InvokeTransformer 클래스는 오브젝트의 인스턴스를 생성할 수 있는 클래스이며, 공격자는 이 클래스를 통해 "getMethod", "invoke", "getRuntime", "exec" 등의 문자열이 전달되는 클래스 인스턴스를 생성한 후 이 인스턴스를 직렬화하여 전송한다. 
+- 수신 서버에서는 이 객체에 역직렬화되면서 AnnotationInvocationHandler 클래스의 readObject 메서드가 호출되고 결과적으로 invoke 함수가 Runtime.exe 를 호출하면서 시스템 명령어가 실행되는 것이다. 
+
+
+* 대응방법
+- SW(라이브러리) 보안 패치 적용
+- 직렬화는 신뢰할 수 있는 영역 내에서만 사용되어야 한다. (유저와 서버 간의 직렬화 데이터 교환 금지)
+- 인증 정보 등 중요한 정보가 포함된 클래스의 인스턴스를 직렬화를 통해서 전송해서는 안 된다. 
+- 직렬화를 통해 전송되는 클래스는 화이트리스트/블랙리스트 정책에 의한 유효성 검증을 실시한다. (클래스에 대한 allow/disallow를 처리하기 위해서는 resolveClass()를 사용)
+- Object의 타입 캐스팅 및 호출을 동적으로 처리하지 않는다. 
+
+
+* 참고 자료
+- 인포섹의 Java 역직렬화 공격 설명 블로그: https://m.blog.naver.com/PostView.nhn?blogId=skinfosec2000&logNo=220887425296&proxyReferer=https%3A%2F%2Fwww.google.co.jp%2F
+

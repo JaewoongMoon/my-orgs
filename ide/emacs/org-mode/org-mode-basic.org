@@ -18,6 +18,15 @@
 
 리스트 아이템의 설명은 아이템 뒤에 :: 를 붙여서 할 수 있다. 
 
+** Footnotes
+각주를 넣어주는 기능이다.
+
+#+BEGIN_SRC org-mode
+The Org homepage[fn:1] now looks a lot better than it used to.
+...
+[fn:1] The link is: http://orgmode.org
+#+END_SRC
+
 * 테이블
 테이블 구조 만들기
 
