@@ -1,0 +1,30 @@
+
+
+
+* 로그 관련
+** 아파치 에러 로그 보기
+#+BEGIN_SRC bash 
+tail -f /var/log/apache2/error.log
+#+END_SRC
+
+
+** 아파치 액세스 로그 보기
+#+BEGIN_SRC bash 
+tail -f /var/log/apache2/access.log
+#+END_SRC
+
+
+* 궁금증
+** PHP 에러 로그 혹은 어플리케이션 로그는 어디에 쌓이는가?
+- phpinfo(); 를 출력해봐서 error_log 부분을 보면 된다고 한다. 
+- 그런데 이 값이 no value로 되어있다??
+- 이 값이 no value이면 에러 로그를 부모 에러 로거로 넘긴다고 한다. 
+- 부모 에러 로그는 아파치 또는 stderr이다.
+
+
+** 또한, 로그 레벨은 어디서 변경하는가?
+
+
+
+* 참고 URL
+http://webdir.tistory.com/196

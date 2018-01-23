@@ -1,0 +1,44 @@
+#+TITLE: 아파치 커맨드
+
+* 설치된 버전 확인
+- Redhat(CentOS) : httpd -v
+- Debian(Ubuntu) : apache2 -v
+
+* 시작/구동 관련
+
+** 아파치 상태 확인
+#+BEGIN_SRC bash
+ps -ef | grep apache2
+#+END_SRC
+
+** 구동/종료 커맨드
+#+BEGIN_SRC bash 
+sudo service apache2 stop
+sudo service apache2 start
+sudo service apache2 restart
+#+END_SRC
+   
+
+
+
+** 왜 여러가지 구동방법이 있는가?
+지금 알고 있는 것만 해도...
+
+- service apache2 [start/stop/restart]
+
+- /usr/sbin/apache2 -k [start/stop]
+
+- apache2ctl [start/stop]
+
+- /etc/rd.d/init.d/apache2  [start/stop/restart]
+
+여기에 추가하여 우분투에는...
+- sudo systemctl [start/stop/restart] apache2.service
+
+이 명령어들간의 차이는 뭔가? 왜 이렇게 헷갈리게 여러가지가 있는가?
+
+왜인지는 모르겠지만 아파치 구동이나 종료에 문제가 있을 때 apache2ctl 을 사용하면 될 때가 있다. 
+
+가장 강력한 커맨드인듯...
+
+예를들면 sudo service apache2 stop으로 안내려가던것도 sudo apache2ctl stop 하면 내려간다.

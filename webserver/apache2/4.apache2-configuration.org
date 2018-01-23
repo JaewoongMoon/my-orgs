@@ -1,0 +1,55 @@
+#+TITLE: 아파치 설정 값
+아파치 설정파일의 지시자의 의미 등에 대해 정리한다. 
+
+* 일반 지시자 
+** ServerName
+- 서버의 호스트명
+=ServerName www.example.com=
+- 버추얼호스트 설정할 때도 쓰인다.
+
+
+** DocumentRoot
+- 아파치의 문서 루트 디렉토리를 지정
+=DocumentRoot /usr/web=
+
+
+** ServerRoot
+- conf서브디렉토리 및 logs 서브 디렉토리가 있는 장소
+=ServerRoot /etc/apache2=
+
+** ErrorLog
+
+** PidFile
+- 실행중인 프로세스ID번호를 알고 있으면 편리하다. 
+- 이 지시어를 설정할 경우 실행중인 프로세스ID번호가 지정된 파일에 저장된다.
+=PidFile logs/httpd.pid=
+
+
+** TypesConfig
+mime.types파일을 별도의 위치에 놓고 싶은 경우
+
+** 기타 Config파일을 포함한 설정
+별도 위치의 설정파일을 포함하고 싶은 경우
+=Include filename=
+
+
+** ServerTokens
+- 서버가 자신에 대해서 알려줄 정보를 제어
+- [productonly|min(imal)|os|full]
+- 보안 상 prod가 추천된다. (prod일 경우 서버 이름만 표시 ex) Apache)
+- min은 이에 더해 버전정보, os는 OS 종류까지, full은 os버전까지 표시
+
+* 블록 지시자 (Block Directives)
+각종 지시자의 적용 범위를 제한할 수 있는 지시자들
+
+** VirtualHost
+
+
+** Directory
+- 효력의 순서는 Directory -> Files -> Location
+- 예를들어, Directory 설정은 Files 설정에 의해 덮여쓰여진다. (Files설정이 우선된다.)
+
+** Files
+
+
+** Location

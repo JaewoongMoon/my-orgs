@@ -1,0 +1,61 @@
+* 아파치 디렉토리와 파일
+- 우분투(데비안 계열)에서의 아파치2에 대해 설명한다. (다른 배포판과는 다를 수 있다. )
+- 데비안 계열의 아파치2설정의 특징은 "모듈화"인 듯하다. (필요에 따라 뺏다 꼈다 할 수 있게...)
+- 그렇다고 레드햇 계열과 데비안 계열의 아파치2 설정 값이 다른 것은 아니고 어디까지나 파일을 관리하는 방법의 차이인 듯
+
+** 설치 디렉토리 
+/etc/apache2
+
+** 설정파일 위치
+/etc/apache2/apache2.conf
+
+참고로, /etc/apache2/conf.d 에는 고급 설정파일들이 위치 (디폴트 상태에서는 존재하지 않는 듯)
+
+** 기타 디렉토리들
+*** conf-available/
+사용가능한 설정파일들이 위치
+
+성격에 따라 별도 파일로 나뉘어져 있다. 
+- 인코딩 : charset.conf
+- 자바스크립트 : javascript-common.conf
+- PHP : php7.0-cgi.conf, php7.0-fpm.conf 등
+- 보안 : security.conf
+- 버추얼호스트 : other-vhosts-access-log.conf
+
+*** conf-enabled/
+위의 사용가능한 설정파일 중 실제 사용되고 있는 설정파일
+
+*** mods-available/
+사용가능한 Apache 모듈을 불러오는 곳
+
+*** mods-enabled/
+그 중에서 실제로 동작하는 모듈들
+
+*** sites-available/
+사용가능한 사이트들 설정
+
+*** site-enabled/
+그 중 현재 사용중인 사이트들 설정
+
+** .htaccess?
+- 서버의 설정을 변경하는 방법은 설정파일을 변경한 후 재기동하는 방법도 있지만, .htaccess파일을 작성하는 방법도 있다. 
+- 설정 파일은 아파치가 구동될 때 한 번 읽지만, .htaccess파일은 서버에 접근이 발생할 때마다 읽힌다. 
+- .htaccess파일은 /htdocs 디렉토리에 저장
+- 이 파일의 장점은 유연성(설정 파일을 건드리지 않아도 되고, 재기동하지 않아도 된다.)
+- 단점은 퍼포먼스가 내려간다는 것이다. (매 요청마다 이 파일을 읽어서 해석하니 당연한 것인가...)
+- 클라이언트가 .htaccess파일을 참조할 때 제한을 거는게 좋다. 
+#+BEGIN_SRC xml  
+<Files .htaccess>
+order allow, deny
+deny from all
+</Files>
+#+END_SRC 
+
+
+** htdocs?
+- 레드햇 계열의 apache2에서 사용하는 기본 문서 루트인듯. (ex)/usr/local/apache2/htdocs )
+- 우분투에서는 /var/www/html이다.
+
+
+* 참고자료
+- Apache 핸드북(오라일리)
