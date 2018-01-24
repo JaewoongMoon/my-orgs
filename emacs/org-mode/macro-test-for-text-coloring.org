@@ -1,0 +1,9 @@
+#+MACRO: color @@html:<font color="$1">$2</font>@@
+
+* This is a test
+
+This is a sample sentence in normal text color.
+
+{{{color(red,This is a sample sentence in red text color.)}}}
+
+{{{color(green,This is a sample sentence in green text color.)}}}

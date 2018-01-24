@@ -1,0 +1,5 @@
+#+TITLE:Dired Mode
+
+* Run 
+M-x dired-mode
+

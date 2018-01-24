@@ -1,0 +1,34 @@
+#+TITLE: How to make Groovy development environment in eclipse
+
+* install
+- Go to: Help > Software Updates.
+- Change to the Available Software tab.
+- Click on Add Site.
+- Paste the update site URL appropriate for your version of Eclipse and click OK. You should see a "Groovy Update Site" entry in the list of update sites. Expand and select the Groovy-Eclipse Plugin feature.
+- Click Install and follow the prompts.
+- Restart when asked.
+- Rejoice! You installed the Groovy-Eclipse tooling.
+
+#+CAPTION: install groovy-eclipse
+[[./img/install.png]]
+
+* Create new groovy project
+#+CAPTION: create new groovy project
+[[./img/new-wizard.png]]
+
+#+CAPTION: Put project name and location
+[[./img/new-2.png]]
+
+#+CAPTION: complete project
+[[./img/new-3.png]]
+
+
+* Create first groovy file
+[[./img/create-file.png]]
+
+
+
+
+
+* Ref
+https://github.com/groovy/groovy-eclipse/wiki
