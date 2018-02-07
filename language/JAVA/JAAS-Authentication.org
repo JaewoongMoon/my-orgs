@@ -1,0 +1,194 @@
+#+TITLE:JAAS Authentication
+The Java Authentication and Authorization Service (JAAS) was introduced as an optional package to the Java 2 SDK, Standard Edition (J2SDK), v 1.3. JAAS has now been integrated into the J2SDK 1.4.
+
+JAAS can be used for two purposes:
+- for /authentication/ of users, to reliably and securely determine who is currently executing Java code, regardless of whether the code is running as an application, an applet, a bean, or a servlet; and
+- for /authorization/ of users to ensure they have the access control rights (permissions) required to do the actions performed.
+
+This section provides a basic tutorial for the authentication component. The authorization component will be described in the *JAAS Authorization* tutorial.
+
+JAAS authentication is performed in a /pluggable/ fashion. This permits Java applications to remain independent from underlying authentication technologies. New or updated technologies can be plugged in without requiring modifications to the application itself. An implementation for a particular authentication technology to be used is determined at runtime. The implementation is specified in a login configuration file. The authentication technology used for this tutorial is Kerberos. (See *Kerberos Requirements*.)
+
+The rest of this tutorial consists of the following sections:
+1. The Authentication Tutorial Code
+2. The Login Configuration
+3. Running the Code
+4. Running the Code with a Security Manager
+
+If you want to first see the tutorial code in action, you can skip directly to Running the Code and then go back to the other sections to learn about coding and configuration file details.
+
+* The Authentication Tutorial Code
+Our authentication tutorial code is contained in a single source file, *JaasAcn.java*. This file's ~main~ method performs the authentication and then reports whether or not authentication succeeded.
+
+The code for authenticating the user is very simple, consisting of just two steps:
+1. Instantiate a LoginContext.
+2. Call the LoginContext's login method.
+
+First the basic code is shown, followed by a complete listing of the ~JaasAcn.java~ source file, complete with import statements and error handling.
+
+
+** Instantiating a LoginContext
+In order to authenticate a user, you first need a javax.security.auth.login.LoginContext. Here is the basic way to instantiate a LoginContext:
+#+BEGIN_SRC java
+import javax.security.auth.login.*;
+. . .
+LoginContext lc = 
+    new LoginContext(<config file entry name>,
+           <CallbackHandler to be used for user interaction>); 
+#+END_SRC
+
+and here is the specific way our tutorial code does the instantiation:
+
+#+BEGIN_SRC java
+import javax.security.auth.login.*;
+import com.sun.security.auth.callback.TextCallbackHandler;
+. . .
+LoginContext lc = 
+    new LoginContext("JaasSample", 
+          new TextCallbackHandler());
+#+END_SRC
+
+The arguments are the following:
+1. *The name of an entry in the JAAS login configuration file*
+This is the name for the LoginContext to use to look up an entry for this application in the JAAS login configuration file, described here(link to Login Context). Such an entry specifies the class(es) that implement the desired underlying authentication technology(ies). The class(es) must implement the LoginModule interface, which is in the ~javax.security.auth.spi~ package.
+
+In our sample code, we use the ~Krb5LoginModule~ in the ~com.sun.security.auth.module~ package, which performs Kerberos authentication.
+
+The entry in the login configuration file we use for this tutorial (see *jaas.conf*) has the name "JaasSample", so that is the name we specify as the first argument to the LoginContext constructor.
+
+2. *A CallbackHandler instance*.
+When a LoginModule needs to communicate with the user, for example to ask for a user name and password, it does not do so directly. That is because there are various ways of communicating with a user, and it is desirable for LoginModules to remain independent of the different types of user interaction. Rather, the LoginModule invokes a CallbackHandler to perform the user interaction and obtain the requested information, such as the user name and password. (CallbackHandler is an interface in the ~javax.security.auth.callback~ pkg.)
+
+An instance of the particular CallbackHandler to be used is specified as the second argument to the LoginContext constructor. The LoginContext forwards that instance to the underlying LoginModule (in our case Krb5LoginModule). An application typically provides its own CallbackHandler implementation. A simple CallbackHandler, TextCallbackHandler, is provided in the ~com.sun.security.auth.callback~ package to output information to and read input from the command line.
+
+** Calling the LoginContext's ~login~ Method
+Once we have a LoginContext lc, we can call its login method to carry out the authentication process:
+#+BEGIN_SRC java 
+lc.login();
+#+END_SRC
+
+The LoginContext instantiates a new empty ~javax.security.auth.Subject~ object (which represents the user or service being authenticated). The LoginContext constructs the configured LoginModule (in our case Krb5LoginModule) and initializes it with this new Subject and TextCallbackHandler.
+
+The LoginContext's ~login~ method then calls methods in the Krb5LoginModule to perform the login and authentication. The Krb5LoginModule will utilize the TextCallbackHandler to obtain the user name and password. Then the Krb5LoginModule will use this information to get the user credentials from the Kerberos KDC. See the *Kerberos reference documentation*.
+
+If authentication is successful, the Krb5LoginModule populates the Subject with (1) a Kerberos Principal representing the user and (2) the user's credentials (TGT). See *Subjects, Principals, Authentication, and Credentials* for information on these terms.
+
+The calling application can subsequently retrieve the authenticated Subject by calling the LoginContext's getSubject method, although doing so is not necessary for this tutorial.
+
+** The Complete ~JaasAcn.java~ Code
+Now that you have seen the basic code required to authenticate the user, we can put it all together into the full class in JaasAcn.java, which includes relevant import statements and error handling:
+
+#+BEGIN_SRC java 
+import javax.security.auth.*;
+import javax.security.auth.callback.*;
+import javax.security.auth.login.*;
+import com.sun.security.auth.callback.TextCallbackHandler;
+
+/**
+ * This JaasAcn application attempts to authenticate a user
+ * and reports whether or not the authentication was successful.
+ */
+public class JaasAcn {
+
+  public static void main(String[] args) {
+
+      // Obtain a LoginContext, needed for authentication. Tell 
+      // it to use the LoginModule implementation specified by 
+      // the entry named "JaasSample" in the JAAS login 
+      // configuration file and to also use the specified 
+      // CallbackHandler.
+      LoginContext lc = null;
+      try {
+          lc = new LoginContext("JaasSample", 
+                      new TextCallbackHandler());
+      } catch (LoginException le) {
+          System.err.println("Cannot create LoginContext. "
+              + le.getMessage());
+          System.exit(-1);
+      } catch (SecurityException se) {
+          System.err.println("Cannot create LoginContext. "
+              + se.getMessage());
+          System.exit(-1);
+      } 
+
+      try {
+    
+          // attempt authentication
+          lc.login();
+    
+      } catch (LoginException le) {
+    
+          System.err.println("Authentication failed: "
+          System.err.println("  " + le.getMessage());
+          System.exit(-1);
+    
+      }
+    
+      System.out.println("Authentication succeeded!");
+    
+    }
+}
+#+END_SRC
+
+* The Login Configuration
+JAAS authentication is performed in a pluggable fashion, so applications can remain independent from underlying authentication technologies. A system administrator determines the authentication technologies, or LoginModules, to be used for each application and configures them in a login Configuration. The source of the configuration information (for example, a file or a database) is up to the current *javax.security.auth.login.Configuration* implementation. The default ~Configuration~ implementation from Sun Microsystems reads configuration information from configuration files, as described in *com.sun.security.auth.login.ConfigFile.html*.
+
+See *JAAS Login Configuration Fil*e for information as to what a login configuration file is, what it contains, and how to specify which login configuration file should be used.
+
+** The Login Configuration File for This Tutorial
+As noted, the login configuration file we use for this tutorial, *jaas.conf*, contains just one entry, which is
+#+BEGIN_SRC conf
+JaasSample {
+  com.sun.security.auth.module.Krb5LoginModule required;
+};
+#+END_SRC
+
+This entry is named "JaasSample" and that is the name that our tutorial application, ~JaasAcn~, uses to refer to this entry. The entry specifies that the LoginModule to be used to do the user authentication is the Krb5LoginModule in the ~com.sun.security.auth.module~ package and that this Krb5LoginModule is required to "succeed" in order for authentication to be considered successful. The Krb5LoginModule succeeds only if the name and password supplied by the user are successfully used to log the user into the Kerberos KDC.
+
+For information about all the possible options that can be passed to Krb5LoginModule, see the *Krb5LoginModule documentation*.
+
+* Running the Code
+To execute our JAAS authentication tutorial code, all you have to do is
+
+1. Place the ~JaasAcn.java~ application source file and the ~jaas.conf~ login configuration file into a directory.
+2. Compile JaasAcn.java:
+=javac JaasAcn.java=
+3. Execute the ~JaasAcn~ application, specifying
+- by ~-Djava.security.krb5.realm=<your_realm>~ that your Kerberos realm is the one specified. For example, if your realm is "KRBNT-OPERATIONS.EXAMPLE.COM" you'd put ~-Djava.security.krb5.realm=KRBNT-OPERATIONS.EXAMPLE.COM~.
+- by ~-Djava.security.krb5.kdc=<your_kdc>~ that your Kerberos KDC is the one specified. For example, if your KDC is "samplekdc.example.com" you'd put ~-Djava.security.krb5.kdc=samplekdc.example.com~.
+- by ~-Djava.security.auth.login.config=jaas.conf~ that the login configuration file to be used is ~jaas.conf~.
+
+The full command is below. *Be sure to replace* <your_realm> *with your Kerberos realm, and* <your_kdc> *with your Kerberos KDC*.
+#+BEGIN_SRC java
+java -Djava.security.krb5.realm=<your_realm> 
+ -Djava.security.krb5.kdc=<your_kdc> 
+ -Djava.security.auth.login.config=jaas.conf JaasAcn
+#+END_SRC
+
+
+
+* Running the Code with a Security Manager
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* Ref
+https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/AcnOnly.html

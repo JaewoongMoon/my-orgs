@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Java Authentication and Authorization Service(JAAS) Reference Guide</title>
+<!-- 2018-01-30 화 10:26 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Java Authentication and Authorization Service(JAAS) Reference Guide</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Introduction</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Who Should Read This Document</a></li>
+<li><a href="#sec-1-2">1.2. Related Documentation</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Core Classes and Interfaces</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Common Classes</a>
+<ul>
+<li><a href="#sec-2-1-1">2.1.1. Subject</a></li>
+<li><a href="#sec-2-1-2">2.1.2. Prinicipals</a></li>
+<li><a href="#sec-2-1-3">2.1.3. Credentials</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-2">2.2. Authentication Classes and Interfaces</a>
+<ul>
+<li><a href="#sec-2-2-1">2.2.1. LoginContext</a></li>
+<li><a href="#sec-2-2-2">2.2.2. LoginModule</a></li>
+<li><a href="#sec-2-2-3">2.2.3. CallbackHandler</a></li>
+<li><a href="#sec-2-2-4">2.2.4. Callback</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-3">2.3. Authorization Classes</a>
+<ul>
+<li><a href="#sec-2-3-1">2.3.1. Policy</a></li>
+<li><a href="#sec-2-3-2">2.3.2. AuthPermission</a></li>
+<li><a href="#sec-2-3-3">2.3.3. PrivateCredentialPermission</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">3. JAAS Tutorials and Sample Programs</a></li>
+<li><a href="#sec-4">4. Appendix A: JAAS Settings in the java.security Security Properties File</a></li>
+<li><a href="#sec-5">5. Appendix B: Example Login Configurations</a></li>
+<li><a href="#sec-6">6. Ref</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The Java Authentication and Authorization Service (JAAS) was introduced as an optional package (extension) to the Java 2 SDK, Standard Edition (J2SDK), v 1.3. JAAS was integrated into the J2SDK 1.4.
+</p>
+
+<p>
+JAAS can be used for two purposes:
+</p>
+<ul class="org-ul">
+<li>for authentication of users, to reliably and securely determine who is currently executing Java code, regardless of whether the code is running as an application, an applet, a bean, or a servlet; and
+</li>
+<li>for authorization of users to ensure they have the access control rights (permissions) required to do the actions performed.
+</li>
+</ul>
+
+<p>
+JAAS implements a Java version of the standard Pluggable Authentication Module (PAM) framework. See <b>Making Login Services Independent from Authentication Technologies</b> for further information.
+</p>
+
+<p>
+Traditionally Java has provided <b>codesource-based access controls</b> (access controls based on where the code originated from and who signed the code). It lacked, however, the ability to additionally enforce access controls based on who runs the code. JAAS provides a framework that augments the Java security architecture with such support.
+</p>
+
+<p>
+JAAS authentication is performed in a <i>pluggable</i> fashion. This permits applications to remain independent from underlying authentication technologies. New or updated authentication technologies can be plugged under an application without requiring modifications to the application itself. Applications enable the authentication process by instantiating a <b>LoginContext</b> object, which in turn references a <b>Configuration</b> to determine the authentication technology(ies), or <b>LoginModule(s)</b>, to be used in performing the authentication. Typical LoginModules may prompt for and verify a user name and password. Others may read and verify a voice or fingerprint sample.
+</p>
+
+<p>
+Once the user or service executing the code has been authenticated, the JAAS authorization component works in conjunction with the core Java SE access control model to protect access to sensitive resources. Unlike in the J2SDK 1.3 and earlier, where access control decisions are based solely on code location and code signers (a <b>CodeSource</b>), in the J2SDK 1.4 access control decisions are based both on the executing code's CodeSource and on the user or service running the code, who is represented by a <b>Subject</b> object. The Subject is updated by a LoginModule with relevant <b>Principals</b> and credentials if authentication succeeds.
+</p>
+</div>
+
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Who Should Read This Document</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This document is intended for experienced developers who require the ability to design applications constrained by a <code>CodeSource</code>-based and <code>Subject</code>-based security model. It is also intended to be read by LoginModule developers (developers implementing an authentication technology) prior to reading the <b>JAAS LoginModule Developer's Guide</b>.
+</p>
+
+<p>
+You may wish to first read the <b>JAAS Authentication</b> and <b>JAAS Authorization</b> tutorials to get an overview of how to use JAAS and to see sample code in action, and then return to this document for further information.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Related Documentation</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+This document assumes you have already read the following:
+</p>
+<ul class="org-ul">
+<li><b>Java SE Security Architecture</b>
+</li>
+<li><b>JAAS white paper</b>
+</li>
+<li><b>Java SE Security Tutorial</b>
+</li>
+</ul>
+
+<p>
+A supplement to this guide is the <b>JAAS LoginModule Developer's Guide</b>, intended for experienced programmers who require the ability to write a <b>LoginModule</b> implementing an authentication technology.
+</p>
+
+<p>
+If you wish to learn more about the standard Pluggable Authentication Module (PAM) framework (JAAS implements a Java version of PAM), see <b>Making Login Services Independent from Authentication Technologies</b>.
+</p>
+
+<p>
+The following tutorials for JAAS authentication and authorization can be run by everyone:
+</p>
+<ul class="org-ul">
+<li>JAAS Authentication Tutorial
+</li>
+<li>JAAS Authorization Tutorial
+</li>
+</ul>
+
+<p>
+Similar tutorials for JAAS authentication and authorization, but which demonstrate the use of a Kerberos LoginModule and thus which require a Kerberos installation, can be found at
+</p>
+<ul class="org-ul">
+<li>JAAS Authentication
+</li>
+<li>JAAS Authorization
+</li>
+</ul>
+
+<p>
+These two tutorials are a part of the <b>Java GSS-API and JAAS sequence of tutorials</b> that utilize Kerberos as the underlying technology for authentication and secure communication.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Core Classes and Interfaces</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Common Classes</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Subject</h4>
+</div>
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Prinicipals</h4>
+</div>
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> Credentials</h4>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Authentication Classes and Interfaces</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> LoginContext</h4>
+</div>
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> LoginModule</h4>
+</div>
+<div id="outline-container-sec-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3"><span class="section-number-4">2.2.3</span> CallbackHandler</h4>
+</div>
+<div id="outline-container-sec-2-2-4" class="outline-4">
+<h4 id="sec-2-2-4"><span class="section-number-4">2.2.4</span> Callback</h4>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Authorization Classes</h3>
+<div class="outline-text-3" id="text-2-3">
+</div><div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Policy</h4>
+</div>
+<div id="outline-container-sec-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> AuthPermission</h4>
+</div>
+<div id="outline-container-sec-2-3-3" class="outline-4">
+<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> PrivateCredentialPermission</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> JAAS Tutorials and Sample Programs</h2>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Appendix A: JAAS Settings in the java.security Security Properties File</h2>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Appendix B: Example Login Configurations</h2>
+</div>
+
+
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Ref</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASRefGuide.html">https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASRefGuide.html</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2018-01-30 화 10:26</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

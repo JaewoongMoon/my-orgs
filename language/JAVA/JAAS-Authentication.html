@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>JAAS Authentication</title>
+<!-- 2018-01-30 화 12:13 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">JAAS Authentication</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. The Authentication Tutorial Code</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Instantiating a LoginContext</a></li>
+<li><a href="#sec-1-2">1.2. Calling the LoginContext's <code>login</code> Method</a></li>
+<li><a href="#sec-1-3">1.3. The Complete <code>JaasAcn.java</code> Code</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. The Login Configuration</a>
+<ul>
+<li><a href="#sec-2-1">2.1. The Login Configuration File for This Tutorial</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Running the Code</a></li>
+<li><a href="#sec-4">4. Running the Code with a Security Manager</a></li>
+<li><a href="#sec-5">5. Ref</a></li>
+</ul>
+</div>
+</div>
+<p>
+The Java Authentication and Authorization Service (JAAS) was introduced as an optional package to the Java 2 SDK, Standard Edition (J2SDK), v 1.3. JAAS has now been integrated into the J2SDK 1.4.
+</p>
+
+<p>
+JAAS can be used for two purposes:
+</p>
+<ul class="org-ul">
+<li>for <i>authentication</i> of users, to reliably and securely determine who is currently executing Java code, regardless of whether the code is running as an application, an applet, a bean, or a servlet; and
+</li>
+<li>for <i>authorization</i> of users to ensure they have the access control rights (permissions) required to do the actions performed.
+</li>
+</ul>
+
+<p>
+This section provides a basic tutorial for the authentication component. The authorization component will be described in the <b>JAAS Authorization</b> tutorial.
+</p>
+
+<p>
+JAAS authentication is performed in a <i>pluggable</i> fashion. This permits Java applications to remain independent from underlying authentication technologies. New or updated technologies can be plugged in without requiring modifications to the application itself. An implementation for a particular authentication technology to be used is determined at runtime. The implementation is specified in a login configuration file. The authentication technology used for this tutorial is Kerberos. (See <b>Kerberos Requirements</b>.)
+</p>
+
+<p>
+The rest of this tutorial consists of the following sections:
+</p>
+<ol class="org-ol">
+<li>The Authentication Tutorial Code
+</li>
+<li>The Login Configuration
+</li>
+<li>Running the Code
+</li>
+<li>Running the Code with a Security Manager
+</li>
+</ol>
+
+<p>
+If you want to first see the tutorial code in action, you can skip directly to Running the Code and then go back to the other sections to learn about coding and configuration file details.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> The Authentication Tutorial Code</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Our authentication tutorial code is contained in a single source file, <b>JaasAcn.java</b>. This file's <code>main</code> method performs the authentication and then reports whether or not authentication succeeded.
+</p>
+
+<p>
+The code for authenticating the user is very simple, consisting of just two steps:
+</p>
+<ol class="org-ol">
+<li>Instantiate a LoginContext.
+</li>
+<li>Call the LoginContext's login method.
+</li>
+</ol>
+
+<p>
+First the basic code is shown, followed by a complete listing of the <code>JaasAcn.java</code> source file, complete with import statements and error handling.
+</p>
+</div>
+
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Instantiating a LoginContext</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+In order to authenticate a user, you first need a javax.security.auth.login.LoginContext. Here is the basic way to instantiate a LoginContext:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java">import javax.security.auth.login.*;
+. . .
+LoginContext lc = 
+	new LoginContext(&lt;config file entry name&gt;,
+		   &lt;CallbackHandler to be used for user interaction&gt;);
+</pre>
+</div>
+
+<p>
+and here is the specific way our tutorial code does the instantiation:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java">import javax.security.auth.login.*;
+import com.sun.security.auth.callback.TextCallbackHandler;
+. . .
+LoginContext lc = 
+	new LoginContext("JaasSample", 
+		  new TextCallbackHandler());
+</pre>
+</div>
+
+<p>
+The arguments are the following:
+</p>
+<ol class="org-ol">
+<li><b>The name of an entry in the JAAS login configuration file</b>
+</li>
+</ol>
+<p>
+This is the name for the LoginContext to use to look up an entry for this application in the JAAS login configuration file, described here(link to Login Context). Such an entry specifies the class(es) that implement the desired underlying authentication technology(ies). The class(es) must implement the LoginModule interface, which is in the <code>javax.security.auth.spi</code> package.
+</p>
+
+<p>
+In our sample code, we use the <code>Krb5LoginModule</code> in the <code>com.sun.security.auth.module</code> package, which performs Kerberos authentication.
+</p>
+
+<p>
+The entry in the login configuration file we use for this tutorial (see <b>jaas.conf</b>) has the name "JaasSample", so that is the name we specify as the first argument to the LoginContext constructor.
+</p>
+
+<ol class="org-ol">
+<li><b>A CallbackHandler instance</b>.
+</li>
+</ol>
+<p>
+When a LoginModule needs to communicate with the user, for example to ask for a user name and password, it does not do so directly. That is because there are various ways of communicating with a user, and it is desirable for LoginModules to remain independent of the different types of user interaction. Rather, the LoginModule invokes a CallbackHandler to perform the user interaction and obtain the requested information, such as the user name and password. (CallbackHandler is an interface in the <code>javax.security.auth.callback</code> pkg.)
+</p>
+
+<p>
+An instance of the particular CallbackHandler to be used is specified as the second argument to the LoginContext constructor. The LoginContext forwards that instance to the underlying LoginModule (in our case Krb5LoginModule). An application typically provides its own CallbackHandler implementation. A simple CallbackHandler, TextCallbackHandler, is provided in the <code>com.sun.security.auth.callback</code> package to output information to and read input from the command line.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Calling the LoginContext's <code>login</code> Method</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Once we have a LoginContext lc, we can call its login method to carry out the authentication process:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java">lc.login();
+</pre>
+</div>
+
+<p>
+The LoginContext instantiates a new empty <code>javax.security.auth.Subject</code> object (which represents the user or service being authenticated). The LoginContext constructs the configured LoginModule (in our case Krb5LoginModule) and initializes it with this new Subject and TextCallbackHandler.
+</p>
+
+<p>
+The LoginContext's <code>login</code> method then calls methods in the Krb5LoginModule to perform the login and authentication. The Krb5LoginModule will utilize the TextCallbackHandler to obtain the user name and password. Then the Krb5LoginModule will use this information to get the user credentials from the Kerberos KDC. See the <b>Kerberos reference documentation</b>.
+</p>
+
+<p>
+If authentication is successful, the Krb5LoginModule populates the Subject with (1) a Kerberos Principal representing the user and (2) the user's credentials (TGT). See <b>Subjects, Principals, Authentication, and Credentials</b> for information on these terms.
+</p>
+
+<p>
+The calling application can subsequently retrieve the authenticated Subject by calling the LoginContext's getSubject method, although doing so is not necessary for this tutorial.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> The Complete <code>JaasAcn.java</code> Code</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Now that you have seen the basic code required to authenticate the user, we can put it all together into the full class in JaasAcn.java, which includes relevant import statements and error handling:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java">import javax.security.auth.*;
+import javax.security.auth.callback.*;
+import javax.security.auth.login.*;
+import com.sun.security.auth.callback.TextCallbackHandler;
+
+/**
+ * This JaasAcn application attempts to authenticate a user
+ * and reports whether or not the authentication was successful.
+ */
+public class JaasAcn {
+
+  public static void main(String[] args) {
+
+	  // Obtain a LoginContext, needed for authentication. Tell 
+	  // it to use the LoginModule implementation specified by 
+	  // the entry named "JaasSample" in the JAAS login 
+	  // configuration file and to also use the specified 
+	  // CallbackHandler.
+	  LoginContext lc = null;
+	  try {
+		  lc = new LoginContext("JaasSample", 
+					  new TextCallbackHandler());
+	  } catch (LoginException le) {
+		  System.err.println("Cannot create LoginContext. "
+			  + le.getMessage());
+		  System.exit(-1);
+	  } catch (SecurityException se) {
+		  System.err.println("Cannot create LoginContext. "
+			  + se.getMessage());
+		  System.exit(-1);
+	  } 
+
+	  try {
+
+		  // attempt authentication
+		  lc.login();
+
+	  } catch (LoginException le) {
+
+		  System.err.println("Authentication failed: "
+		  System.err.println("  " + le.getMessage());
+		  System.exit(-1);
+
+	  }
+
+	  System.out.println("Authentication succeeded!");
+
+	}
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> The Login Configuration</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+JAAS authentication is performed in a pluggable fashion, so applications can remain independent from underlying authentication technologies. A system administrator determines the authentication technologies, or LoginModules, to be used for each application and configures them in a login Configuration. The source of the configuration information (for example, a file or a database) is up to the current <b>javax.security.auth.login.Configuration</b> implementation. The default <code>Configuration</code> implementation from Sun Microsystems reads configuration information from configuration files, as described in <b>com.sun.security.auth.login.ConfigFile.html</b>.
+</p>
+
+<p>
+See *JAAS Login Configuration Fil*e for information as to what a login configuration file is, what it contains, and how to specify which login configuration file should be used.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> The Login Configuration File for This Tutorial</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+As noted, the login configuration file we use for this tutorial, <b>jaas.conf</b>, contains just one entry, which is
+</p>
+<div class="org-src-container">
+
+<pre class="src src-conf">JaasSample {
+  com.sun.security.auth.module.Krb5LoginModule required;
+};
+</pre>
+</div>
+
+<p>
+This entry is named "JaasSample" and that is the name that our tutorial application, <code>JaasAcn</code>, uses to refer to this entry. The entry specifies that the LoginModule to be used to do the user authentication is the Krb5LoginModule in the <code>com.sun.security.auth.module</code> package and that this Krb5LoginModule is required to "succeed" in order for authentication to be considered successful. The Krb5LoginModule succeeds only if the name and password supplied by the user are successfully used to log the user into the Kerberos KDC.
+</p>
+
+<p>
+For information about all the possible options that can be passed to Krb5LoginModule, see the <b>Krb5LoginModule documentation</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Running the Code</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+To execute our JAAS authentication tutorial code, all you have to do is
+</p>
+
+<ol class="org-ol">
+<li>Place the <code>JaasAcn.java</code> application source file and the <code>jaas.conf</code> login configuration file into a directory.
+</li>
+<li>Compile JaasAcn.java:
+</li>
+</ol>
+<p>
+<code>javac JaasAcn.java</code>
+</p>
+<ol class="org-ol">
+<li>Execute the <code>JaasAcn</code> application, specifying
+</li>
+<li>by <code>-Djava.security.krb5.realm=&lt;your_realm&gt;</code> that your Kerberos realm is the one specified. For example, if your realm is "KRBNT-OPERATIONS.EXAMPLE.COM" you'd put <code>-Djava.security.krb5.realm=KRBNT-OPERATIONS.EXAMPLE.COM</code>.
+</li>
+<li>by <code>-Djava.security.krb5.kdc=&lt;your_kdc&gt;</code> that your Kerberos KDC is the one specified. For example, if your KDC is "samplekdc.example.com" you'd put <code>-Djava.security.krb5.kdc=samplekdc.example.com</code>.
+</li>
+<li>by <code>-Djava.security.auth.login.config=jaas.conf</code> that the login configuration file to be used is <code>jaas.conf</code>.
+</li>
+</ol>
+
+<p>
+The full command is below. <b>Be sure to replace</b> &lt;your<sub>realm</sub>&gt; <b>with your Kerberos realm, and</b> &lt;your<sub>kdc</sub>&gt; <b>with your Kerberos KDC</b>.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java">java -Djava.security.krb5.realm=&lt;your_realm&gt; 
+ -Djava.security.krb5.kdc=&lt;your_kdc&gt; 
+ -Djava.security.auth.login.config=jaas.conf JaasAcn
+</pre>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Running the Code with a Security Manager</h2>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Ref</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/AcnOnly.html">https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/AcnOnly.html</a>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2018-01-30 화 12:13</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
