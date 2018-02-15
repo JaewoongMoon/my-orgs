@@ -97,10 +97,12 @@
 - Reading Textbook (156-196p)
 
 * 6주차 
-** 2018.02.07
-- Reading Textbook (197-217)
+** 2018.02.07~2018.02.11
+- Reading Textbook (197-269)
 
-
+* 7주차
+** 2018.02.12~2018.02.18
+- Reading Textbook (270-)
 
 
 
