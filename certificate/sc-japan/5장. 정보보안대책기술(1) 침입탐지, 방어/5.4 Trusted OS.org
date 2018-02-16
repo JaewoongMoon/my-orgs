@@ -1,0 +1,15 @@
+#+TITLE: Trusted OS
+
+* Trusted OS의 개요
+
+** SELinux란
+
+** SELinux 의 보안 기능
+
+*** 보안컨텍스트에 의한 강제 접근 제어
+
+*** TE (Type Enforcement)
+
+*** 보안서버
+
+
