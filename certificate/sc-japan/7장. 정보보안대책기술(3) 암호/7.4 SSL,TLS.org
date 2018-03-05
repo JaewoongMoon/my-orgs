@@ -1,12 +1,61 @@
 #+TITLE: SSL/TLS
 
 * SSL/TLS 의 개요
+** SSL
+
+** TLS
+
+** SSL/TLS 프로토콜의 구조
+
 
 * SSL/TLS 에 있어서의 세션 및 커넥션
+** SSL/TLS 에 있어서 세션 및 커넥션의 확립 순서
+*** Client Hello
 
+*** Server Hello
+
+*** Certificate
+
+*** Server Key Exchange
+
+*** Certificate Request
+
+*** Server Hello Done
+
+*** Certificate
+
+*** Client Key Exchange
+
+*** Certificate Verify
+
+*** Change Cipher Spec
+
+*** Finished
+
+*** Change Cipher Spec
+
+*** Finished
+
+
+** 세션과 커넥션의 차이
+*** 세션
+
+*** 커넥션
 
 * SSL/TLS 에 있어서의 키생성 및 전송 데이터 처리
+** 키 생성 방법
+
+
+** 레코드 프로코톨이 수행하는 처리의 개요
+
+*** 데이터 송신시
+
+
+*** 데이터 수신시
+
+
 
 * SSL/TLS에 의한 인터넷 VPN(SSL-VPN)
+
 
 

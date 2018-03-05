@@ -222,3 +222,22 @@ git remote -v
 #+BEGIN_SRC cmd
 git remote set-url origin [변경될 주소]
 #+END_SRC
+
+
+
+** 설정(config) 정보 보기
+#+BEGIN_SRC cmd
+git config --list
+#+END_SRC
+
+** 설정 정보 삭제
+#+BEGIN_SRC cmd
+git config --global --unset [설정명]
+#+END_SRC
+
+** 실행 로그 자세히 보기 (트러블슈팅시에 유용)
+~GIT_CURL_VERBOSE=1 GIT_TRACE=1~ 을 앞에 붙이고 실행한다. 
+
+#+BEGIN_SRC cmd
+GIT_CURL_VERBOSE=1 GIT_TRACE=1 git pull origin master
+#+END_SRC

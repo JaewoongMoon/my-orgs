@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>사업계속관리</title>
-<!-- 2018-02-13 화 19:21 -->
+<title>ジェンキンスビルドエラー（SSL通信関連）原因と解決方法</title>
+<!-- 2018-03-05 월 14:21 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <style type="text/css">
@@ -136,147 +136,159 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">사업계속관리</h1>
+<h1 class="title">ジェンキンスビルドエラー（SSL通信関連）原因と解決方法</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. BCP, BCM의 개요</a>
+<li><a href="#sec-1">1. 現象</a></li>
+<li><a href="#sec-2">2. 原因の把握</a>
 <ul>
-<li><a href="#sec-1-1">1.1. 사업계속관리에 관한 ISMS 요구항목</a></li>
-<li><a href="#sec-1-2">1.2. BCM과 BCP의 동향</a></li>
-<li><a href="#sec-1-3">1.3. BCM에 관한 규격 및 인증제도</a>
-<ul>
-<li><a href="#sec-1-3-1">1.3.1. 규격</a></li>
-<li><a href="#sec-1-3-2">1.3.2. 인증제도</a></li>
+<li><a href="#sec-2-1">2.1. 実行過程を詳細に出力</a></li>
+<li><a href="#sec-2-2">2.2. 分析</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#sec-2">2. BCP 책정, BCM 확립에 있어서의 요점</a></li>
+<li><a href="#sec-3">3. 解決</a></li>
+<li><a href="#sec-4">4. その他</a></li>
 </ul>
 </div>
 </div>
+
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> BCP, BCM의 개요</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 現象</h2>
 <div class="outline-text-2" id="text-1">
-<ul class="org-ul">
-<li>사업계속관리(BCM, Business Continuity Management)
-</li>
-<li>사업계속계획(BCP, Business Continuity Plan)
-</li>
-</ul>
-</div>
-
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 사업계속관리에 관한 ISMS 요구항목</h3>
-<div class="outline-text-3" id="text-1-1">
-<ul class="org-ul">
-<li>조직은 곤란한 상황 (위협, 재해)시 정보보안 및 정보보안 관리를 계속하기 위한 요구사항을 결정해두어야 한다.
-</li>
-<li>곤란한 상황에서 정보보안을 계속하기 위한 프로세스, 순서, 관리책 등을 문서화하고 실시/유지할 것
-</li>
-<li>위의 관리책이 타당하고 유효한 것임을 확실히 하기 위해 정기적으로 검증할 것
-</li>
-<li>정보처리시설이 가용성 요구사항을 만족하기 위해 충분한 여유를 가지고 있을 것 (이중화 등)
-</li>
-</ul>
-</div>
-</div>
-
-
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> BCM과 BCP의 동향</h3>
-<div class="outline-text-3" id="text-1-2">
-<ul class="org-ul">
-<li>영국의 BCI(Business Continuity Institute, 사업계속협회)에서 선구적 역할을 하고 있음.
-</li>
-<li>일본에는 BCI Japan Alliance 가 존재
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> BCM에 관한 규격 및 인증제도</h3>
-<div class="outline-text-3" id="text-1-3">
-</div><div id="outline-container-sec-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> 규격</h4>
-<div class="outline-text-4" id="text-1-3-1">
 <p>
-ISO 22301:2012 -&gt; 사회보안 사업계속관리시스템 요구항목
+これまでよく動作したジェンキンスビルドが突然失敗する。
 </p>
-</div>
-</div>
 
-<div id="outline-container-sec-1-3-2" class="outline-4">
-<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> 인증제도</h4>
-<div class="outline-text-4" id="text-1-3-2">
 <p>
-JIPDEC에 의해 위 규격에 맞춰 <b>BCMS 적합성평가제도</b> 를 운영중
+次のようなエラーメッセージが出力される。
 </p>
-</div>
-</div>
-</div>
-</div>
 
+<div class="org-src-container">
+
+<pre class="src src-bash">fatal: unable to access 'https://NHN-security-team@github.com/NHN-PlayArt/DiagnosisReport.git/': SSL connect error
+</pre>
+</div>
+</div>
+</div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> BCP 책정, BCM 확립에 있어서의 요점</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> 原因の把握</h2>
 <div class="outline-text-2" id="text-2">
-<ul class="org-ul">
-<li>BCM에서느 중요도가 높은 사업이나 서비스가 우선적으로 복구/계속되어야 하는 것이 전제된다.
-</li>
-<li>BCP에서는 우선 비즈니스 임팩트 분석(Business Inpact Analysis, BIA)를 통해 해당 조직의 사업계속에서 보틀넥이 되는 직무프로세스나 리스크를 파악한다.
-</li>
-</ul>
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 実行過程を詳細に出力</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+
+<pre class="src src-bash">GIT_CURL_VERBOSE=1 GIT_TRACE=1 git pull origin master
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/nss-error.png" alt="nss-error.png" />
+</p>
+</div>
 
 <p>
-BIA에 의해 파악된 중요한 업무에 대해 중단되었을 때의 손실액등을 산출하는 것과 동시에 다음의 목표치를 설정한다.
+<b>NSS error -12190</b> という部分が目立つ。
 </p>
-<ul class="org-ul">
-<li>목표복구시간(Recovery Time Objective, RTO) : 업무중단 후 언제까지 업무를 복구해야하는지
-</li>
-<li>목표복구레벨 : 업무중단 후 RTO 내의 어떤 레벨까지 업무를 복구할 것인지
-</li>
-<li>목표복구시점(Recovery Point Objective, RPO) : 업무중단부터 거꾸로 시간을 되돌렸을 때 어느 시점의 상태까지 되돌릴 것인가
-</li>
-</ul>
 
 <p>
-중요업무의 중지 시, 목표시간내에 복구하기 위한 구체적인 계획이나 순서를 BCP로서 책정한다.
-BCP 책정 시에는 다음과 같은 복구 단계를 상정해서 대응한다.
+インターネットで検索してみると、そのエラーは <code>SSL_ERROR_PROTOCOL_VERSION_ALERT：unsupported protocol version</code> エラーということが分かる。
 </p>
-<ul class="org-ul">
-<li>긴급대응 페이즈 : 재해나 사고 등의 인시던트가 발생한 직후의 대응 단계
-</li>
-<li>업무재개 페이즈 : 가장 중요도가 높은 업무를 재개하는 단계
-</li>
-<li>업무회복 페이즈 : 중요도가 낮은 업무까지 재개하는 단계
-</li>
-<li>완전회복 페이즈 : 모든 업무를 정상적으로 계속할 수 있는 체계로 이행하는 단계
-</li>
-</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 分析</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+エラーメッセージを通してproxyサーバとgithubの間の通信には問題がないが、githubから受信した応答ページをproxyサーバがクライアントに転送するときにエラーが発生したものと推測することができる。
+</p>
 
 <p>
-BCP를 정기적으로 훈련하고 시험하는 것으로 
+client -(O)-&gt; proxy server -(OK)-&gt; github
 </p>
-<ul class="org-ul">
-<li>BCP의 유효성을 점검할 수 있다. 
-</li>
-<li>조직에 BCM문화를 뿌리내릴 수 있다. 
-</li>
-</ul>
 
 <p>
-업무 내용이나 업무환경이 변화되었을 때는 적시에 BIA를 실시, BCP를 재검토한다.
+client &lt;-(X)- proxy server &lt;-(OK)- github
 </p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 解決</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<a href="https://stackoverflow.com/questions/43975973/how-to-fix-error-failed-to-download-on-rbenv-install">https://stackoverflow.com/questions/43975973/how-to-fix-error-failed-to-download-on-rbenv-install</a> で原因と解決方法を探すことができた。
+</p>
+
+<p>
+<b>古いnss（network security service）</b> モジュールを使用している場合は、接続を拒否する場合があるらしい。
+</p>
+
+<p>
+解決方法は、nssモジュールのバージョンを最新のバージョンに更新するものである。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">yum update nss nss-util nspr
+</pre>
+</div>
+
+<p>
+上記の方法で解決がならなかったらcurlも更新する。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">yum update curl
+</pre>
+</div>
+
+<p>
+もしupdate時に、そのパッケージを見つけることができないというエラー（404エラー）が発生した場合、リモートyumサーバーから提供されるパッケージのリストと、ローカルのyumパッケージリストが違って生じる問題であるため、次のコマンドでキャッシュを削除/再構成した後、再試行する。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">yum clean packages
+yum clean metadata
+yum clean dbcache
+yum clean all
+yum makecache  &lt;-- キャッシュの再構成
+</pre>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> その他</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+次のような解決法を、インターネット上で見つけたが、今回の場合には、全く役に立たなかった。したがって、テスト後、削除した。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --global --add http.sslVersion tlsv1.0
+git config --global http.proxy PROXY_IP:PROXY_PORT
+git config http.sslVerify "false"
+</pre>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2018-02-13 화 19:21</p>
+<p class="date">Created: 2018-03-05 월 14:21</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

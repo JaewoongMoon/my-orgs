@@ -1,0 +1,71 @@
+#+TITLE: 젠킨스 빌드 에러 (SSL 통신 관련) 원인 및 해결방법
+
+* 현상
+그동안 잘 되던 젠킨스 빌드가 갑자기 실패한다. 
+
+다음과 같은 에러 메세지가 출력된다.
+
+#+BEGIN_SRC bash
+fatal: unable to access 'https://[Github Address]': SSL connect error
+#+END_SRC
+
+* 원인 파악
+
+** 실행 과정을 상세하게 출력
+
+#+BEGIN_SRC bash
+GIT_CURL_VERBOSE=1 GIT_TRACE=1 git pull origin master
+#+END_SRC
+
+[[./img/nss-error.png]]
+
+*NSS error -12190* 이라는 부분이 눈에 띈다. 
+
+인터넷에서 검색해보면 해당 에러는 ~SSL_ERROR_PROTOCOL_VERSION_ALERT : unsupported protocol version~ 에러라는 것을 알 수 있다. 
+
+** 분석
+에러 메세지를 통해 proxy 서버와 github 사이의 통신에는 문제가 없지만, github에서 받은 응답페이지를 proxy서버가 클라이언트로 전달할 때 에러가 발생하는 것으로 추측할 수 있다. 
+
+client -(O)-> proxy server -(OK)-> github
+
+client <-(X)- proxy server <-(OK)- github
+
+
+* 해결
+
+https://stackoverflow.com/questions/43975973/how-to-fix-error-failed-to-download-on-rbenv-install 에서 원인과 해결방법을 찾았다. 
+
+*오래된 nss(network security service)* 모듈을 사용하는 경우 연결을 거절할 수 있다고 한다. 
+
+해결방법은 nss 모듈의 버전을 최신버전으로 업데이트하는 것이다. 
+
+#+BEGIN_SRC bash
+yum update nss nss-util nspr
+#+END_SRC
+
+위의 방법으로 해결이 안되었다면 curl 도 업데이트 한다. 
+
+#+BEGIN_SRC bash
+yum update curl
+#+END_SRC
+
+혹시 update 시에 해당 패키지를 찾을 수 없다는 에러(404 에러)가 발생한다면 원격 yum 서버에서 제공하는 패키지 리스트와 로컬 의 yum 패키지 리스트가 달라서 생기는 문제이므로 다음 명령으로 캐시를 삭제/재구성한 후 재시도한다. 
+
+#+BEGIN_SRC bash
+yum clean packages
+yum clean metadata
+yum clean dbcache
+yum clean all
+yum makecache  <-- 캐시 재구성
+#+END_SRC
+
+
+
+* 기타 
+다음과 같은 해결법을 인터넷에서 찾았지만 이번 경우에는 전혀 도움이 되지 않았다. 따라서 테스트 해본 뒤 모두 삭제하였다.
+
+#+BEGIN_SRC bash
+git config --global --add http.sslVersion tlsv1.0
+git config --global http.proxy PROXY_IP:PROXY_PORT
+git config http.sslVerify "false" 
+#+END_SRC

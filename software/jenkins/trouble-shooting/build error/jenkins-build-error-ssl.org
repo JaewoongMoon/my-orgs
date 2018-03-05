@@ -1,0 +1,72 @@
+#+TITLE: ジェンキンスビルドエラー（SSL通信関連）原因と解決方法
+
+
+* 現象
+これまでよく動作したジェンキンスビルドが突然失敗する。
+
+次のようなエラーメッセージが出力される。
+
+#+BEGIN_SRC bash
+fatal: unable to access 'https://[Github Address]': SSL connect error
+#+END_SRC
+
+* 原因の把握
+
+** 実行過程を詳細に出力
+
+#+BEGIN_SRC bash
+GIT_CURL_VERBOSE=1 GIT_TRACE=1 git pull origin master
+#+END_SRC
+
+[[./img/nss-error.png]]
+
+*NSS error -12190* という部分が目立つ。
+
+インターネットで検索してみると、そのエラーは ~SSL_ERROR_PROTOCOL_VERSION_ALERT：unsupported protocol version~ エラーということが分かる。
+
+** 分析
+エラーメッセージを通してproxyサーバとgithubの間の通信には問題がないが、githubから受信した応答ページをproxyサーバがクライアントに転送するときにエラーが発生したものと推測することができる。
+
+client -(O)-> proxy server -(OK)-> github
+
+client <-(X)- proxy server <-(OK)- github
+
+
+* 解決
+
+https://stackoverflow.com/questions/43975973/how-to-fix-error-failed-to-download-on-rbenv-install で原因と解決方法を探すことができた。
+
+*古いnss（network security service）* モジュールを使用している場合は、接続を拒否する場合があるらしい。
+
+解決方法は、nssモジュールのバージョンを最新のバージョンに更新するものである。
+
+#+BEGIN_SRC bash
+yum update nss nss-util nspr
+#+END_SRC
+
+上記の方法で解決がならなかったらcurlも更新する。
+
+#+BEGIN_SRC bash
+yum update curl
+#+END_SRC
+
+もしupdate時に、そのパッケージを見つけることができないというエラー（404エラー）が発生した場合、リモートyumサーバーから提供されるパッケージのリストと、ローカルのyumパッケージリストが違って生じる問題であるため、次のコマンドでキャッシュを削除/再構成した後、再試行する。
+
+#+BEGIN_SRC bash
+yum clean packages
+yum clean metadata
+yum clean dbcache
+yum clean all
+yum makecache  <-- キャッシュの再構成
+#+END_SRC
+
+
+
+* その他
+次のような解決法を、インターネット上で見つけたが、今回の場合には、全く役に立たなかった。したがって、テスト後、削除した。
+
+#+BEGIN_SRC bash
+git config --global --add http.sslVersion tlsv1.0
+git config --global http.proxy PROXY_IP:PROXY_PORT
+git config http.sslVerify "false" 
+#+END_SRC
