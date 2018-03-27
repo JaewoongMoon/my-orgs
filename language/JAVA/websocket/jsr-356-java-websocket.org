@@ -1,0 +1,155 @@
+#+TITLE: JSR 356, Java API for WebSocket
+
+For many Web-based client-server applications, the old HTTP request-response model has its limitations. Information has to be transmiited from the server to the client in between requests, rather than upon request only. 
+
+A number of "hacks" have been used in the past to circumvent this problem, for example, long polling and Comet. However, the need for a standards-based, bidirectional and full-duplex channel between clients and a server has only increased. 
+
+In 2011, the IETF standardized the WebScoket protocol as RFC 6455. Since then, the majority of the Web browsers are implementing client APIs that support the WebSocket protocol. 
+
+The WebSocket protocol leverages the HTTP upgrade technology to upgrade an HTTP connections to a WebSocket. Once it is upgraded, the connection is capable of sending messages (data frames) in both directions, independent of eash other (full duplex). No headers or cookies are required, which considerably lowers the required bandwidth. Typically, WebSockets are used to periodically send small messages (for example, a few bytes). Adiitional headers would often make the overhead larger than the payload.
+
+* JSR 356
+JSR 356, Java API for WebSocket, specifies the API that Java developers can use when they want to intergrate WebSockets into their applications-both on the server side as well as on the Java client side. Every implementation of the WebSocket protocol that claims to be compliant with JSR 356 must implement of the underlying WebScoket implementation. This is a huge benefit, because it prevents a vendor-lock and allows for more choices and freedom of libraries and application servers. 
+
+JSR 356, is a part of the upcoming Java EE 7 standard; hence, all Java EE 7-compliant application servers will have an implementation of the webSocket protocol that adheres to the JSR 356 standard. Once they are established, WebSocket client and server peers are symmetrical. The difference between a client API and server API is, therefore, minimal. JSR 356 defines a Java client API as well, which is a subset of the full API required in Java EE 7. 
+A client-server application leveraging WebSockets typically contains a server component and one or more client components, as shown in Figure 1:
+
+In this example, the server application is written in Java, and the WebSocket protocl details are handled by the JSR 356 implemention contained in the Java EE 7 container. 
+
+A JavaFX client can rely on any JSR 356-compliant client implementation for handling the WebSocket-specific protocl issues. Other clients(for example, an iOS client and an HTML5 client) can use other(non-Java) implementation that are compliant with RFC 6455 in order to communicate with the server application. 
+
+* Programming Model
+The Expert Group that defined JSR 356 wanted to supoort patterns and techniques that are common to Java EE delvelopers. As a consequence, JSR 356 leverages annotations and injection. 
+
+In general, two different programming models are supported. 
+
+- Annotation-driven. Using annotated POJOs, developers can interact with the WebSocket lifecycle events. 
+- Interface-drive. Developers can implement the ~EndPoint~ interface and the methods that interact with the lifecycle events. 
+
+
+* Lifecycle Event
+The typical lifecycle event of a WebSocket interation goes as follows:
+- One peer (a client) initiates the connection by sending 
+- The other peer (the server) replies with a handshake response. 
+- The connection is established From now on, the connection is completely symmetrical. 
+- Both peers send and receive messages. 
+- One of the peers closes the connection. 
+Most of the WebSocket lifecycle events can be mapped to Java methods, both in the annotation-driven and interface-dirven approaches. 
+
+* Annotation-Driven Approach
+An endpoint that is accepting incoming WebSocket requrest can be a POJO annotated with the ~@ServerEndpoint~ annotation. This annotation tells the container that the given class should be considered to be a WebSocket endpoint. The required ~value~ element specifies the path of the WebSocket endpoint. 
+
+Consider the following code snippet:
+
+#+BEGIN_SRC Java 
+@ServerEndpoint("/hello")
+public class MyEndpoint{}
+#+END_SRC
+
+This code will publish an endpoint at the relative path ~hello~. The path can include path parameters that are used in subsequence method calls; for example, ~/hello/{userid}~ is a valid path, where the value of {userid} can be obtained in lifecycle method calls using the ~@PathParam~ annotation. 
+
+In GlassFish, if your application is deployed with the contextroot ~mycontextroot~ in a Web container listening at port 8080 of ~localhost~, the WebSocket will be accessible using ~ws://localhost:8080/mycontextroot/hello~. 
+
+An endpoint that should initiate a WebSocket connection can be a POJO annotated with the ~@ClientEndPoint~ annotation. The main difference between ~@ClientEndPoint~ and a ~ServerEndpoint~ is that the ~ClientEndpoint~ does not accept a path value element, because it if not listening to incoming requests. 
+
+#+BEGIN_SRC Java 
+@ClientEndpoint
+public class MyClientEndpoint{}
+#+END_SRC
+
+Initiating a WebSocket connection in Java leveraging the Annotation-driven POJO approach can be done as follows:
+
+#+BEGIN_SRC Java 
+javax.websocket.WebSocketContainer container = 
+javax.websocket.ContainerProvider.getWebSocketContainer();
+
+container.conntectToServer(MyClientEndpoint.class, 
+new URI("ws://localhost:8080/tictactoeserver/endpoint"));
+#+END_SRC
+
+Hereafter, classes annotated with ~@ServerEndpoint~ or ~@ClientEndPoint~ will be called annotated endpoints.
+
+Once a WebSocket connection has been established, a ~Session~ is created and the method annotated endpoint will be called. This method can contain a number of parameters:
+
+- A ~javax.websocket.Session~ parameter, specifying the created ~Session~
+- An ~EndpointConfig~ instance containing information about the endpoint configuration
+- Zero or more string parameters annotated with ~@PathParam~, referring to path parameters on the endpoint path
+
+The following method implementation will print the identifier of the session when a WebSocket is "opened":
+
+#+BEGIN_SRC Java
+@OnOpen
+public void myOnOpen (Session session) {
+   System.out.println ("WebSocket opened: "+session.getId());
+}
+#+END_SRC
+
+A ~Session~ instance is valid as long as the WebSocket is not closed. The ~Session~ class contains a number of interesting methods that allow developers to obtain more information about the connection. Also, the ~Session~ contains a hook to application-specific data, by means of the ~getUserProperties()~ method returning a ~Map<String, Object>~. This allows developers to populate ~Session~ instances with session- and application-specific information that should be shared among method invocations. 
+
+When the WebSocket endpoint receives a message, the method annotated with ~@OnMessage~ will be called. A method annoated with ~@OnMessage~ can contain the following parameters:
+
+- The ~javax.websocket.Session~ parameters. 
+- Zero or more string parameters annotated with ~@PathParam~, referring to path parameters on the endpoint path. 
+- The message itself. See below for an overview of possible message types. 
+
+When a text message has been sent by the other peer, the content of the message will be printed by the following code snippet. 
+
+#+BEGIN_SRC Java
+@OnMessage
+public void myOnMessage (String txt) {
+   System.out.println ("WebSocket received message: "+txt);
+} 
+
+#+END_SRC
+
+If the return type of the method annotated with ~@OnMessage~ is not ~void~, the WebSocket implementation will send the return value to the other peer. The following code snippet returns the received text message in capitals back to the sender:
+
+#+BEGIN_SRC Java
+@OnMessage
+public String myOnMessage (String txt) {
+   return txt.toUpperCase();
+} 
+#+END_SRC
+
+Another way of sending messages over a WebSocket connection is shown below:
+#+BEGIN_SRC Java
+RemoteEndpoint.Basic other = session.getBasicRemote();
+other.sendText ("Hello, world");
+#+END_SRC
+
+In this approach, we start from the ~Session~ object, which can be obtained from the lifecycle callback methods (for example, the method annotated with ~@OnOpen~). The ~getBasicRemote()~ method on the ~Session~ instance returns a representation of the other part of the WebSocket, the ~RemoteEndPoint~. That ~RemoteEndPoint~ instance can be used for sending text or other types of messages, as decribe below. 
+
+When the WebSocket connection is closing, the method annotated with ~@OnClose~ is called. This method can take the following parameters:
+
+- The ~javax.websocket.Session~ parameter. Note that this parameter cannot be used once the WebSocket is really closed, which happens after the ~@OnClose~ annotated method returns. 
+- A ~javax.websocket.CloseReason~ parameter describing the reason for close the WebSocket, for example, normal closure, protocol error, overloaded service, and so on. 
+- Zero or more string parameters annotated with ~@PathParam~, referring to path parameters on the endpoint path. 
+
+The following code snippet will print the reason why a WebSocket is closing:
+
+#+BEGIN_SRC Java
+@OnClose
+public void myOnClose(CloseReason reason){
+ System.out.println("Closing a WebSocket due to " + reason.getReasonPhrase());
+}
+#+END_SRC
+
+To be complete, there is one more lifecycle annotation: in case an error is received, the method annotated with ~@OnError~ will be called. 
+
+* Interface-Driven Approach
+...
+
+* Message Types, Encoders, and Decoders
+The Java API for WebSocket is very powerful, because it allows any Java object to be sent or received as a WebSocket message. 
+
+Basically, there are three different types of messages:
+- Text-based messages
+- Binary messages
+- Pong messages, which are about the WebSocket connection itself
+
+* Conclusion
+
+
+
+* Ref
+http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html

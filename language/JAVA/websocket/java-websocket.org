@@ -1,0 +1,7 @@
+#+TITLE: JSR 356 - Java API for Webscoket (Java Client)
+
+http://www.programmingforliving.com/2013/08/jsr-356-java-api-for-websocket-client-api.html
+
+I will show you how you can convert a POJO to a Webscoket client and integrate Websocket Server Endpoint using Websocket Java API.
+
+
