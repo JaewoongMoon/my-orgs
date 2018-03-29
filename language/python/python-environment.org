@@ -1,0 +1,32 @@
+#+TITLE: 파이썬 해킹 환경 구축
+
+* 개요
+리눅스에서 파이썬 해킹 환경을 구축하는 것을 정리해둔 문서이다.
+
+* 필요한 패키지 설치
+
+** virtualenv
+파이썬 해킹에서 각 프로젝트별로 다른 의존성을 관리해주는 툴이다.
+
+#+BEGIN_SRC bash
+apt-get install python-pip python-dev build-essential
+pip install virtualenv virtualenvwrapper
+pip install --upgrade pip
+#+END_SRC
+
+** ipython
+파이썬 내장 REPL을 더욱 발전시킨 것. (An enhnaced Interactive Python)
+
+#+BEGIN_SRC bash
+pip install ipython
+#+END_SRC
+
+
+* 필요한 설정 
+
+
+
+
+
+
+

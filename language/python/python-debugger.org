@@ -1,0 +1,46 @@
+#+TITLE: 파이썬 디버거 (pdb)사용방법
+#+AUTHOR: jwmoon
+
+* 목표 
+Python 에서 디버깅을 하고 싶다. 
+
+예를들면, 어떤 스크립트 내에서 특성 함수만 실행시켜 보고 싶다. 
+
+* 사용방법
+두 가지 방법이 있다. 
+
+**  방법 1. 프로그램에 명시
+1. 디버깅하고 싶은 곳에 다음 라인을 추가한다. 
+#+BEGIN_SRC Python
+import pdb; pdb.set_trace()
+#+END_SRC
+
+2. 해당 프로그램을 실행하면 pdb가 로딩된다. (python [name].py)
+
+** 방법 2. 명령창으로 pdb 실행
+#+BEGIN_SRC bash
+/usr/lib/python3.5/pdb.py [디버깅할 python 파일명]
+#+END_SRC
+
+* 명령어
+| 커맨드           | 설명                                                  | 비고       |
+|------------------+-------------------------------------------------------+------------|
+| c(ontinue)       | 브레이크 포인트를 만날 때 까지 이동                   | Go버튼     |
+| s(tep)           | 다음으로 이동(펑션인 경우 진입)                       | Step 버튼  |
+| n(ext)           | 다음라인으로 이동                                     | Over  버튼 |
+| r(eturn)         | 현재 펑션 종료시점까지 실행                           | Out버튼    |
+| q(uit)           | 디버깅 종료                                           |            |
+| j(ump) lineno    | 해당 라인으로 점프                                    |            |
+| h(elp) [command] | 도움말                                                |            |
+| u(p)             | up frame(stack 상에서 위로 이동)                      |            |
+| d(own)           | down frame (stack 상에서 아래로 이동)                 |            |
+| w(here)          | 현재 실행중인 위치 확인                               |            |
+| cl(ear)          | 브레이크 포인트 해제                                  |            |
+| b(reak)          | 브레이크 포인트 설정                                  |            |
+| len()            | 변수의 길이를 출력해준다.                             |            |
+| dir()            | 인스턴스 변수가 가진 메서드와 속성 값들을 출력해준다. |            |
+
+
+* 참고 URL
+- https://github.com/spiside/pdb-tutorial
+
