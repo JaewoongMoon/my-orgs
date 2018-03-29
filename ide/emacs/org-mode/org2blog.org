@@ -1,8 +1,0 @@
-* 서문
-
-
-* install
-
-* 참고
-https://github.com/punchagan/org2blog
-
