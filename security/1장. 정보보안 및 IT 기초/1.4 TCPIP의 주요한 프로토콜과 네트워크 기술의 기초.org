@@ -1,0 +1,36 @@
+#+TITLE: TCP/IP의 주요한 프로토콜과 네트워크 기술의 기초
+* TCP/IP 프로토콜 기초
+
+* IP의 개요
+
+* TCP와 UDP
+
+
+** TCP 플래그
+6가지 플래그가 존재, 각각 1비트 값을 가진다. 
+
+- SYN(Synchronization,동기화) : 연결요청 플래그
+- ACK(Acknowledgement) : 응답
+- RST(Rest) : 비정상 연결종료 & 재설정
+- PSH(Push) : 밀어넣기, 어플리케이션 계층으로 전송하도록 하는 플래그
+- URG(Urgent) : 긴급 데이터
+- FIN(Finish) : 연결 종료 요청
+
+
+* ICMP
+- Internet Control Message Protocol
+- IP 통신에서 발생하는 에러관련이나 정보, 제어 메세지등을 통지하기 위한 프로토콜
+- ICMP 헤더에 메세지의 타입 정보를 가지고 있다.
+- 대표적인 ping 의 경우 메세지 타입 코드가 8 (에코 요구) 이다. 
+
+* 전자메일의 구조
+
+* DNS의 주요기능
+
+* HTTP에서 사용하고 있는 기본적인 기술
+
+* 스위치와 VLAN
+
+* 클라우드 컴퓨팅의 개요
+
+* 신클라이언트와 VDI

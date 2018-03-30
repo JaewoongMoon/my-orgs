@@ -1,0 +1,20 @@
+#+TITLE: 기타 주요한 보안통신기술
+
+
+* IP-VPN
+
+
+* SSH
+
+
+* PPTP
+
+
+* L2TP
+
+
+* S/MIME
+
+
+* PGP
+

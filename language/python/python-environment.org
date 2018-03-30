@@ -17,14 +17,34 @@ pip install --upgrade pip
 ** ipython
 파이썬 내장 REPL을 더욱 발전시킨 것. (An enhnaced Interactive Python)
 
+대화형 기능 강화, 하이라이팅 기능 등
+
 #+BEGIN_SRC bash
 pip install ipython
+ipython
 #+END_SRC
 
 
 * 필요한 설정 
+** pip 으로 패키지를 설치할 때 python3의 라이브러리 경로에 설치되도록 하기 
+#+BEGIN_SRC bash
+pip3 install -U [module name]
+#+END_SRC
+
+pip3가 아직 설치되지 않았다면
+#+BEGIN_SRC bash
+apt-get install python3-pip
+#+END_SRC
 
 
+** 혹은 가상환경(virtualenv)으로 설치하고 싶을 때는 아래와 같이 한다. 
+#+BEGIN_SRC bash
+virtualenv -p /usr/bin/python3 py3env
+source py3env/bin/activate
+pip install package-name
+#+END_SRC
+
+- /root/ 밑에 py3env 라는 디렉토리가 생기고 그 안에 가상환경이 꾸며진다. 
 
 
 
