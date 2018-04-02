@@ -27,21 +27,20 @@
 #+END_SRC
    버추얼 머신에는 저 폴더를 통째로 복사해두면 된다.
 
-* 수정/버전관리
-** 작업의 흐름
-   로컬브랜치는 3개의 나무로 구성 
+* 작업의 흐름
+로컬브랜치는 3개의 나무로 구성 
 
-*** 1) 작업 디렉터리 (Working Directory) 또는 Working Tree
+** 1) 작업 디렉터리 (Working Directory) 또는 Working Tree
 	실제 파일들
 				
-*** 2) 인덱스 (Index)
+** 2) 인덱스 (Index)
 	준비영역 (Staging area)
 				
-*** 3) 헤드 (HEAD)
+** 3) 헤드 (HEAD)
 	최종확정본(Commit)
 	
-** 추가와 확정
-*** 변경된파일 추가하기
+* 추가와 확정
+** 변경된파일 추가하기
 
 개념 : WorkingTree에 있던 파일을 인덱스에 추가
 #+BEGIN_SRC cmd
@@ -49,30 +48,35 @@ git add [파일경로/파일명]
 #+END_SRC
 
 
-*** 변경된 파일을 확정하기
+** 변경된 파일을 확정하기
 개념 : Index에 있던 파일을 HEAD에 반영
 #+BEGIN_SRC cmd
 git commit -m "커밋 메세지"
 #+END_SRC
 
-*** 버전 컨트롤에서 제외하기 ex) class 파일
+** 버전 컨트롤에서 제외하기 ex) class 파일
 #+BEGIN_SRC cmd
 git rm --dry-run *.class
 #+END_SRC
 
-*** 제외될 파일 리스트 확인
+** 제외될 파일 리스트 확인
 #+BEGIN_SRC cmd
 git rm *.class
 #+END_SRC
 
-*** 버전컨트롤에서 제외하기 (하드디스크에서도 지우기)
+** 버전컨트롤에서 제외하기 (하드디스크에서도 지우기)
 #+BEGIN_SRC cmd
-git rm [파일경로,파일명]
+git rm [path]
 #+END_SRC
 
-*** staging area에서만 지우기
+** 저장소에는 삭제되지만 작업 공간에는 삭제되지 않도록
 #+BEGIN_SRC cmd
-git rm --cached [파일경로,파일명]
+git rm --cached [path]
+#+END_SRC
+
+** 저장소, 작업공간에는 삭제되지 않지만 변경을 추적하지 않도록
+#+BEGIN_SRC cmd
+git update-index --assume-unchanged [path]
 #+END_SRC
 
 ** 변경내용발행(push)하기
@@ -81,88 +85,17 @@ git rm --cached [파일경로,파일명]
 git push origin [브랜치명]
 #+END_SRC
 
-*** 차분만 올릴경우 (거의 이쪽을 많이 쓴다.)
+** 차분만 올릴경우 (거의 이쪽을 많이 쓴다.)
 #+BEGIN_SRC cmd
 git push -u origin [브랜치명]
 #+END_SRC
 	
-
-** 가지(branch)치기
-*** 브랜치로 이동하기
-#+BEGIN_SRC cmd
-git checkout [브랜치명]
-#+END_SRC
-
-*** 브랜치를 만들면서 새로 만든 브랜치로 이동하기
-#+BEGIN_SRC cmd
-git checkout -b [브랜치명]
-#+END_SRC
-
-*** 브랜치 목록보기
-#+BEGIN_SRC cmd
-git branch -a
-#+END_SRC
-
-*** 브랜치 삭제하기
-#+BEGIN_SRC cmd
-git branch -d [브랜치명]
-#+END_SRC
-
-*** 수정된 파일과 내용을 확인하기
-#+BEGIN_SRC cmd
-git diff
-git diff [원래가지] [비교 대상 가지]
-#+END_SRC
-
-** 갱신과 병합(merge)
-개념 : 로컬저장소를 원격저장소에 맞춰 갱신 
-
-원격저장소의 변경 내용이 로컬 작업 디렉토리에 받아지고(fetch), 병합(merge)된다. 
-
-*** 원격 master를 현재가지에 병합
-#+BEGIN_SRC cmd
-git pull
-#+END_SRC
-
-
-*** 원격의 특정 브랜치를 현재가지에 병합
-#+BEGIN_SRC cmd
-git merge [브랜치명]
-#+END_SRC
-
-** 현재의 로컬 master브랜치에 feature브랜치 병합 
-#+BEGIN_SRC cmd
-git checkout master
-git merge --no-ff [브랜치명]
-#+END_SRC
-			
-*** 충돌발생시
-**** 1. 로컬에서 병합을 시도한다. (충돌상태가 되도록) 
-#+BEGIN_SRC cmd
-git merge master
-#+END_SRC
-**** 2. 충돌이 발생한 파일을 열어보면 충돌영역이 표시되어 있다. 수동으로 충돌을 처리한다. 
-**** 3. 충돌이 발생한 로컬 브랜치에서 커밋한다. 
-#+BEGIN_SRC cmd
-git commit -am "Fix conflict"
-#+END_SRC
-**** 4. 로컬 마스터 브랜치에 로컬브랜치 내용을 병합한다. 
-#+BEGIN_SRC cmd
-git checkout master
-git merge --no-ff [충돌을 해결한 브랜치명]
-#+END_SRC
-**** 5. 원격 저장소 마스터 브랜치에 발행한다. 
-#+BEGIN_SRC cmd
-git push origin master
-#+END_SRC
-
-*** 로컬 변경사항 취소하기
-가장 마지막의 커밋상태로 되돌리기
+** 로컬 변경사항 취소하기 (가장 마지막의 커밋상태로 되돌리기)
 #+BEGIN_SRC cmd
 git reset --hard HEAD
 #+END_SRC
 
-*** 커밋메세지의 변경
+** 커밋메세지 변경
 #+BEGIN_SRC cmd
 git commit --amend
 #+END_SRC
@@ -172,59 +105,141 @@ git commit --amend
 git tag 1.0.0 1b2e1d63ff
 #+END_SRC
 
-** 원격저장소 관련
-*** 리모트 브랜치 삭제
+* 가지(branch)치기
+** 브랜치로 이동하기
+#+BEGIN_SRC cmd
+git checkout [브랜치명]
+#+END_SRC
+
+** 브랜치를 만들면서 새로 만든 브랜치로 이동하기
+#+BEGIN_SRC cmd
+git checkout -b [브랜치명]
+#+END_SRC
+
+** 브랜치 목록보기
+#+BEGIN_SRC cmd
+git branch -a
+#+END_SRC
+
+** 브랜치 삭제하기
+#+BEGIN_SRC cmd
+git branch -d [브랜치명]
+#+END_SRC
+
+** 수정된 파일과 내용을 확인하기
+#+BEGIN_SRC cmd
+git diff
+git diff [원래가지] [비교 대상 가지]
+#+END_SRC
+
+* 갱신과 병합(merge)
+개념 : 로컬저장소를 원격저장소에 맞춰 갱신 
+
+원격저장소의 변경 내용이 로컬 작업 디렉토리에 받아지고(fetch), 병합(merge)된다. 
+
+** 원격 master를 현재가지에 병합
+#+BEGIN_SRC cmd
+git pull
+#+END_SRC
+
+
+** 원격의 특정 브랜치를 현재가지에 병합
+#+BEGIN_SRC cmd
+git fetch
+git merge [브랜치명]
+#+END_SRC
+
+** 현재의 로컬 master브랜치에 feature브랜치 병합 
+#+BEGIN_SRC cmd
+git checkout master
+git merge --no-ff [브랜치명]
+#+END_SRC
+			
+* 충돌해결
+** 1. 로컬에서 병합을 시도한다. (충돌상태가 되도록) 
+#+BEGIN_SRC cmd
+git fetch
+git merge master
+#+END_SRC
+** 2. 충돌이 발생한 파일을 열어보면 충돌영역이 표시되어 있다. 수동으로 충돌을 처리한다. 
+
+** 3. 충돌이 발생한 로컬 브랜치에서 커밋한다. 
+#+BEGIN_SRC cmd
+git commit -am "Fix conflict"
+#+END_SRC
+
+** 4. 로컬 마스터 브랜치에 로컬브랜치 내용을 병합한다. 
+#+BEGIN_SRC cmd
+git checkout master
+git merge --no-ff [충돌을 해결한 브랜치명]
+#+END_SRC
+
+** 5. 원격 저장소 마스터 브랜치에 발행한다. 
+#+BEGIN_SRC cmd
+git push origin master
+#+END_SRC
+
+
+* 원격저장소 관련
+원격 저장소 주소가 ssh 주소로 되어있지 않으면 푸쉬할 때마다 인증정보를 물어본다!!
+
+** 원격 저장소 주소 확인
+#+BEGIN_SRC cmd
+git remote -v
+#+END_SRC
+
+** 원격 저장소 주소 변경
+#+BEGIN_SRC cmd
+git remote set-url origin [변경될 주소]
+#+END_SRC
+
+** 리모트 브랜치 삭제
 #+BEGIN_SRC cmd
 git push origin :[브랜치명]
 #+END_SRC
 
-*** 리모트 브랜치 상황 보기
+** 리모트 브랜치 상황 보기
 #+BEGIN_SRC cmd
 git remote show origin
 #+END_SRC
 
-*** 원격저장소에서 삭제된 브랜치를 로컬저장소에 동기화하기
+** 원격저장소에서 삭제된 브랜치를 로컬저장소에 동기화하기
 #+BEGIN_SRC cmd
 git remote prune origin
 #+END_SRC
 
-* 기타
+* 상태/로그
 ** Git 상태보기
 #+BEGIN_SRC cmd
    git status
 #+END_SRC
-** Git 로그보기
-*** 과거의 로그 확인
+
+** 과거의 로그 확인
 #+BEGIN_SRC cmd
    git log [파일명]
    git log -p [파일명]
 #+END_SRC
   
-*** 차분을 확인하고 싶을 때
+** 로그의 차분을 확인하고 싶을 때
 #+BEGIN_SRC cmd
    git log --pretty=short
    git log --graph
 #+END_SRC
  
-*** 현재의 수정사항과 과거의 로그 모두 확인
+** 현재의 수정사항과 과거의 로그 모두 확인
 #+BEGIN_SRC cmd
    git reflog
 #+END_SRC
 
-** 원격저장소 주소 변경
-원격 저장소 주소가 ssh 주소로 되어있지 않으면 푸쉬할 때마다 인증정보를 물어본다!!
-*** 현재 저장소 주소 확인
-#+BEGIN_SRC cmd
-git remote -v
-#+END_SRC
+** 실행 로그 자세히 보기 (트러블슈팅시에 유용)
+~GIT_CURL_VERBOSE=1 GIT_TRACE=1~ 을 앞에 붙이고 실행한다. 
 
-*** 원격 저장소 주소 변경
 #+BEGIN_SRC cmd
-git remote set-url origin [변경될 주소]
+GIT_CURL_VERBOSE=1 GIT_TRACE=1 git pull origin master
 #+END_SRC
 
 
-
+* 설정
 ** 설정(config) 정보 보기
 #+BEGIN_SRC cmd
 git config --list
@@ -235,9 +250,4 @@ git config --list
 git config --global --unset [설정명]
 #+END_SRC
 
-** 실행 로그 자세히 보기 (트러블슈팅시에 유용)
-~GIT_CURL_VERBOSE=1 GIT_TRACE=1~ 을 앞에 붙이고 실행한다. 
 
-#+BEGIN_SRC cmd
-GIT_CURL_VERBOSE=1 GIT_TRACE=1 git pull origin master
-#+END_SRC
