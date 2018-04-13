@@ -1,0 +1,45 @@
+#+TITLE: TCP 세션 하이재킹 실습
+#+AUTHOR: jwmoon
+#+DATE: 2018/01/12~
+
+* 개요
+- 네트워크 해킹 중 TCP 세션 하이재킹에 대해서 실습해보도록 한다. 
+
+
+* 준비
+버추얼 박스를 이용한 가상환경에서 다음의 세 가지 요소를 구성한 후 테스트한다. 
+
+- 텔넷 서비스를 제공하는 서버
+- 텔넷 클라이언트가 설치된 클라이언트 PC
+- 중간에서 하이재킹을 시도할 공격자 PC
+
+** 서버 준비
+- 서버는 우분투를 사용한다. 
+
+1. 텔넷 서버 설치
+#+BEGIN_SRC bash
+sudo apt-get install xinetd telnetd    ;;텔넷 서버 설치
+sudo /etc/init.d/xinetd status      ;; 상태 확인
+#+END_SRC
+
+
+** 공격자 PC 
+
+** 클라이언트 PC 준비
+
+** 테스트 
+- 공격자가 클라이언트와 서버 사이의 통신을 도청할 수 있는 상태가 되어야 한다. 
+
+
+* 해킹 과정
+1. 공격자가 Hunt를 실행하고 대기하고 있는다. 
+
+
+2. 클라이언트에서 텔넷 서버에 접속한다. 
+
+3. 공격자가 중간에서 세션 하이재킹을 시도한다. 
+
+
+
+* 참고
+- 해킹 과정 : https://m.blog.naver.com/PostView.nhn?blogId=sbd38&logNo=220232339370&proxyReferer=https%3A%2F%2Fwww.google.co.jp%2F

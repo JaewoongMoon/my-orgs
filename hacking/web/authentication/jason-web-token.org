@@ -1,0 +1,36 @@
+#+TITLE: JSON Web token (JWT) 
+#+AUTHOR: jwmoon
+#+DATE: 2018.04.13~
+
+* OAuth 과의 비교
+- 토큰은 그냥 일반 스트링
+- API를 제공하는 서버에서 access_token을 보고 해당 유저의 권한을 식별, 허용해주는 구조임
+- 
+
+
+
+
+* JWT?
+- Claim 기반 방식
+- 토큰이 유저에 대한 정보(JSON 형식)를 가지고 있다.
+
+#+BEGIN_SRC json 
+{
+  "id":"terry"
+  ,"role":["admin","user"]
+  ,"company":"pepsi"
+}
+출처: http://bcho.tistory.com/999 [조대협의 블로그]
+#+END_SRC
+
+- 
+
+
+* 참고
+- 조대협의 블로그 : REST JWT 소개 http://bcho.tistory.com/999
+
+
+
+
+
+

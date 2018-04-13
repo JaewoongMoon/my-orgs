@@ -205,7 +205,8 @@ git remote show origin
 
 ** 원격저장소에서 삭제된 브랜치를 로컬저장소에 동기화하기
 #+BEGIN_SRC cmd
-git remote prune origin
+git remote prune origin   #이 커맨드가 먹히지 않는다면 아래의 커맨드를 수행한다.
+git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d
 #+END_SRC
 
 * 상태/로그

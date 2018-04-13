@@ -21,6 +21,37 @@
 ** 에이젼트 형과 리버스 프록시 형의 비교
 
 ** SAML에 의한 SSO 시스템
+*** 개요
+- SAML (Security Assertion Markup Language)
+- 유저 ID나 패스워드 등의 인증정보를 안전하게 교환하기 위한 XML 사양
+- OASIS에 의해 책정됨
+- SOAP을 베이스로 함
+- 동일 도메인 내 혹은 특정 벤더 제품을 넘어서는 대규모 사이트 등에서 상호 운용성이 높은 SSO구조나 안전한 인증정보 관리를 실현하는 기술임
+
+*** Assersion
+다음 세 가지의 Assersion 정보를 사용
+
+- 인증 Assersion : 인증결과의 전달에 사용
+- 속성 Assersion : 속성정보의 전달에 사용
+- 인가결정 Assersion : 접근제어정보의 전달에 사용
+
+*** 구성 주체
+- 유저 계정 정보를 관리 및 인증을 수행하는 Identity Provider (IdP)
+- 유저에게 서비스를 제공하는 Service Provider (SP)
+- 상호 인증을 수행하는 IdP와 SP는 미리 계정정보를 연계하여 "Circle of True" 를 형성한다.
+
+*** 바인딩 방식
+IdP와 SP 사이에서 요구 메세지(SAML Request)와 응답 메세지(SAML Response)를 송수신하기 위해서 HTTP나 SOAP등의 프로토콜에 매핑하기 위한 방법
+
+- *SOAP 바인딩* : SOAP을 사용해서 Assersion을 보낸다.
+- *HTTP Redirect 바인딩* : Base64 인코드한 Assersion을 HTTP GET 메서드로 보낸다.
+- *HTTP POST 바인딩* : Base64 인코드한 Assersion을 HTTP POST 메서드로 보낸다.
+- *HTTP Artifact 바인딩* : Artifact를 HTTP 리다이렉트로 보낸다.
+
+Artifact란 다음과 같은 정보이다. 
+- Assersion에의 참조(레퍼런스)정보 
+- 랜덤한 문자열과 발생한 사이트 식별자
+
 
 ** 아이덴티티 관리(ID관리)의 개요
 

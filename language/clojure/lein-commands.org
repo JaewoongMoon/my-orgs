@@ -1,0 +1,32 @@
+#+TITLE: 라이닝언 커맨드 정리
+#+AUTHOR: jwmoon
+#+DATE: 2018.04.13 
+
+
+* 개요
+클로저로 개발하는 프로젝트에서 자주 쓰이는 커맨드들을 정리해둔 문서입니다.
+
+* 커맨드 목록
+** 프로젝트 생성
+
+luminus라는 웹 프로젝트 템플릿으로 프로젝트를 생성한다.
+
+#+BEGIN_SRC bash
+lein new luminus [프로젝트명]
+#+END_SRC
+
+** 서버 구동
+- 링 서버 구동
+- 간단 웹 서버, 3000번 포트로 구동
+- ring 은 라이닝언의 태스크이고,
+- server 는 ring 의 서브태스크이다. 
+
+#+BEGIN_SRC bash
+lein ring server
+#+END_SRC
+
+
+
+* 참고자료
+- clojure web development essential
+
