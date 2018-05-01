@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>URL Routing and Template Rendering</title>
+<!-- 2018-05-01 화 15:50 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="jwmoon" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">URL Routing and Template Rendering</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Compojure 란?</a></li>
+<li><a href="#sec-2">2. 실습 : Compojure route 만들기</a></li>
+<li><a href="#sec-3">3. defroutes 사용하기</a>
+<ul>
+<li><a href="#sec-3-1">3.1. 실습 : test_routes 추가</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. route 해부학</a>
+<ul>
+<li><a href="#sec-4-1">4.1. route의 구조</a></li>
+<li><a href="#sec-4-2">4.2. 파라메터 구조분해(destructuring) 하기</a>
+<ul>
+<li><a href="#sec-4-2-1">4.2.1. 쿼리 스트링 포함하기</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-3">4.3. 요청(request)을 구조분해 하기</a></li>
+<li><a href="#sec-4-4">4.4. 파라메터의 잔여부분 참조</a></li>
+<li><a href="#sec-4-5">4.5. response 만들기</a></li>
+<li><a href="#sec-4-6">4.6. 복잡한 response 만들기</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Selmer</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Compojure 란?</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>하이레벨 웹 어플리케이션 프레임워크 (or 라이브러리)
+</li>
+<li>핸들러 메서드를 작성하기 쉽게 해준다.
+</li>
+<li>HTTP Method A 로 URL B 를 요청하면 Clojure function C 를 실행해라.
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 실습 : Compojure route 만들기</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>home.clj 파일을 연다. 
+</li>
+<li>home-routes 에 req 를 추가한다. 
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="./img/4-route-req.png" alt="4-route-req.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>Ring Server 를 시작한다. (lein ring server)
+</li>
+<li><a href="http://localhost:3000/req">http://localhost:3000/req</a> 로 접속해본다. 
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/4-route-req-result.png" alt="4-route-req-result.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> defroutes 사용하기</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>defroutes 는 매크로
+</li>
+<li>실행되면 등록된 모든 routes 를 모아서 그 것들을 처리하기 위한 하나의 큰 Ring handler를 만들어 준다.
+</li>
+<li>test_routes 를 추가해보면서 이 메커니즘을 이해해보자.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 실습 : test_routes 추가</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>/hipstr/routes/test_routes.clj 를 만들고 네임스페이스 설정을 추가 
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="./img/4-test-routes-1.png" alt="4-test-routes-1.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>defroutes 매크로를 사용해서 새로운 route를 생성
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="./img/4-test-routes-2.png" alt="4-test-routes-2.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>handler 네임스페이스에 test-routes를 추가 (handler.clj)
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="./img/4-test-routes-3.png" alt="4-test-routes-3.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>app에 test-routes를 추가해준다. (handler.clj)
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="./img/4-test-routes-4.png" alt="4-test-routes-4.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> route 해부학</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> route의 구조</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+
+<pre class="src src-bash">[HTTP_METHOD] [URL] [Request &amp; PARAMETER] [Response] ; 문법
+ANY "/req" request (str request))  ; 예
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>ANY는 모든 HTTP METHOD에 대해 동작한다는 의미
+</li>
+<li>"/req"는 해당 URL (주의할 점은 뒤에 슬래시를 붙이면 잘 동작하지 않는 경우가 많다는 것)
+</li>
+<li>세번째는 리퀘스트 및 파라메터
+</li>
+<li>네번째는 응답
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 파라메터 구조분해(destructuring) 하기</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>컴포저의 구조분해 문법은 HTTP 요청 파라메터를 같은 이름의 변수명에 바인드해 준다. 
+</li>
+<li>예를 들어, 다음 예에서 :val 은 요청의 :params 맵이 된다. 
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-5.png" alt="4-test-routes-5.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-6.png" alt="4-test-routes-6.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> 쿼리 스트링 포함하기</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+새로운 경로 <code>(GET "/req/:val" [val more] (str val "&lt;br&gt;" more))</code> 를 추가하고 기존의 경로는 주석처리한다. (주석처리 하지 않으면 동일한 URL이므로 위의 경로가 적용된다.)
+</p>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-7.png" alt="4-test-routes-7.png" />
+</p>
+</div>
+
+<p>
+파라메터 중에서 이름이 more인 것이 있으면 다음과 같이 응답에 출력해준다.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-8.png" alt="4-test-routes-8.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> 요청(request)을 구조분해 하기</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>요청자체에 접근하고 싶을 때는?
+</li>
+<li><b>:as</b> 를 사용한다. 
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-9.png" alt="4-test-routes-9.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-10.png" alt="4-test-routes-10.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> 파라메터의 잔여부분 참조</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>파라메터의 잔여부분은 &amp; 를 이용해서 참조할 수 있다. 
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-11.png" alt="4-test-routes-11.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-12.png" alt="4-test-routes-12.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> response 만들기</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>응답에는 str함수뿐만 아니라 다양한 클로저 함수를 사용할 수 있다. 
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-13.png" alt="4-test-routes-13.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-14.png" alt="4-test-routes-14.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-13-1.png" alt="4-test-routes-13-1.png" />
+</p>
+<p><span class="figure-number">Figure 17:</span> 존재하지 않는 키인 경우</p>
+</div>
+
+
+
+<div class="figure">
+<p><img src="./img/4-test-routes-13-2.png" alt="4-test-routes-13-2.png" />
+</p>
+<p><span class="figure-number">Figure 18:</span> 존재하는 키인 경우</p>
+</div>
+
+<p>
+키가 주어지지 않은 경우 
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> 복잡한 response 만들기</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>복잡한 응답을 만들어 내기 위해서 Selmer가 필요하다! 
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Selmer</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2018.05.01</p>
+<p class="author">Author: jwmoon</p>
+<p class="date">Created: 2018-05-01 화 15:50</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

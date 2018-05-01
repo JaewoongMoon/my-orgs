@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Logging</title>
+<!-- 2018-05-01 화 12:54 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="jwmoon" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Logging</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Timbre?</a></li>
+<li><a href="#sec-2">2. 어펜더란?</a></li>
+<li><a href="#sec-3">3. Timbre 어펜더 설정하기</a></li>
+<li><a href="#sec-4">4. Timbre 로그 레벨</a></li>
+<li><a href="#sec-5">5. 어펜더에 설정할 수 있는 키</a></li>
+<li><a href="#sec-6">6. 실습 : Timbre 로 로그 출력하기</a></li>
+<li><a href="#sec-7">7. 실습 : 롤링 어펜더 추가하기</a>
+<ul>
+<li><a href="#sec-7-1">7.1. 로그를 저장할 디렉토리 생성</a></li>
+<li><a href="#sec-7-2">7.2. hipstr.handler 네임스페이스에 rolling 어펜더를 사용하겠다고 설정</a></li>
+<li><a href="#sec-7-3">7.3. init 펑션안에 다음 rolling 어펜더 설정을 추가</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Timbre?</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>탬버는 로깅을 위한 클로저 라이브러리이다. 
+</li>
+<li>참고로 탬버는 영단어로 '음색'이라는 뜻이 있다. 
+</li>
+<li>빠르고, 오버헤드가 적고, 다양한 재밌는 어펜더를 제공한다. 
+</li>
+<li>무엇보다 설정이 다른 로깅 라이브러리에 비해 쉽다.
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 어펜더란?</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>어펜더는 목적지에 로깅 구문을 전달하는 프로그램이다. 
+</li>
+<li>예를들어, 파일에 로깅 구문을 저장하는 것은 file 어펜더, 몽고 DB에 저장하는 것은 몽고DB 어펜더 라는 식이다. 
+</li>
+<li>간단하게 writer 라고 이해하면 된다. 
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Timbre 어펜더 설정하기</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>timbre/set-config! 펑션에서 설정을 변경할 수 있다. 
+</li>
+<li>handler.clj의 init펑션에서 해당 설정 코드를 볼 수 있다. 
+</li>
+<li>rotor 어펜더 설정을 볼 수 있는데, 해당 어펜더는 특정 파일 사이즈를 넘어가면 새로운 로그파일을 만들고 기록해준다.  
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Timbre 로그 레벨</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>로그 레벨에는 중요도(severity)가 있는데, 낮은 것부터 높은 순으로 7개가 있다.
+</li>
+<li>:trace &lt; :debug &lt; :info &lt; :warn &lt; :error &lt; :fatal &lt; :report 순서
+</li>
+<li>로그 레벨에 따라 별도의 어펜더를 설정할 수도 있다. 
+</li>
+<li>예를 들면, :info 레벨은 파일에 출력하고, :fatal 레벨의 로그는 메일로 보내는 등의 설정을 할 수 있다. 
+</li>
+</ul>
+<p>
+위 동작은 각 어펜더 설정에서 :min-level을 설정해주면 된다. 
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 어펜더에 설정할 수 있는 키</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>당연한 이야기지만 설정에서 사용하는 키는 Timbre에서 제공하는 키만 사용할 수 있다. 
+</li>
+<li>github 의 timbre 저장소에서 설정 가능한 키들을 볼 수 있다. 
+</li>
+<li><a href="https://github.com/ptaoussanis/timbre#configuration">https://github.com/ptaoussanis/timbre#configuration</a>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> 실습 : Timbre 로 로그 출력하기</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+
+<pre class="src src-bash">lein repl
+(require '[taoensso.timbre :as timbre])
+(timbre/log :info "This is an info message.")
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/3-timbre-ex.png" alt="3-timbre-ex.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> 실습 : 롤링 어펜더 추가하기</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>Rolling 어펜더를 추가하는 실습을 해본다. 
+</li>
+<li>Rolling 어펜더는 매일 날짜를 붙여서 새로운 로그파일을 생성해주는 파일 어펜더이다. 
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> 로그를 저장할 디렉토리 생성</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+hipstr 의 루트 디렉토리에서 mkdir logs
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> hipstr.handler 네임스페이스에 rolling 어펜더를 사용하겠다고 설정</h3>
+<div class="outline-text-3" id="text-7-2">
+
+<div class="figure">
+<p><img src="./img/3-rolling-appender.png" alt="3-rolling-appender.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> init 펑션안에 다음 rolling 어펜더 설정을 추가</h3>
+<div class="outline-text-3" id="text-7-3">
+
+<div class="figure">
+<p><img src="./img/3-rolling-appender-2.png" alt="3-rolling-appender-2.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2018.05.01</p>
+<p class="author">Author: jwmoon</p>
+<p class="date">Created: 2018-05-01 화 12:54</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

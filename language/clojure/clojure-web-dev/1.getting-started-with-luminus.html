@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Getting Started With Luminus</title>
+<!-- 2018-05-01 화 11:17 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="jwmoon" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Getting Started With Luminus</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Luminus 라이닝언 템플릿을 사용해서 웹 어플리케이션 생성하기</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Leiningen?</a></li>
+<li><a href="#sec-1-2">1.2. 웹 어프리케이션 생성하기</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Luminus가 사용하는 유명한 라이브러리를 소개</a></li>
+<li><a href="#sec-3">3. Luminus 가 만들어주는 디렉토리 구조 및 파일</a></li>
+<li><a href="#sec-4">4. 개발환경에서 웹 어플리케이션 구동하기</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Luminus 라이닝언 템플릿을 사용해서 웹 어플리케이션 생성하기</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Leiningen?</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Leiningen 은 JAVA Maven 과 비슷한 의존성 관리 및 프로젝트 생성 툴
+</li>
+<li>개발환경에 미리 설치되어 있어야 한다. OS별로 설치방법이 조금 다르므로 인터넷 검색을 통해 설치하자. 
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-bash">lein $TASK $TASK_ARGUMENTS
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 웹 어프리케이션 생성하기</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>최신버전이 아닌 책에서 쓰이는 버전으로 라이브버리들이 설치되도록 할 필요가 있다. 
+</li>
+<li>~/.lein/profiles.clj 를 만들어 다음 코드를 넣어둔다.
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-clojure">{:user {:plugins [[luminus/lein-template "1.16.7"]]}}
+</pre>
+</div>
+
+<p>
+어플리케이션은 생성하는 명령어는 다음과 같다. 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">cd hipstr
+lein new [$TEMPLATE_NAME] [$PROJECT_NAME]
+lein new luminus hipstr
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/1-1.png" alt="1-1.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Luminus가 사용하는 유명한 라이브러리를 소개</h2>
+<div class="outline-text-2" id="text-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">순번</th>
+<th scope="col" class="left">라이브러리</th>
+<th scope="col" class="left">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">lib-noir</td>
+<td class="left">웹 어플리케이션을 만드는 데 필요한 유용한 라이브러리를 제공, 라우팅, 리다이렉션, 정적 리소스, 패스워드 해싱, 파일업로드, 세션, 쿠키 등</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">ring-server</td>
+<td class="left">web application library, 자바의 Servlet API 와같은 로우 레벨 웹 인터페이스를 제공</td>
+</tr>
+
+<tr>
+<td class="right">3</td>
+<td class="left">selmer</td>
+<td class="left">HTML 템플릿 라이브러리, 동적인 html 페이지를 작성할 때 사용</td>
+</tr>
+
+<tr>
+<td class="right">4</td>
+<td class="left">timbre</td>
+<td class="left">클로저의 로깅 라이브러리 (자바의 log4j와 같은 듯)</td>
+</tr>
+
+<tr>
+<td class="right">5</td>
+<td class="left">tower</td>
+<td class="left">timbre 와 비슷하고, 국제화 기능을 추가로 제공해준다.</td>
+</tr>
+
+<tr>
+<td class="right">6</td>
+<td class="left">markdown-clj</td>
+<td class="left">html로의 마크다운을 지원 (&lt;b&gt;태그 대신에 *를 지원하는 마크다운 문법)</td>
+</tr>
+
+<tr>
+<td class="right">7</td>
+<td class="left">environ</td>
+<td class="left">하나의 어플리케이션을 다양한 환경에서 빌드할 수 있도록 지원해주는 툴(로 추측)</td>
+</tr>
+
+<tr>
+<td class="right">8</td>
+<td class="left">cronj</td>
+<td class="left">크론 스케줄링 지원</td>
+</tr>
+
+<tr>
+<td class="right">9</td>
+<td class="left">noir-exception</td>
+<td class="left">로그에서 exception이 발생한 부분을 하이라이팅 처리</td>
+</tr>
+
+<tr>
+<td class="right">10</td>
+<td class="left">prone</td>
+<td class="left">훌륭한 exception reporting 을 제공</td>
+</tr>
+
+<tr>
+<td class="right">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Luminus 가 만들어주는 디렉토리 구조 및 파일</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+hipstr 디렉토리에서 다음 명령어로 폴더구조를 볼 수 있다.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+</pre>
+</div>
+
+<p>
+크게 resouces, src, test 세 개의 서브 디렉토리를 생성한다.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">순번</th>
+<th scope="col" class="left">경로</th>
+<th scope="col" class="left">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">resources</td>
+<td class="left">프론트엔드를 구성하는 파일들</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">resources/public</td>
+<td class="left">js, css, image 등, 이 폴더만이 클라이언트에 의해서 접근 가능</td>
+</tr>
+
+<tr>
+<td class="right">3</td>
+<td class="left">resources/templates</td>
+<td class="left">Selmer 템플릿 파일들 (서버 페이지)</td>
+</tr>
+
+<tr>
+<td class="right">4</td>
+<td class="left">src/hipstr</td>
+<td class="left">어플리케이션 서버단 소스 코드</td>
+</tr>
+
+<tr>
+<td class="right">5</td>
+<td class="left">src/hipstr/util.clj</td>
+<td class="left">hipstr.util 이라는 네임스페이스를 선언하고 있다. 여기에 다양한 유틸 펑션들을 추가할 수 있다. 기본적으로 md-&gt;html 이라는 펑션을 제공한다.</td>
+</tr>
+
+<tr>
+<td class="right">6</td>
+<td class="left">src/hipstr/session_manager.clj</td>
+<td class="left">30분 간격으로 사용되지 않는 세션을 지우는 cronjob이 등록되어 있다.</td>
+</tr>
+
+<tr>
+<td class="right">7</td>
+<td class="left">src/hipstr/layout.clj</td>
+<td class="left">hipstr.layout 이라는 네임스페이스를 선언하고 있다.HTTP 응답 body를 구성하는 render 펑션을 제공한다.render 펑션은 Selmer 템플릿을 사용한다.제너럴한 기능을 제공하므로 여기에 추가 비즈니스 로직을 작성할 경우는 거의 없을 것이다.</td>
+</tr>
+
+<tr>
+<td class="right">8</td>
+<td class="left">src/hipstr/middleware.clj</td>
+<td class="left">미들웨어는 요청이 메인 어플리케이션에서 처리되기 전에 수행되는 펑션이다. (자바에서 필터나 인터셉터와 비슷한 것 같다.) hipstr.middleware 네임스페이스를 선언하고 있다. 이 네임스페이스는 크게 두 가지 책임을 가지고 있다. 하나는 모든 미들웨어들을 통합(tie together) 하는 것이다. 다른 하나는 새로운 미들웨어를 추가하기 위한 장소를 제공하는 것이다.</td>
+</tr>
+
+<tr>
+<td class="right">9</td>
+<td class="left">src/hipstr/routes/home.clj</td>
+<td class="left">routes 폴더의 프로그램들은 URL과 핸들러를 연결해주는 역할을 한다. hipstr.routes.home 네임스페이스를 선언하고 있다. 메인화면을 구성하는 home-page 펑션과 about를 구성하는 about-page 펑션을 제공하고 있다.</td>
+</tr>
+
+<tr>
+<td class="right">10</td>
+<td class="left">src/hipstr/handler.clj</td>
+<td class="left">hipstr.handler 네임스페이스를 선언하고 있다.</td>
+</tr>
+
+<tr>
+<td class="right">11</td>
+<td class="left">src/hipstr/repl.clj</td>
+<td class="left">hipstr.repl 네임스페이스를 선언하고 있다. hipstr.handler와 비슷하기 때문에 초보자들이 많이 헷갈려하는 부분. hipstr.repl은 Clojure REPL로 개발용 서버를 시작하거나 종료할 수 있게 해준다.  바로바로 수정사항을 확인할 수 있기 때문에 잘쓰면 아주 요긴할 듯! (컴파일-&gt;디플로이-&gt;서버재시작의 귀찮음이 없다는 것이다!)</td>
+</tr>
+
+<tr>
+<td class="right">12</td>
+<td class="left">test</td>
+<td class="left">어플리케이션 테스트 코드</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 개발환경에서 웹 어플리케이션 구동하기</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+
+<pre class="src src-bash">lein ring server
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>참고 : lein help ring 으로 모든 서브 태스크 목록을 볼 수 있다.
+</li>
+<li>각종 의존 라이브러리들이 다운로드 된 후 내장된 제티서버가 3000포트로 실행되고 자동으로 웹 브라우저가 켜지면서 localhost:3000으로 접속한다.. (처음엔 몇 분걸린다.)
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2018.05.01</p>
+<p class="author">Author: jwmoon</p>
+<p class="date">Created: 2018-05-01 화 11:17</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
