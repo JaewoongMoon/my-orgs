@@ -1,0 +1,21 @@
+#+TITLE: Handling form input
+#+AUTHOR: jwmoon
+#+DATE: 2018.05.02
+#+OPTIONS: ^:nil
+
+* 폼 입력 값 Validating
+** 회원가입 처리(POST) 메서드 작성하기 
+src/hipstr/routes/home.clj 에 POST 메서드의 signup URL을 처리하는 defroute를 추가한다. 
+
+#+BEGIN_SRC clojure
+(POST "/signup" [& form] (str "nice job"))
+#+END_SRC
+
+
+* Validating 결과 에러 출력
+
+
+
+* 성공일 때의 결과 페이지 렌더링
+
+b

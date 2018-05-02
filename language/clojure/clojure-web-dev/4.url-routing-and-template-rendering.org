@@ -1,6 +1,6 @@
 #+TITLE: URL Routing and Template Rendering
 #+AUTHOR: jwmoon
-#+DATE: 2018.05.01
+#+DATE: 2018.05.01 ~ 2018.05.02
 #+OPTIONS: ^:nil
 
 * Compojure 란?
@@ -38,7 +38,7 @@
 - app에 test-routes를 추가해준다. (handler.clj)
 [[./img/4-test-routes-4.png]]
 
-* route 해부학
+* route 해부하기
 ** route의 구조
 #+BEGIN_SRC bash
 [HTTP_METHOD] [URL] [Request & PARAMETER] [Response] ; 문법
@@ -108,24 +108,20 @@ ANY "/req" request (str request))  ; 예
 - 클로저의 템플릿 시스템
 - 장고에 많은 영향을 받은 HTML 템플릿 엔진
 
-** 실습 : 서버 페이지 만들어보기
-- 기존에 존재하는 페이지로 실습해본다. 
-- HTML 페이지는 어디에 있는가?
-
 
 ** 변수
-1. :을 사용해서 정의
+- :을 사용해서 정의
 #+BEGIN_SRC clojure
  {:content (util/md->html "/md/docs.md")}
 #+END_SRC
 
-2. 더블 브레이슬릿으로 참조한다.
+- 더블 브레이슬릿으로 참조한다.
 #+BEGIN_SRC clojure
  {{content}}
 #+END_SRC
 
 
-3. 데이터 구조도 정의 및 참조 가능
+- 데이터 구조도 정의 및 참조 가능
 #+BEGIN_SRC clojure
 {:person {:first-name "Ryan"
 :last-name "Baldwin"
@@ -161,3 +157,107 @@ I see your favourite animal is the
 
 
 ** Tags
+- 태그는 {% %} 안에 정의한다. 
+- 다른 html파일을 include할 수 있다. 
+#+BEGIN_SRC clojure
+{%include "templates/some-other-template.html" %}
+#+END_SRC
+
+- if 문
+#+BEGIN_SRC clojure
+{% if 5 > 4 %}
+<h2>NewsFlash!</h2>
+<p>Five is always bigger than 4. </p>
+{% endif %}
+#+END_SRC
+
+- 템플릿 상속
+부모 (parent.html)
+#+BEGIN_SRC clojure 
+<div class="example">
+{% block example-content %}
+{% endblock %}
+</div>
+#+END_SRC
+
+자식 (child.html)
+#+BEGIN_SRC clojure 
+{% extends "parent.html" %}
+{% block example-content %}
+컨텐츠 내용~~~~
+{% endblock %}
+#+END_SRC
+
+child.html을 셀마를 통해 렌더링하면 
+#+BEGIN_SRC html
+<div class="example">
+컨텐츠 내용~~~~
+</div>
+#+END_SRC
+부모의 다른 부분은 물려받으면서, block~endblock 부분으로 지정된 부분은 자식의 내용으로 렌더링 된다.
+
+** 실습 : 서버 페이지 만들어보기
+기존에 존재하는 페이지로 실습해본다. 
+
+*** 메인화면에서 가입폼 이동 링크 작성
+resources/templates/home.html 파일을 열고 다음과 같이 수정한다. 
+
+#+BEGIN_SRC clojure
+{% extends "templates/base.html" %}
+{% block content %}
+<div class="jumbotron">
+<h1>Welcome to hipstr</h1>
+<p>Obscurely building your vinyl cred since, like, now.</p>
+<p><a class="btn btn-success btn-lg" href="{{servlet-context}}/signup">Sign Up</a>
+or
+<a class="btn btn-primary btn-lg" href="{{servlet-context}}/login">Login</a></p>
+</div>
+{% endblock %}
+#+END_SRC
+
+*** 가입폼 작성
+resources/templates/signup.html 를 생성하고 다음 코드를 작성한다.
+#+BEGIN_SRC clojure
+{% extends "templates/base.html" %}
+{% block content %}
+<h1>Sign Up <span class="small">Nobody will ever know.</span></h1>
+<div class="row">
+<div class="col-md-6">
+<form role="form">
+<div class="form-group">
+<label for="username">Username</label>
+<input type="input" class="form-control" name="username"
+placeholder="AtticusButch">
+</div>
+<div class="form-group">
+<label for="email">Email address</label>
+<input type="email" class="form-control" name="email"
+placeholder="so1999@hotmail.com">
+</div>
+<div class="form-group">
+<label for="password">Password</label>
+<input type="password" class="form-control" name="password"
+placeholder="security-through-obscurity">
+</div>
+<button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+</div>
+{% endblock %}
+#+END_SRC
+
+*** 가입폼으로 이동하는 route를 추가 
+src/hipstr/routes/home.clj 를 열고 다음 가입폼 렌더링 함수를 추가한다. 
+
+#+BEGIN_SRC clojure
+(defn signup-page []
+  (layout/render "signup.html"))
+#+END_SRC
+
+home-routes 에는 다음 URL매핑을 추가한다. 
+#+BEGIN_SRC clojure
+(GET  "/signup" [] (signup-page))
+#+END_SRC
+
+메인 페이지에서 Sing Up 버튼을 누르면 다음과 같이 가입폼이 나타난다.
+[[./img/4-selmar-ex.png]]
