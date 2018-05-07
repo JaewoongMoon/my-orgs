@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Handling form input</title>
-<!-- 2018-05-02 수 14:25 -->
+<!-- 2018-05-07 월 11:58 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="jwmoon" />
@@ -144,7 +144,13 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-1">1. 폼 입력 값 Validating</a>
 <ul>
-<li><a href="#sec-1-1">1.1. 회원가입 처리(POST) 메서드 작성하기</a></li>
+<li><a href="#sec-1-1">1.1. 준비단계 : 회원가입 처리(POST) 뼈대 작성하기</a></li>
+<li><a href="#sec-1-2">1.2. 폼 입력 검증 프로그램 작성</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. lib-noir 라이브러리</a></li>
+<li><a href="#sec-1-2-2">1.2.2. Validateur 라이브러리</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#sec-2">2. Validating 결과 에러 출력</a></li>
@@ -157,20 +163,326 @@ for the JavaScript code in this tag.
 <h2 id="sec-1"><span class="section-number-2">1</span> 폼 입력 값 Validating</h2>
 <div class="outline-text-2" id="text-1">
 </div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 회원가입 처리(POST) 메서드 작성하기</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 준비단계 : 회원가입 처리(POST) 뼈대 작성하기</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
-src/hipstr/routes/home.clj 에 POST 메서드의 signup URL을 처리하는 defroute를 추가한다. 
+일단 간단하게 회원가입을 시도하면 nice job 이라는 메세지를 출력하도록 해보자. 
+src/hipstr/routes/home.clj 를 열고 POST 메서드의 signup URL을 처리하는 defroute를 추가한다. 
 </p>
-
 <div class="org-src-container">
 
 <pre class="src src-clojure">(POST "/signup" [&amp; form] (str "nice job"))
 </pre>
 </div>
+
+<p>
+위의 단계에서 이상이 없었다면 다음은 자세한 응답 페이지를 만들기 위해 상단 네임스페이스 선언부에 ring.util.response 네임스페이스를 사용한다고 작성한다.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure">[ring.util.response :as response]
+</pre>
+</div>
+
+<p>
+회원가입 POST 메서드를 처리하는 함수를 작성한다. 일단 커멘트 아웃 처리(#_) 해둔다. 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure">(defn signup-page-submit [user]
+  #_(let [errors (signup/validate-signup user)]
+	  (if (empty? errors)
+		(response/redirect "/signup-success")
+		(layout/render "signup.html" (assoc user :errors errors)))))
+</pre>
+</div>
+
+<p>
+defroute를 다음과 같이 변경한다. 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure">(defroutes home-routes
+  (GET "/" [] (home-page))
+  (GET "/about" [] (about-page))
+  (GET "/signup" [] (signup-page))
+  (POST "/signup" [&amp; form] (signup-page-submit form))
+  (GET "/signup-success" [] "Success!"))
+</pre>
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 폼 입력 검증 프로그램 작성</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+이제부터 본격적인 폼 입력 값 검증 프로그램을 작성해 본다. 
+</p>
+</div>
+
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> lib-noir 라이브러리</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>이를 위해서 <b>lib-noir</b> 라이브러리를 사용한다. 
+</li>
+<li>입력 값 검증을 도와주는 다양한 함수를 제공한다. 
+</li>
+<li>noir.validation 네임스페이스를 가지고 있다. 
+</li>
+<li>그러나 특정 문법을 강요하거나 테스트가 힘들어지는 등, 사용성에 문제가 있기 때문에 Validateur 라이브러리를 사용한다.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Validateur 라이브러리</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>여러 개의 validator를 클로저 맵으로 표현할 수 있게 해준다. 
+</li>
+<li><a href="http://clojurevalidations.info/">http://clojurevalidations.info/</a> 에서 더 많은 정보를 확인 가능
+</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-2-2-1" name="sec-1-2-2-1"></a>프로젝트에 라이브러리를 사용하겠다고 설정<br  /><div class="outline-text-5" id="text-1-2-2-1">
+<p>
+project.clj 파일을 열고 [com.novemberain/validateur "2.3.1"] 를 추가해준다.
+</p>
+</div>
+</li>
+
+<li><a id="sec-1-2-2-2" name="sec-1-2-2-2"></a>유저 가입 폼 검증 네임스페이스 만들기<br  /><div class="outline-text-5" id="text-1-2-2-2">
+<ul class="org-ul">
+<li>가끔씩은 어디에 validation 코드를 적어야 하는지 어려울 수 있다. 
+</li>
+<li>Validateur 가 가진 힘은 validator를 만들고, 재사용하고, 조합해서 더 복잡한 validator를 만들 수 있게 해주기 때문이다. 
+</li>
+<li>그래서 각 validator는 그에 어울리는 네임스페이스를 가져야 한다. 
+</li>
+<li>본 프로젝트에서는 /src/hipstr 폴더의 하위에 validators 폴더를 만들고 여기에 validator들을 작성할 것이다.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure">mkdir validators
+</pre>
+</div>
+
+<p>
+user_validator.clj 를 만들고 네임스페이스 선언을 작성한다.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure">(ns hipstr.validators.user-validator
+(:require [validateur.validation :refer :all]))
+</pre>
+</div>
+
+<p>
+(주의! clj 파일에는 하이픈(-) 대신 언더바(_)로 네이밍을 해야한다. 안그러면 repl같은 곳에서 해당 파일을 찾지를 못한다.)
+</p>
+</div>
+</li>
+
+<li><a id="sec-1-2-2-3" name="sec-1-2-2-3"></a>필수 필드를 검증하기<br  /><div class="outline-text-5" id="text-1-2-2-3">
+<ul class="org-ul">
+<li>validate-singup 함수를 추가한다. 
+</li>
+<li><b>presence-of</b> 함수를 사용해서 해당 키의 존재여부를 확인할 수 있다. 
+</li>
+<li><b>validation-set</b> 함수를 사용해서 validator를 생성할 수 있다. 
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-clojure">(defn validate-signup [signup]
+  "Validates the incoming map of values from our signup form,
+and returns a set of error messages for any invalid key.
+Expects signup to have :username, :email, and :password."
+  (let [v (validation-set ;#1
+		   (presence-of #{:username :email :password}))] ;#2
+	(v signup)))
+</pre>
+</div>
+
+<p>
+다음과 같이 repl에서 presence-of 함수의 동작을 테스트해볼 수 있다. 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">lein repl
+(require '[validateur.validation :refer :all])
+(let [presence-of-fn (presence-of #{:username :email :password})](presence-of-fn {:username "TheDude"}))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/5-presence-of.png" alt="5-presence-of.png" />
+</p>
+</div>
+
+<p>
+또는 다음과 같이 방금 작성한 validate-signup 함수를 테스트 해볼 수도 있다. 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure">(use '[hipstr.validators.user-validator])
+(validate-signup {:username "TheDude"})
+(validate-signup {:username "TheDude" :email "thedude@bides.net" :password "12345678"})
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/5-validate-signup.png" alt="5-validate-signup.png" />
+</p>
+</div>
+
+<p>
+필수 입력 필드에 대한 기본 출력 메세지는 "can't be blank" 인데 이 것을 :message 키를 사용해서 변경할 수 있다. 
+</p>
+
+<p>
+validate-singup 함수의 presence-of 부분을 다음과 같이 변경해본다. 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure">(presence-of #{:username :email :password}
+:message "is a required field")
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/5-validate-signup-message.png" alt="5-validate-signup-message.png" />
+</p>
+</div>
+
+<p>
+그리고 repl에서 다음과 같이 입력해서 테스트해본다. 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure">(use 'hipstr.validators.user-validator :reload)
+(validate-signup {:username "TheDude"})
+</pre>
+</div>
+
+<p>
+메세지가 "is a required field"로 변경된 것을 볼 수 있다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/5-validate-signup-2.png" alt="5-validate-signup-2.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="sec-1-2-2-4" name="sec-1-2-2-4"></a>입력 값의 포맷을 검증하기<br  /><div class="outline-text-5" id="text-1-2-2-4">
+<p>
+예를 들어 유저명(username)은 숫자와 영문자만 사용할 수 있도록 강제하고 싶다고 하자. 그러면 다음과 같이 <b>format-of</b> 함수를 사용해서 룰을 설정할 수 있다. 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure">(format-of :username
+:format #"^[a-zA-Z0-9_]*$"
+:message "Only letters, numbers, and underscores allowed.")
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/5-validate-signup-format.png" alt="5-validate-signup-format.png" />
+</p>
+</div>
+
+<p>
+그리고 다시 repl에서 테스트 해본다. 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure">(use 'hipstr.validators.user-validator :reload)
+(validate-signup {:username "The Dude" :email "thedude@bides.net" :password "12345678"})
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/5-validate-signup-format-2.png" alt="5-validate-signup-format-2.png" />
+</p>
+</div>
+
+<p>
+그러나 :username을 입력하지 않으면 어떻게 될까?
+</p>
+
+<p>
+:username을 뺀 다음 값으로 테스트 해본다. 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure">(validate-signup {:email "thedude@bides.net" :password "12345678"})
+</pre>
+</div>
+
+<p>
+그러면 다음과 같이 동일한 의미를 가진 두 개의 메세지가 출력된다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/5-validate-signup-format-3.png" alt="5-validate-signup-format-3.png" />
+</p>
+</div>
+
+<p>
+왜 그럴까? presence-of에서 실패한 결과가 하나, format-of에서 실패한 결과가 또 하나 추가되기 때문이다. 다음과 같이 :blank-message 를 추가해서 하나의 메세지만 나오도록 해결할 수 있다. 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure">(format-of :username
+:format #"^[a-zA-Z0-9_]*$"
+:message "Only letters, numbers, and underscores allowed."
+:blank-message "is a required field")
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/5-validate-signup-format-4.png" alt="5-validate-signup-format-4.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="sec-1-2-2-5" name="sec-1-2-2-5"></a>입력 값의 길이를 검증하기<br  /><div class="outline-text-5" id="text-1-2-2-5">
+<p>
+패스워드의 특정 길이를 강제하고 싶다고 하자. 그러면 다음과 같이 <b>length-of</b> 함수를 사용해서 validator를 작성할 수 있다. 
+</p>
+</div>
+</li>
+
+
+<li><a id="sec-1-2-2-6" name="sec-1-2-2-6"></a>이메일 필드를 검증하기<br  /></li>
+
+<li><a id="sec-1-2-2-7" name="sec-1-2-2-7"></a>재사용가능한 validator 만들기<br  /></li></ol>
+</div>
+</div>
+</div>
+
 
 
 <div id="outline-container-sec-2" class="outline-2">
@@ -181,17 +493,12 @@ src/hipstr/routes/home.clj 에 POST 메서드의 signup URL을 처리하는 defr
 
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3"><span class="section-number-2">3</span> 성공일 때의 결과 페이지 렌더링</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-b
-</p>
-</div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: 2018.05.02</p>
+<p class="date">Date: 2018.05.02 ~</p>
 <p class="author">Author: jwmoon</p>
-<p class="date">Created: 2018-05-02 수 14:25</p>
+<p class="date">Created: 2018-05-07 월 11:58</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

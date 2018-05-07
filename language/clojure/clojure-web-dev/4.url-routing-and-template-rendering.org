@@ -123,10 +123,10 @@ ANY "/req" request (str request))  ; 예
 
 - 데이터 구조도 정의 및 참조 가능
 #+BEGIN_SRC clojure
-{:person {:first-name "Ryan"
-:last-name "Baldwin"
-:favourite-animal "Elephant"}}
+; 데이터 구조
+{:person {:first-name "Ryan" :last-name "Baldwin" :favourite-animal "Elephant"}} 
 
+; HTML 페이지에서 참조
 <div class="row-fluid">
 <div class="span8">
 Hello {{person.first-name}} {{person.last-name}}!
