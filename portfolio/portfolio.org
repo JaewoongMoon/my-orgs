@@ -22,7 +22,7 @@ https://github.com/JaewoongMoon/my-orgs
 - セキュリティ診断ツールの開発
 - 暗号
 - Emacs
-- 閉鎖
+- Clojure
 - Docker
 
 * 診断ツール開発プロジェクト
