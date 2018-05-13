@@ -1,4 +1,4 @@
-#+TITLE: 문재웅 포트폴리오
+#+TITLE: 포트폴리오
 #+AUTHOR: jwmoon
 #+DATE: 2018.05.12
 
