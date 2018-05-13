@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Padding Oracle Attack</title>
+<!-- 2018-05-10 목 10:27 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="jwmoon" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Padding Oracle Attack</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 개요</a></li>
+<li><a href="#sec-2">2. 원리</a>
+<ul>
+<li><a href="#sec-2-1">2.1. 요약 설명</a></li>
+<li><a href="#sec-2-2">2.2. 패딩이란?</a></li>
+<li><a href="#sec-2-3">2.3. 패딩의 특징</a></li>
+<li><a href="#sec-2-4">2.4. CBC모드란?</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. 공격 실습</a>
+<ul>
+<li><a href="#sec-3-1">3.1. 취약점이 있는 이미지를 다운로드 받아서 설치</a></li>
+<li><a href="#sec-3-2">3.2. 환경 구성</a></li>
+<li><a href="#sec-3-3">3.3. 자동화 툴 사용</a></li>
+<li><a href="#sec-3-4">3.4. 궁금점</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. 방어</a></li>
+<li><a href="#sec-5">5. 어떻게 진단할 것인가?</a></li>
+<li><a href="#sec-6">6. 참고자료</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 개요</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>블록 암호의 취약점을 이용한 공격이다. 
+</li>
+<li>키 없이 암호문을 해독할 수 있다. 
+</li>
+<li>2002년에 처음 등장했으니 꽤 오래되었다고 할 수 있다(참고로 SQL 인젝션은 1998년).
+</li>
+<li>"오라클"은 암호학에서 "응답에 대한 판독" 이라는 의미로 쓰인다. 
+</li>
+<li>즉 패딩 오라클 공격이라는 것은 응답에 대한 판독을 이용한 공격이라는 뜻이 된다.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 원리</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 요약 설명</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>암호화 블록의 패딩의 값을 임의로 바꿨을 때 서버의 응답에 따라 패딩이 맞는 값인지 추측할 수 있다. 
+</li>
+<li>맞는 패딩을 발견하면 특정 연산을 통해서 원문 블록의 값을 알아낼 수 있다. 
+</li>
+<li>반복을 통해서 전체 암호문을 해독할 수 있다. 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 패딩이란?</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>다음 예제를 보자. 8바이트 블록 암호화에 대한 그림이다.
+</li>
+<li>ex1을 보면 평문 FIG가 3바이트인데 나머지 5바이트를 패딩(0x05)로 채우고 있는 것이 보인다.
+</li>
+<li>ex2에서는 두 개의 패딩이 들어간다. 
+</li>
+<li>ex4는 8바이트인데도 8바이트만큼 패딩이 들어간다. 
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/padding.png" alt="padding.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 패딩의 특징</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>패딩의 개수는 패딩의 값과 동일해야 한다. 
+</li>
+<li>예를 들어 어떤 암호화 블록에 패딩이 두 개 들어간다면 그 패딩 바이트의 값은 0x02 여야 한다. 
+</li>
+<li>이 것이 패딩 검증(Padding validation)
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> CBC모드란?</h3>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 공격 실습</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 취약점이 있는 이미지를 다운로드 받아서 설치</h3>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 환경 구성</h3>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> 자동화 툴 사용</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Padbuster 사용 : <a href="https://github.com/GDSSecurity/PadBuster">https://github.com/GDSSecurity/PadBuster</a>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> 궁금점</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>왜 자꾸 발생하는가? 위키 피디아의 설명에 보면 2014년의 POODLE도 다운 그레이드 공격과 Oracle Padding 을 합친 공격이었다.2016년에도 CVE-2016-2107 (Luncky thirteen in OpenSSL) 이 발표되엇다. 
+</li>
+<li>CBC 모드에서만 발생하는가? 다른 모드를 사용하면 안전한가?
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 방어</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+강력한 암호 알고리즘을 쓰면 방어가 될까? No
+</p>
+
+<ol class="org-ol">
+<li>서버 응답에 복호화 에러가 발생했을 때 다른 종류의 응답을 보내지 않는다. 그냥 일반적인 에러 메세지를 보내라. 
+</li>
+<li>인증수단을 추가하라(HMAC 등).
+</li>
+</ol>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 어떻게 진단할 것인가?</h2>
+</div>
+
+
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> 참고자료</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>wikipedia: <a href="https://en.wikipedia.org/wiki/Padding_oracle_attack">https://en.wikipedia.org/wiki/Padding_oracle_attack</a>
+</li>
+<li>hacker 101 : <a href="https://www.hacker101.com/vulnerabilities/padding_oracle">https://www.hacker101.com/vulnerabilities/padding_oracle</a>
+</li>
+<li>oracle padding attack[이론편] : <a href="http://sang-gamja.tistory.com/76?category=734915">http://sang-gamja.tistory.com/76?category=734915</a>
+</li>
+<li>PADDING ORACLE ATTACK (by laughfool) : <a href="http://laughfool.tistory.com/31">http://laughfool.tistory.com/31</a>
+</li>
+<li>패딩 오라클 이미지 다운 : <a href="https://www.vulnhub.com/entry/pentester-lab-padding-oracle,174/">https://www.vulnhub.com/entry/pentester-lab-padding-oracle,174/</a>
+</li>
+<li>oracle padding attack[실전편] : <a href="http://sang-gamja.tistory.com/105?category=734915">http://sang-gamja.tistory.com/105?category=734915</a>
+</li>
+<li>Padbuster 소스코드 : <a href="https://github.com/GDSSecurity/PadBuster">https://github.com/GDSSecurity/PadBuster</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2018.05.09</p>
+<p class="author">Author: jwmoon</p>
+<p class="date">Created: 2018-05-10 목 10:27</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

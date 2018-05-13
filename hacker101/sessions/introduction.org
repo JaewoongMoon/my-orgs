@@ -1,0 +1,16 @@
+#+TITLE: hacker 101 introduction
+
+* What you’ll learn
+** Required tools
+- Burp Proxy
+- Firefox
+
+** Thinking like a breaker
+
+** Attacker-defender imbalance
+
+** Lightweight threat assessment and prioritization
+
+** How to write good bug reports
+
+** Reflected XSS (Cross-Site Scripting)

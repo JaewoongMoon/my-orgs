@@ -1,0 +1,10 @@
+#+TITLE: padding oracle attack
+
+* Description
+Padding oracles occur when a server, upon decrypting data, differentiates between validly padded and invalidly paded ata;
+
+
+
+* ref
+https://www.hacker101.com/vulnerabilities/padding_oracle
+

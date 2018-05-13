@@ -1,0 +1,18 @@
+#+TITLE: PKCS
+
+
+
+
+* 개요
+- PKCS는 "Public Key Cryptography Standards" 의 약자이며 한국어로는 "공개키 암호 표준"이 된다.
+- RSA 시큐리티에서 정한 방식
+- 다양한 암호 알고리즘의 표준이 제정되어 있다. (RSA, 디피헬만 키 교환, 보안 인증서, 암호 토큰, 타원 곡선 암호 등)
+- PKCS#1 ~ PKCS#15 가 있으며 이 중에 현재 쓰이지 않는 것도 있다. 
+- 블록 암호에서 자주 보이는 것은 PKCS5 와 PKCS7 인데 각각 비밀번호 기반 암호화 표준, 암호 메세지 형식에 관한 표준이다. 
+
+
+
+
+
+* ref
+- 한국어 위키피디아 : https://ko.wikipedia.org/wiki/%EA%B3%B5%EA%B0%9C_%ED%82%A4_%EC%95%94%ED%98%B8_%ED%91%9C%EC%A4%80
