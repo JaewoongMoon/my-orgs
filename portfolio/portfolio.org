@@ -3,7 +3,7 @@
 #+DATE: 2018.05.12
 
 * 紹介
-日本に居住している韓国人のプログラマー、セキュリティ研究者。
+日本に住んでいる韓国人プログラマー、セキュリティ研究者。
 
 Java開発者で始めて、現在は、セキュリティ診断業務に専念している。
 
@@ -32,20 +32,39 @@ https://github.com/JaewoongMoon/my-orgs
 |    2 | Katana    | https://github.com/JaewoongMoon/katana    | ブラインドSQLインジェクションの自動化ツール（診断用）  |
 |    3 | Fuzz      | https://github.com/JaewoongMoon/fuzz      | ウェブパラメータに攻撃ペイロードセッティング（診断用） |
 |    4 | unsafeweb | https://github.com/JaewoongMoon/unsafeweb | 脆弱に開発されているサイト。ウェブ攻撃テスト用         |
-|      |           |                                           |                                                        |                                                                                  |                                                             |
+
 
 * セキュリティセミナー/研究資料
-| 年度 | 月 | 名前                                                        | URL                                                                                                                                                                                                                                       | 備考                                                             |
-|------+----+-------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------|
-| 2018 |  3 | ブラインドSQLインジェクション実習と自動化ツールの紹介       | https://www.slideshare.net/ted0201/blind-sql-injection-jwmoon                                                                                                                                                                             |                                                                  |
-| 2018 |  2 | ワードプレスDOS攻撃の原理と防御方法                         | https://github.com/JaewoongMoon/my-orgs/tree/master/cve/cve-2018-6389%20(wordpress%20dos）                                                                                                                                                | cve-2018-6389                                                    |
-| 2018 |  1 | CPU Gate（meltdown）の原理と危険性の研究                    | https://github.com/JaewoongMoon/my-orgs/blob/master/cve/cve-2017-5754%20(meltdown）                                                                                                                                                       | cve-2017-5754                                                    |
-| 2017 | 12 | OSINTを利用した情報収集技術                                 | https://github.com/JaewoongMoon/my-orgs/blob/master/portfolio/OSINT%E3%82%92%E6%B4%BB%E7%94%A8%E3%81%97%E3%81% 9F％E3％83％86％E3％82％99％E3％83％BC％E3％82％BF％E5％8F％8E％E9％9B％86％E3％81％AE％E6％96％B9％ E6％B3％95_jwmoon.pdf | マルタと、Shodanは、Googleの演算子検索などを活用した情報収集技術 |
-| 2017 |  6 | XXEインジェクション - XMLを利用した攻撃と防御の方法について | https://www.slideshare.net/ted0201/jp-xxe-injection20170627moon                                                                                                                                                                           | cve-2015-5161に紹介                                              |
-| 2016 | 12 | CTFの紹介と問題を解く実習                                   | https://www.slideshare.net/ted0201/about-ctf-jwmoon                                                                                                                                                                                       |                                                                  |
 
+** ブラインドSQLインジェクション実習と自動化ツールの紹介
+- 2018年3月
+- https://www.slideshare.net/ted0201/blind-sql-injection-jwmoon
+
+** WordPressのDOS攻撃（cve-2018-6389）の原理と防御方法の検証
+- 2018年2月
+- https://github.com/JaewoongMoon/my-orgs/tree/master/cve/cve-2018-6389%20(wordpress%20dos)
+
+** CPU Gate（meltdown、cve-2017-5754）の原理と危険性の研究
+- 2018年1月
+- https://github.com/JaewoongMoon/my-orgs/blob/master/cve/cve-2017-5754%20(meltdown)
+
+** OSINTを利用した情報収集技術
+- 2017年12月
+- マルタ、Shodan、Google演算子検索を活用した情報収集技術
+- https://github.com/JaewoongMoon/my-orgs/blob/master/portfolio/OSINT%E3%82%92%E6%B4%BB%E7%94%A8%E3%81%97%E3%81%9F%E3%83%86%E3%82%99%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86%E3%81%AE%E6%96%B9%E6%B3%95_jwmoon.pdf
 
 [[./osint.JPG]]
+
+** XXEインジェクション - XMLを利用した攻撃と防御の方法について
+- 2017年6月
+- xxe基本攻撃とアプリケーション攻撃実習
+- cve-2015-5161（zend framework xxe）紹介
+- https://www.slideshare.net/ted0201/jp-xxe-injection20170627moon
+
+** CTF紹介と問題を解く実習
+- 2016年12月
+- https://www.slideshare.net/ted0201/about-ctf-jwmoon
+
 
 
 * 対外活動

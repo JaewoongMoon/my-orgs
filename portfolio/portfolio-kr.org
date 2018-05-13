@@ -48,12 +48,12 @@ https://github.com/JaewoongMoon/my-orgs
 - 2018년 1월
 - https://github.com/JaewoongMoon/my-orgs/blob/master/cve/cve-2017-5754%20(meltdown)
 
-[[./osint.JPG]]
-
 ** OSINT를 이용한 정보수집 기술
 - 2017년 12월
 - 말테고, Shodan, 구글 연산자 검색 등을 활용한 정보 수집 기술
 - https://github.com/JaewoongMoon/my-orgs/blob/master/portfolio/OSINT%E3%82%92%E6%B4%BB%E7%94%A8%E3%81%97%E3%81%9F%E3%83%86%E3%82%99%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86%E3%81%AE%E6%96%B9%E6%B3%95_jwmoon.pdf
+
+[[./osint.JPG]]
 
 ** XXE 인젝션- XML을 이용한 공격 및 방어방법에 대해서
 - 2017년 6월
