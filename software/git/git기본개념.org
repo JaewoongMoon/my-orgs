@@ -1,0 +1,9 @@
+
+
+* 로컬 브랜치는 세 개의 나무로 구성되어 있음
+- 작업 디렉토리(Working Directory) 또는 Working Tree : 실제 파일들
+- 인덱스 (Index) : 준비영역 (Staging Area)
+- 헤드 (Head) : 최종확정본 (Commit)
+
+
+

@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>정적분석</title>
+<!-- 2018-05-21 월 17:16 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">정적분석</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 개념</a>
+<ul>
+<li><a href="#sec-1-1">1.1. 체크 포인트</a>
+<ul>
+<li><a href="#sec-1-1-1">1.1.1. 프로그램 난독화 여부</a></li>
+<li><a href="#sec-1-1-2">1.1.2. 중요정보 하드코딩</a></li>
+<li><a href="#sec-1-1-3">1.1.3. 시큐어 코딩이 되어 있지 않는 코드</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">2. 준비단계</a>
+<ul>
+<li><a href="#sec-2-1">2.1. APK을 얻는 방법</a>
+<ul>
+<li><a href="#sec-2-1-1">2.1.1. Nox 에뮬레이터 내의 파일을 PC로 복사하는 방법</a></li>
+<li><a href="#sec-2-1-2">2.1.2. File Expert 앱 활용</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">3. 정적 분석 시작</a>
+<ul>
+<li><a href="#sec-3-1">3.1. APK 파일에 대해서</a></li>
+<li><a href="#sec-3-2">3.2. 압축 풀기</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. 정적 분석을 도와주는 툴</a>
+<ul>
+<li><a href="#sec-4-1">4.1. 자바 코드 분석 툴</a>
+<ul>
+<li><a href="#sec-4-1-1">4.1.1. dex2jar</a></li>
+<li><a href="#sec-4-1-2">4.1.2. jd</a></li>
+<li><a href="#sec-4-1-3">4.1.3. apk 툴</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-2">4.2. C# 코드 분석 툴</a></li>
+<li><a href="#sec-4-3">4.3. 코드 재서명툴</a></li>
+<li><a href="#sec-4-4">4.4. 리소스 정보 확인 툴</a></li>
+<li><a href="#sec-4-5">4.5. 기타</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. 코드 보호 방법</a>
+<ul>
+<li><a href="#sec-5-1">5.1. 네이티브 랭귀지(C)사용</a></li>
+<li><a href="#sec-5-2">5.2. 코드 난독화</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 개념</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>안드로이드 계열의 어플리케이션 파일은 apk 확장자이다.
+</li>
+<li></li>
+<li>프로그램 소스가 제대로 난독화가 되어있는지 , 프로그램 리패키징이 가능한지 체크한다.
+</li>
+<li>smali 코드는 사람이 해석하기 어려우므로 보다 읽기 쉬운 java 파일을 얻는 용도로도 쓴다. (프로그램 코드 분석)
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 체크 포인트</h3>
+<div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> 프로그램 난독화 여부</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>JNI 사용여부 체크방법 : native, System.loadLibrary,JNIEnv, jobject 등의 키워드로 검색해본다. 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> 중요정보 하드코딩</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>내부에 중요한 정보 (암호 키 등) 가 하드코딩 되어 있는지 체크한다. 
+</li>
+<li>SHA1, AES, MD5, key , security,  cipher, personal, decrypt  등과 같은 키워드로 검색해 본다. 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> 시큐어 코딩이 되어 있지 않는 코드</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<ul class="org-ul">
+<li>취약한 코드를 찾는다. (SQL Injection 가능성 등) 
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 준비단계</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+정적분석을 편하게 하기 위해서는 먼저 APK 파일을 녹스 플레이어에서 PC 환경으로 복사해야 한다. 
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> APK을 얻는 방법</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Nox 에뮬레이터 내의 파일을 PC로 복사하는 방법</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ul class="org-ul">
+<li>기본 File Manager를 사용해서 복사한다. 
+</li>
+<li>먼저 루팅이 되어 있어야 한다. 루팅이 되어 있는지 다시 한번 확인한다. 
+</li>
+<li>녹스플레이어 우측 화면에서 'My Computer'를 클릭한다. 혹은 단축키 Ctrl + 3을 누른다.
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./img/3-copy-apk-1.png" alt="3-copy-apk-1.png" />
+</p>
+</div>
+
+<p>
+그러면 다음과 같은 화면이 나타난다. 
+</p>
+
+<p>
+Open NoxPlayer folder를 클릭한다.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3-copy-apk-2.png" alt="3-copy-apk-2.png" />
+</p>
+</div>
+
+
+<p>
+그러면 다음과 같이 녹스 플레이어 내에서 /mnt/shared/App 디렉터리로 이동된다. 
+현재는 아무 것도 나타나 있지 않다. 상단의 주소 부분을 클릭해서 다른 디렉터리로 이동할 수 있다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3-copy-apk-3.png" alt="3-copy-apk-3.png" />
+</p>
+</div>
+
+<p>
+apk파일은 /data/app/에 있다. 이 디렉토리로 이동한다. 
+</p>
+
+<p>
+(참고로 각 앱에서 쓰이는 각종 파일들은 /sdcard/Android/data 디렉토리에 존재한다. )
+</p>
+
+<p>
+그러면 다음과 같이 각 앱들에 해당하는 디렉터리가 보인다. 이 중에서 분석하고 싶은 앱을 선택해서 PC로 복사하면 된다.
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3-copy-apk-4-2.png" alt="3-copy-apk-4-2.png" />
+</p>
+</div>
+
+<p>
+체크박스를 클릭하고 /mnt/shared/App 으로 이동한다. 
+</p>
+
+<p>
+상단의 액션을 클릭한다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3-copy-apk-5.png" alt="3-copy-apk-5.png" />
+</p>
+</div>
+
+<p>
+'Copy Selection here' 를 클릭하면 복사된다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3-copy-apk-6.png" alt="3-copy-apk-6.png" />
+</p>
+</div>
+
+<p>
+참고로 해당 폴더는 PC의 'C:\Users\[UserName]\Nox<sub>share\App'</sub> 폴더에 연동되어 있다.
+</p>
+
+<p>
+PC에서 해당 폴더로 들어가면 파일을 확인할 수 있다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3-copy-apk-7.png" alt="3-copy-apk-7.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> File Expert 앱 활용</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<ul class="org-ul">
+<li>구글 플레이 스토어에서 다음 'File Expert'라는 앱을 검색해서 설치한다. 
+</li>
+<li>이 앱을 사용하면 루팅하지 않아도 apk를 복사하는 것이 가능하다고 한다. 
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 정적 분석 시작</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> APK 파일에 대해서</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>apk 파일은 기본적으로 압축 파일 포맷이다. 
+</li>
+<li>그 증거로 압축프로그램으로 apk 파일을 열어보면 내부에 있는 파일들이 보인다. 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 압축 풀기</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>압축을 한번 풀어본다. 
+</li>
+<li>properties 파일과 텍스트 파일들의 내용을 볼 수 있다. 
+</li>
+<li>그러나 가장 중요한 소스코드는 classes.dex 파일로 되어 있어 볼 수 없고, 리소스 파일도 resources.arsc 파일로 되어 있어서 내용을 볼 수가 없다.
+</li>
+<li>또한, 매니페스트 파일(AndroidManifest.xml) 파일도 암호화 처리가 되어 볼 수 없는 xml 파일로 변해 있다. 
+</li>
+<li>소스 코드의 내용을 보려면 '디컴파일러' 라는 특별한 프로그램이 필요하다. 
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 정적 분석을 도와주는 툴</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 자바 코드 분석 툴</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+안드로이드의 기본 개발 언어는 자바이다. 따라서 apk파일은 내부적으로 많든 적든 자바가 쓰였다고 생각할 수 있다. apk파일을 디컴파일하려면 최소한 다음의 두 가지 툴이 필요하다. 
+</p>
+</div>
+
+<div id="outline-container-sec-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> dex2jar</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<ul class="org-ul">
+<li>dex 파일을 일반적인 JVM에서 해석가능한 class 파일(jar파일)로 변환해준다.
+</li>
+</ul>
+
+<p>
+설치방법
+</p>
+
+<p>
+dex2jar 를 다음 URL에서 다운로드 받은 후에 커맨드에서 바로 실행가능하도록 다운로드 받은 경로는 PATH 에 추가해준다.
+</p>
+
+<p>
+사용법
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">d2j-dex2jar [apk 명]
+</pre>
+</div>
+
+<p>
+참고로 매니페스트 XML 파일(앱 설정 파일)은  dex2jar 로 복원되지 않는다. 이 파일을 보려면 추후에 설명할 apktool 을 이용해야 한다.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-1-2" class="outline-4">
+<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> jd</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<ul class="org-ul">
+<li>자바 디컴파일러
+</li>
+<li>자바 개발자라면 적어도 한 번쯤은 써봤을 법한 자바 디컴파일러이다. 
+</li>
+<li>class 파일을 사람이 이해하기 쉬운 java 파일로 변환해준다. 
+</li>
+</ul>
+
+<p>
+설치방법
+</p>
+
+
+<p>
+구조도는 다음과 같다. 
+</p>
+
+
+<div class="figure">
+<p><img src="./img/3-java-decompile-1.png" alt="3-java-decompile-1.png" />
+</p>
+<p><span class="figure-number">Figure 8:</span> java 디컴파일 과정 구조도</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-1-3" class="outline-4">
+<h4 id="sec-4-1-3"><span class="section-number-4">4.1.3</span> apk 툴</h4>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> C# 코드 분석 툴</h3>
+</div>
+
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> 코드 재서명툴</h3>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> 리소스 정보 확인 툴</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>AAPT (Android Asset Packaging Tool)
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> 기타</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>CodePro Analytix 라는 구글에서 제공하는 무료 툴이 있다고 한다. 
+</li>
+<li>하지만 현재 왜인지 다운로드가 안됨. 
+</li>
+<li>안드로이드 스튜디오에 Mint 랑 Firebase 라는 것이 있는데 아마 여기로 통합된 듯&#x2026;
+</li>
+<li>원본 소스 없이 역컴파일한 상태로는 정적분석 툴을 돌리는 것은 안되는 것 같다. (2016.11. 24 확인)
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 코드 보호 방법</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> 네이티브 랭귀지(C)사용</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>조작에 민감한 값들은 JAVA 쪽에 두어서 JNI로 전달한다. 
+</li>
+<li>코드가 민감한 부분은 JNI 를 이용한다.
+</li>
+<li>라이선스 검증과 같은 유출에 민감한 로직들은 Decompile 후 조작이 가능한 부분들이다. 이런 부분들은 C/C++ 로 작성하게 되면 보다 안정성을 보장받을 수 있다.  
+</li>
+<li>이는 JAVA 보다는 ARM assemble language 의 난독성이 높기 때문이다.
+</li>
+<li>참고 : "프로그래밍 안드로이드" 책의 마지막 장에 JNI 개발 관련한 부분이 있음. (475p ~ 500p)
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> 코드 난독화</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+코드 난독화는 어떻게 하는가?
+</p>
+
+<p>
+안드로이드 스튜디오에서 제공하는 proguard 와 proguard의 유료버전인 dexguard 가 있다고 한다. 
+</p>
+
+<ol class="org-ol">
+<li>proguard 는 안드로이드 스튜디오 프로젝트에서 build.gradle 파일을 열고 buildTypes 를 기술하는 곳에 minifyEnabled 를 true로 설정한다.
+</li>
+
+<li>proguard-rules.pro 파일에 옵션을 기술한다.
+</li>
+</ol>
+<p>
+-renamesourcefileattribute SourceFile 소스 파일 변수명 바꾸기
+-keep class 라이브러리패키지명.** { *; } &lt;&#x2013; 라이브러리는 따로 난독화 하지 않을 때
+</p>
+<ul class="org-ul">
+<li>실습결과 : 결과를 봤는데 난독화가 되지 않았다. 설정해야 하는 뭔가가 더 있는 것 같은데
+</li>
+</ul>
+<p>
+나중에 다시 확인해보자.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2018-05-21 월 17:16</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
