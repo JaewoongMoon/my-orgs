@@ -1,0 +1,48 @@
+#+TITLE: OWASP MOBILE TOP 10 2016 분석
+
+* 개요
+- 2016 발표한 OWASP 모바일 TOP 10 취약점
+- 순서대로 위험하다
+- 2018년 5월 가장 최신임
+
+
+* M1 : 적절하지 않은 플랫폼 사용 (Improper Platform Usage)
+- 전통적인 OWASP TOP 10 취약점을 통해 사용할 수 있는 공격 벡터를 사용
+- 모바일 앱에서 사용하는 웹 서비스나 API가 노출되어야 함
+- 서버측 API가 취약해야 함 (XSS 등)
+- 대응 방법은 OWASP TOP 10 대응방법과 동일
+
+
+* M2 : 취약한 데이터 저장소 (Insecure Data Storage)
+- 안전하지 않은 데이터 저장소 및 의도하지 않은 데이터 누출
+- SQL DB, 로그파일, XML 파일, 바이너리 데이터 저장소, 쿠키 저장소, SD 카드, 클라우드 동기화 등
+
+
+* M3 : 취약한 통신 (Insecure Communication)
+
+
+
+* M4 : 취약한 인증 (Insecure Authentication)
+
+
+
+* M5 : 불충분한 암호화 (Insufficient Cryptography)
+
+
+* M6 : 취약한 권한 부여 (Insecure Authorization)
+
+
+* M7 : 취약한 코드 품질 (Client Code Quality)
+
+
+* M8 : 코드 변조 (Code Tampering)
+
+
+* M9 : 역공학 (Reverse Engineering)
+
+
+* M10 : 불필요한 기능 (Extraneous Functionality)
+
+
+* 참고 자료
+- https://www.owasp.org/index.php/OWASP_Mobile_Security_Project#tab=Top_10_Mobile_Risks
