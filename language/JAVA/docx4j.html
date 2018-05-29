@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Docx4j</title>
+<!-- 2018-05-29 화 15:23 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Docx4j</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 개요</a></li>
+<li><a href="#sec-2">2. 특징</a></li>
+<li><a href="#sec-3">3. Open XML</a>
+<ul>
+<li><a href="#sec-3-1">3.1. 개요</a></li>
+<li><a href="#sec-3-2">3.2. WordprocessingML</a>
+<ul>
+<li><a href="#sec-3-2-1">3.2.1. 기본 정보</a></li>
+<li><a href="#sec-3-2-2">3.2.2. 폴더 구조</a></li>
+<li><a href="#sec-3-2-3">3.2.3. 엘레먼트</a></li>
+<li><a href="#sec-3-2-4">3.2.4. Document Body</a></li>
+<li><a href="#sec-3-2-5">3.2.5. lsdException</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-3">3.3. SpreadsheetML</a></li>
+<li><a href="#sec-3-4">3.4. PresentationML</a></li>
+<li><a href="#sec-3-5">3.5. DrawingML</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. 클래스 계층 구조</a>
+<ul>
+<li><a href="#sec-4-1">4.1. WordprocessingMLPackage</a>
+<ul>
+<li><a href="#sec-4-1-1">4.1.1. MainDocumentPart</a></li>
+<li><a href="#sec-4-1-2">4.1.2. NumberingDefinitionsPart</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-5">5. 참고자료</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 개요</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>java 코드로 ms 워드 문서를 작성할 수 있게 해주는 프레임웍
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 특징</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>OpenXML 스펙을 자바 코드로 구현한 프로젝트이다. 
+(C#, VB 도 있고, 아마도 파이썬이나 다른 언어로도 구현된 것이 있을 것이다.)
+</li>
+<li>WML (WordProcessingML) 은 OpenXML 스펙의 일부이다. MS워드는 WML을 사용한다.
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Open XML</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 개요</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>MS 오피스 제품군의 문서의 컨텐츠를 정의하는 언어이다.
+</li>
+<li>워드를 위한 WordprocessingML, 엑셀을 위한 SpreadsheetML, 파워포인트를 위한 PresentationML 이 있다.
+</li>
+<li>ISO/IEC 29500 에 정의됨. 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> WordprocessingML</h3>
+<div class="outline-text-3" id="text-3-2">
+</div><div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> 기본 정보</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<ul class="org-ul">
+<li>docx 파일은 사실 zip 포맷이다!
+</li>
+<li>zip 파일안에 각 기능별 폴더와 XML파일들이 있는 구조이다.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2-2" class="outline-4">
+<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> 폴더 구조</h4>
+<div class="outline-text-4" id="text-3-2-2">
+</div><ol class="org-ol"><li><a id="sec-3-2-2-1" name="sec-3-2-2-1"></a>_rels<br  /><div class="outline-text-5" id="text-3-2-2-1">
+<ul class="org-ul">
+<li>Relationships 파일이 저장되어 있다. 
+</li>
+<li>Relationship 파일 자체는 링크정보만 제공할 뿐이다.
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-3-2-3" class="outline-4">
+<h4 id="sec-3-2-3"><span class="section-number-4">3.2.3</span> 엘레먼트</h4>
+<div class="outline-text-4" id="text-3-2-3">
+</div><ol class="org-ol"><li><a id="sec-3-2-3-1" name="sec-3-2-3-1"></a>&lt;w:document&gt;&lt;/w:document&gt;<br  /><div class="outline-text-5" id="text-3-2-3-1">
+<ul class="org-ul">
+<li>최상위.  문서의 컨텐츠를 정의한다.
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-3-2-4" class="outline-4">
+<h4 id="sec-3-2-4"><span class="section-number-4">3.2.4</span> Document Body</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<p>
+document body 에는 두 가지 main group 이 있다. 
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-3-2-4-1" name="sec-3-2-4-1"></a>block-level content<br  /><div class="outline-text-5" id="text-3-2-4-1">
+<ul class="org-ul">
+<li>메인 스트럭처를 제공한다.
+</li>
+<li>paragraph, tables 같은 것
+</li>
+<li>inline content 를 포함한다.
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-3-2-4-2" name="sec-3-2-4-2"></a>inline content<br  /><div class="outline-text-5" id="text-3-2-4-2">
+<ul class="org-ul">
+<li>text 와 image 등
+</li>
+<li>text 는 여러개의 다른 run 들로 나뉘어 진다. 
+</li>
+<li>run 은 포맷팅을 적용할 수 있는 가장 작은 단위이다.
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+
+
+
+<div id="outline-container-sec-3-2-5" class="outline-4">
+<h4 id="sec-3-2-5"><span class="section-number-4">3.2.5</span> lsdException</h4>
+<div class="outline-text-4" id="text-3-2-5">
+<p>
+-LatentStyleException
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> SpreadsheetML</h3>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> PresentationML</h3>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> DrawingML</h3>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 클래스 계층 구조</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>다음 XML 계층구조로 docx파일이 구성된다.
+</li>
+<li>스타일은 부모 엘레먼트에 적용된 것이 있으면 상속받는 형태이다. HTML의 스타일 적용과 비슷하다.
+</li>
+<li>자식 엘레먼트에서 새로 적용한 스타일이 있으면 그 것이 우선된다.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> WordprocessingMLPackage</h3>
+<div class="outline-text-3" id="text-4-1">
+</div><div id="outline-container-sec-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> MainDocumentPart</h4>
+<div class="outline-text-4" id="text-4-1-1">
+</div><ol class="org-ol"><li><a id="sec-4-1-1-1" name="sec-4-1-1-1"></a>Document<br  /><ol class="org-ol"><li><a id="sec-4-1-1-1-1" name="sec-4-1-1-1-1"></a>Body<br  /><ol class="org-ol"><li><a id="sec-4-1-1-1-1-1" name="sec-4-1-1-1-1-1"></a>P<br  /><div class="outline-text-7" id="text-4-1-1-1-1-1">
+<ul class="org-ul">
+<li>Paragraph
+</li>
+<li>레이아웃을 위한 기본 유닛이다.
+</li>
+<li>마진, 탭 등을 적용가능하다.
+</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="sec-4-1-1-1-1-1-1" name="sec-4-1-1-1-1-1-1"></a>R<br  /><div class="outline-text-8" id="text-4-1-1-1-1-1-1">
+<ul class="org-ul">
+<li>Run
+</li>
+<li>특정 텍스트 영역(region)을  정의(define)한다.
+</li>
+<li>주로 문장을 표현할 때 사용한다.
+</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="sec-4-1-1-1-1-1-1-1" name="sec-4-1-1-1-1-1-1-1"></a>Text<br  /><div class="outline-text-9" id="text-4-1-1-1-1-1-1-1">
+<ul class="org-ul">
+<li>실제 텍스트
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-4-1-1-1-1-1-1-2" name="sec-4-1-1-1-1-1-1-2"></a>FldChar<br  /><div class="outline-text-9" id="text-4-1-1-1-1-1-1-2">
+<ul class="org-ul">
+<li>FieldChar
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-4-1-1-1-1-1-1-3" name="sec-4-1-1-1-1-1-1-3"></a>Rpr<br  /><div class="outline-text-9" id="text-4-1-1-1-1-1-1-3">
+<ul class="org-ul">
+<li>Run properties
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-xml">&lt;w:rPr&gt;
+	  &lt;w:rFonts w:ascii="Meiryo" w:hAnsi="Meiryo" w:eastAsia="Meiryo" w:cs="Meiryo"/&gt;
+	   &lt;w:sz w:val="20"/&gt;
+	   &lt;w:szCs w:val="20"/&gt;
+	   &lt;w:lang w:val="ja-JP" w:eastAsia="ja-JP" w:bidi="en-US"/&gt;
+&lt;/w:rPr&gt;
+</pre>
+</div>
+</div>
+
+<ol class="org-ol"><li><a id="sec-4-1-1-1-1-1-1-3-1" name="sec-4-1-1-1-1-1-1-3-1"></a>RFonts<br  /><div class="outline-text-10" id="text-4-1-1-1-1-1-1-3-1">
+<ul class="org-ul">
+<li>폰트를 지정한다. 지정할 수 있는 속성값은 다음과 같다.
+</li>
+<li>ASCII : ASCII 범위의 캐릭터에 대해서 지정할 폰트
+</li>
+<li>hAnsi :High ANSI
+</li>
+<li>cs (Complex Script) : 아스키 범위를 넘어서는 유니코드 캐릭터에 대한 폰트
+</li>
+<li>EastAsia
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-1-3-2" name="sec-4-1-1-1-1-1-1-3-2"></a>sz<br  /><div class="outline-text-10" id="text-4-1-1-1-1-1-1-3-2">
+<ul class="org-ul">
+<li>사이즈
+</li>
+<li>지정된 값의 1/2 이 폰트의 사이즈가 된다. (20일 경우 폰트 사이즈10)
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-1-3-3" name="sec-4-1-1-1-1-1-1-3-3"></a>szCs<br  /><div class="outline-text-10" id="text-4-1-1-1-1-1-1-3-3">
+<ul class="org-ul">
+<li>FontSizeComplexScript
+</li>
+<li>complex script 캐릭터인 경우 적용되는 폰트 사이즈
+</li>
+</ul>
+</div>
+</li></ol>
+</li></ol>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-2" name="sec-4-1-1-1-1-1-2"></a>PPr<br  /><div class="outline-text-8" id="text-4-1-1-1-1-1-2">
+<ul class="org-ul">
+<li>ParagraphProperties 
+</li>
+<li>문단(패러그래프)의 스타일 정의
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-xml">&lt;w:pPr&gt;
+   &lt;w:spacing w:before="360" w:after="120" w:line="480" w:lineRule="auto" w:beforeAutospacing="0" w:afterAutospacing="0"/&gt;
+&lt;/w:pPr&gt;
+</pre>
+</div>
+</div>
+
+
+
+<ol class="org-ol"><li><a id="sec-4-1-1-1-1-1-2-1" name="sec-4-1-1-1-1-1-2-1"></a>spacing<br  /><div class="outline-text-9" id="text-4-1-1-1-1-1-2-1">
+<ul class="org-ul">
+<li>after : 문단의 마지막 라인이 끝난 뒤에 추가될 공간을 정의
+</li>
+<li>before : 문단의 첫 번째 라인이 시작하기 전에 추가될 공간을 정의
+</li>
+<li>line : 문장 사이의 수직 spacing 공간을 정의. (vertical spacing)
+</li>
+</ul>
+
+<div class="org-src-container">
+<label class="org-src-name">PPr 의 vertical spacing을 지정하는 예</label>
+<pre class="src src-Java">PPr rightPPr = factory.createPPr(); 
+rightPPr.setJc(jc);
+Spacing spacing = new Spacing();
+spacing.setAfter(new BigInteger("100"));
+rightPPr.setSpacing(spacing);
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-2-2" name="sec-4-1-1-1-1-1-2-2"></a>PStyle<br  /><div class="outline-text-9" id="text-4-1-1-1-1-1-2-2">
+<ul class="org-ul">
+<li>ParagraphStyle
+</li>
+</ul>
+</div>
+</li></ol>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-3" name="sec-4-1-1-1-1-1-3"></a>NumPr<br  /><div class="outline-text-8" id="text-4-1-1-1-1-1-3">
+<ul class="org-ul">
+<li>Number Properties
+</li>
+</ul>
+</div>
+<ol class="org-ol"><li><a id="sec-4-1-1-1-1-1-3-1" name="sec-4-1-1-1-1-1-3-1"></a>NumId<br  /><div class="outline-text-9" id="text-4-1-1-1-1-1-3-1">
+<p>
+숫자 값
+</p>
+</div>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-3-2" name="sec-4-1-1-1-1-1-3-2"></a>Ilvl<br  /><div class="outline-text-9" id="text-4-1-1-1-1-1-3-2">
+<ul class="org-ul">
+<li>숫자 레벨 (뎁스)
+</li>
+<li>탑 레벨은 0 임. 
+</li>
+</ul>
+</div>
+</li></ol>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-4" name="sec-4-1-1-1-1-1-4"></a>Jc<br  /><div class="outline-text-8" id="text-4-1-1-1-1-1-4">
+<ul class="org-ul">
+<li>Justification
+</li>
+<li>정렬 속성을 정의
+</li>
+<li>텍스트의 중앙정렬, 왼쪽 정렬, 오른쪽 정렬 등을 지정할 수 있다. 
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-4-1-1-1-1-1-5" name="sec-4-1-1-1-1-1-5"></a>ind<br  /><div class="outline-text-8" id="text-4-1-1-1-1-1-5">
+<ul class="org-ul">
+<li>indentation
+</li>
+<li>들여쓰기 속성의 적의
+</li>
+</ul>
+</div>
+</li></ol>
+</li></ol>
+</li></ol>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-4-1-2" class="outline-4">
+<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> NumberingDefinitionsPart</h4>
+<div class="outline-text-4" id="text-4-1-2">
+</div><ol class="org-ol"><li><a id="sec-4-1-2-1" name="sec-4-1-2-1"></a>Emulator<br  /></li></ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 참고자료</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>wml 설명 : <a href="https://www.tutorialspoint.com/wml/wml_elements.htm">https://www.tutorialspoint.com/wml/wml_elements.htm</a>
+</li>
+<li>소스코드 : <a href="https://github.com/plutext/docx4j/blob/master/src/main/java/org/docx4j/">https://github.com/plutext/docx4j/blob/master/src/main/java/org/docx4j/</a>
+</li>
+<li>샘클코드 : <a href="https://github.com/plutext/docx4j/tree/master/src/samples/docx4j/org/docx4j/samples">https://github.com/plutext/docx4j/tree/master/src/samples/docx4j/org/docx4j/samples</a>
+</li>
+<li>폰트변경 : <a href="http://www.docx4java.org/forums/docx-java-f6/setting-font-in-default-styles-t388.html">http://www.docx4java.org/forums/docx-java-f6/setting-font-in-default-styles-t388.html</a>
+</li>
+<li>OpenXML 설명 : <a href="http://officeopenxml.com/WPspacing.php">http://officeopenxml.com/WPspacing.php</a>
+</li>
+<li>OpenXML 매뉴얼 : openxmldeveloper.org/cfs&#x2026;/Open-XML-Explained.pdf
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2018-05-29 화 15:23</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+#+TITLE: ADB (Android Debug Bridge)
+
+* 개요
+- 에뮬레이터나 실기계와 통신하기 위한 툴
+
+** 기능
+- 기기에 데이터를 넣거나, 기기에서 데이터를 빼오거나 하는 것이 가능
+- 쉘 커맨드 실행
+- 디바이스 재부팅
+- 시스템 로그 확인 등
+
+
+* 준비
+** 에뮬레이터에서 ADB와 연결되도록 설정
+*** Nox의 경우
+- Settings > Superuser > 우측상단 ...버튼 클릭 > Settings 화면 들어가기 > Superusr Access - Apps and ADB 선택 > Apps and ADB 선택
+
+
+* 명령어
+** 디바이스 관련
+*** 디바이스 연결
+Nox를 키면 기본적으로 연결되는 것 같다.
+#+BEGIN_SRC bash
+adb connect [디바이스명]
+adb connect 127.0.0.1:62001   ; for nox 
+#+END_SRC
+
+*** 연결된 디바이스 목록 확인
+#+BEGIN_SRC bash
+adb devices
+#+END_SRC
+
+*** 디바이스 정보 확인
+-s 옵션으로 디바이스를 지정할 수 있다.
+
+#+BEGIN_SRC bash
+adb -s [에뮬레이터/디바이스 명] [명령어]
+adb -s emulator-5556 version  ; emulator-5556 기기의 버전 정보를 출력한다.
+#+END_SRC
+
+** 파일/apk 관련
+*** 파일 넣기
+#+BEGIN_SRC bash
+adb push [로컬디렉토리] [리모트디렉토리]
+adb push foo.txt /sdcard/foo.txt 
+#+END_SRC		
+
+*** 파일 가져오기
+#+BEGIN_SRC bash
+adb pull [리모트디렉토리] [로컬디렉토리]
+adb pull /sdcard/foo.txt C:/tmp2/foo2.txt
+#+END_SRC
+
+*** apk 설치
+#+BEGIN_SRC bash
+adb install [apk 명]
+adb install foo.apk
+#+END_SRC
+
+*** apk 삭제
+패키지 경로를 입력해야만 한다.
+
+#+BEGIN_SRC bash
+adb uninstall [패키지 경로]
+adb uninstall com.tools.demo
+#+END_SRC
+
+** 셸 관련
+*** 셸에 접속
+#+BEGIN_SRC bash
+adb shell
+#+END_SRC
+
+안될 경우 다음을 실행한다. 
+#+BEGIN_SRC bash
+adb devices -l ; device 모델명 확인
+adb -s model:[모델명] shell
+#+END_SRC
+
+아래의 셸 명령들은 shell 에 접속한 상태라면 adb shell 을 빼고 치면 된다.
+
+*** 시스템 로그 취득
+#+BEGIN_SRC bash
+adb shell dumpsys
+#+END_SRC
+
+혹은 다음과 같이 PC에서 볼 수 있는 파일로 지정해서 볼 수도 있다.
+#+BEGIN_SRC bash
+dumpsys > /mnt/shared/Other/sysdump.txt
+#+END_SRC
+
+*** 시스템 로그 중 알람만 취득
+#+BEGIN_SRC bash
+adb shell dumpsys alarm
+#+END_SRC
+
+*** 시스템 로그를 포함한 상세 정보 취득
+#+BEGIN_SRC bash
+adb shell dumpstate
+#+END_SRC
+
+*** 시스템 커널의 링버퍼(?) 내용을 출력
+#+BEGIN_SRC bash
+adb shell dmesg
+#+END_SRC
+
+*** 전화나 무선망, SMS 로그 등을 취득
+#+BEGIN_SRC bash
+adb shell logcat -b radio
+#+END_SRC
+
+*** 특정 액티비티 실행
+액티비티 매니저 프로그램을 이용해 특정 액티비티를 실행시킬 수 있다.
+#+BEGIN_SRC bash
+adb shell am start -n com.foo/.FooActivity
+#+END_SRC
+
+*** 서버죽이기? adb 서버란?
+#+BEGIN_SRC bash
+adb kill-server
+#+END_SRC
+
+
