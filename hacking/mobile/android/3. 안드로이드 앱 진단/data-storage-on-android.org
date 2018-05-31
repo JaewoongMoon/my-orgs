@@ -1,0 +1,225 @@
+#+TITLE: 안드로이드 중요 데이터 저장 보안 점검
+
+Protecting authentication tokens, private information, and other sensitive data is key to mobile security. In this chapter, you will learn about the APIs Android offers for local data storage and best practices for using them.
+
+The guidelines for saving data can be summarized quite easily: Public data should be available to everyone, but sensitive and private data must be protected, or, better yet, kept out of device storage.
+
+Note that the meaning of "sensitive data" depends on the app that handles it. Data classification is described in detail in the "Identifying Sensitive Data" section of the chapter "Mobile App Security Testing."
+
+* 중요 데이터가 저장된 로컬 저장소 점검
+** 개요
+Conventional wisdom suggests that as little sensitive data as possible should be stored on permanent local storage. In most practical scenarios, however, some type of user data must be stored. For example, asking the user to enter a very complex password every time the app starts isn't a great idea in terms of usability. Most apps must locally cache some kind of authentication token to avoid this. Personally identifiable information (PII) and other types of sensitive data may also be saved if a given scenario calls for it.
+
+- 전통적으로 중요 데이터는 가능한한 로컬 저장소에 저장하지 않아야 한다고 알려져 있다. 
+- 그러나 대부분의 현실 상황에서는 몇종류의 사용자 데이터는 저장해야 한다. 
+- 예를 들어, 사용자에게 복잡한 패스워드를 매번 입력하게 하는 것은 사용성에 있어서 좋지 않은 생각이다. 
+- 이를 피하기 위해 대부분의 앱은 로컬 캐시에 몇 종류의 인증 토큰을 저장한다. 
+- 주어진 상황이 요구한다면 개인 식별 정보와 기타 다른 종류의 민감한 정보 역시 저장될 것이다.
+
+Sensitive data is vulnerable when it is not properly protected by the app that is persistently storing it. The app may be able to store the data in several places, for example, on the device or on an external SD card. When you're trying to exploit these kinds of issues, consider that a lot of information may be processed and stored in different locations. Identifying at the outset the kind of information processed by the mobile application and input by the user is important. Identifying information that may be valuable to attackers (e.g., passwords, credit card information, PII) is also important.
+
+- 민감한 데이터는 그 것을 저장하는 앱에 의해 적절히 보호되어야 한다. 
+- 그리고 앱은 데이터를 여러 장소, 예를 들면 디바이스나 외부 SD 카드 등에 저장할 수 있다. 
+- 모바일 앱이 처리하는 정보, 사용자가 입력하는 정보 등을 식별하는 것이 중요하다. 
+- 그리고 공격자가 노릴만한 정보 (비밀번호, 신용 카드 정보, 개인 식별 정보)를 식별하는 것 역시 중요하다. 
+
+Disclosing sensitive information has several consequences, including decrypted information. In general, an attacker may identify this information and use it for additional attacks, such as social engineering (if PII has been disclosed), account hijacking (if session information or an authentication token has been disclosed), and gathering information from apps that have a payment option (to attack and abuse them).
+
+- 중요 데이터가 노출되면 추가 공격을 받을 수 있다. 
+- 소셜엔지니어링(개인 식별 번호가 노출된 경우)
+- 계정 하이재킹 (세션 정보나 인증 토큰이 노출된 경우)
+- 무단 결제 등
+
+Storing data is essential for many mobile apps. For example, some apps use data storage to keep track of user settings or
+user-provided data. Data can be stored persistently in several ways. The following list of storage techniques are widely used
+on the Android platform:
+
+- 안드로이드 앱에 데이터를 저장하는 것은 필수적이다. 
+- 예를 들어 유저의 설정 값이나 유저가 제공한 데이터를 저장하기 위해 데이터 저장소를 사용하는 등이다.
+- 데이터는 몇 가지 방법을 통해 영구적으로 저장할 수 있다. 
+
+다음 목록은 안드로이드 플랫폼에서 널리 쓰이는 저장 기술이다. 
+
+1. Shared Preferences
+2. SQLite Databases
+3. Realm Databases
+4. Internal Storage
+5. External Storage
+
+The following code snippets demonstrate bad practices that disclose sensitive information. They also illustrate Android
+storage mechanisms in detail. For more information, check out the *Security Tips for Storing Data* in the Android developer's
+guide.
+
+- 이후에 나오는 코드 조각들은 중요 정보를 노출시키는 안 좋은 코딩 방식을 보여줄 것이다.
+- 또한 안드로이드의 저장 메커니즘을 자세하게 설명할 것이다. 
+- 더 자세한 내용은 안드로이드 개발자 가이드의 *Security Tips for Storing Data* 를 참고하라. 
+
+
+*** Shared Preferences
+
+
+*** SQLite Database (Unencrypted)
+
+
+*** SQLite Database (encrypted)
+
+
+*** Realm Databases
+
+
+*** Internal Storage
+
+
+*** External Storage
+
+
+** 정적 분석
+*** Local Storage
+
+
+*** KeyStore
+
+
+*** Older KeyStore Implementations
+
+
+*** KeyChain
+
+
+** Dynamic Analysis
+
+* 중요 데이터가 저장된 로그 점검
+** 개요
+
+
+** 정적 분석
+
+
+** 동적 분석
+
+
+
+* 서드 파티로 중요 정보가 전달되었는지 점검
+** 개요
+
+
+** 정적 분석
+
+
+** 동적 분석
+
+
+* 텍스트 입력 필드에 키보드 캐시 저장이 안되도록 되어 있는지 점검
+** 개요
+
+
+** 정적 분석
+
+
+** 동적 분석
+
+
+
+
+* 클립보드에 중요 정보가 저장되었는지 찾기
+** 개요
+
+
+** 정적 분석
+
+
+** 동적 분석
+
+
+
+* IPC 메커니즘을 통해 저장된 중요 정보가 노출되고 있는지 점검
+** 개요
+
+
+** 정적 분석
+
+
+*** Inspect the Android Manifest
+
+*** Inspect the source code
+
+
+** 동적 분석
+*** Testing Content Providers
+
+
+*** SQL Injection in Content Providers
+
+*** File System Based Content Providers
+
+
+
+* 유저 인터페이스를 통해 중요 정보가 노출되고 있는 점검
+** 개요
+
+** 정적 분석
+
+** 동적 분석
+
+
+
+
+* 중요 데이터가 백업되어 있는지 점검
+** 개요
+
+** 정적 분석
+
+*** Local
+
+
+*** Cloud
+
+
+** 동적 분석
+
+
+* 자동으로 만들어지는 스크린샷에 중요 정보가 있는지 점검
+** 개요
+
+
+** 정적 분석
+
+
+** 동적 분석
+
+
+* 메모리에 중요 데이터가 있는지 점검
+** 개요
+
+
+
+
+** 정적 분석
+
+
+
+** 동적 분석
+
+* 디바이스 접근 보안 정책 점검
+** 개요
+
+
+** 정적 분석
+
+
+** 동적 분석
+
+
+
+* References
+** OWASP Mobile Top 10 2016
+
+** OWASP MASVS
+
+** CVE
+
+** Tools
+
+
+
+[fn:1] https://github.com/OWASP/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md

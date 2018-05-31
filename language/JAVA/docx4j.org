@@ -156,6 +156,87 @@ document body 에는 두 가지 main group 이 있다.
 **** Emulator
 
 
+* 트러블 슈팅
+** conversion (목차 만드는 서비스) 서버 Connection Error
+*** 현상
+워드 문서 생성을 시도하면 다음과 같은 에러가 발생한다.
+
+#+BEGIN_SRC Java
+Looks like your endpoint URL 'http://[My IP]:9016/v1/00000000-0000-0000-0000-000000000000/convert' is wrong
+
+org.docx4j.toc.TocException: Error in toc web service at http://[My IP]:9016/v1/00000000-0000-0000-0000-000000000000/convert
+Connect to [My IP]:9016 [/[My IP]] failed: Connection refused: connect
+	at org.docx4j.toc.TocGenerator.getPageNumbersMapViaService(TocGenerator.java:717)
+	at org.docx4j.toc.TocGenerator.getPageNumbersMap(TocGenerator.java:663)
+	at org.docx4j.toc.TocGenerator.populateToc(TocGenerator.java:438)
+	at org.docx4j.toc.TocGenerator.generateToc(TocGenerator.java:342)
+	at org.docx4j.toc.TocGenerator.updateToc(TocGenerator.java:561)
+	at org.docx4j.toc.TocGenerator.updateToc(TocGenerator.java:509)
+	at org.docx4j.toc.TocGenerator.updateToc(TocGenerator.java:489)
+	....
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.docx4j.services.client.ConversionException: Connect to [My IP]:9016 [/[My IP]] failed: Connection refused: connect
+	at org.docx4j.services.client.ConverterHttp.execute(ConverterHttp.java:243)
+	at org.docx4j.services.client.ConverterHttp.convert(ConverterHttp.java:190)
+	at org.docx4j.toc.TocGenerator.getPageNumbersMapViaService(TocGenerator.java:701)
+	... 92 more
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to [My IP]:9016 [/[My IP]] failed: Connection refused: connect
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:158)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:353)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:380)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:107)
+	at org.docx4j.services.client.ConverterHttp.execute(ConverterHttp.java:212)
+	... 94 more
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.TwoStacksPlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:589)
+
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:74)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:141)
+#+END_SRC
+
+*** 원인 분석
+현재 상황은 다음과 같다. 
+- netstat 으로 확인해보면 9016 포트는 Listening 상태이다. 
+- http://localhost:9016 으로 접속하면 404 not found 메세지가 출력된다. 이 것으로 서버가 살아있다는 것을 알 수 있다. 
+- http://[MyIP]:9016 으로 접속하면 connection refused 가 출력된다. 아마도 이 것이 원인인 것 같다. 
+- 왜 저런 반응이 나타나는 걸까? localhost 일 때랑 실제 IP를 입력했을 때 반응이 다른 이유는?
+- *로컬의 컨버터 서비스가 localhost 혹은 127.0.0.1 일 때만 서비스하도록 설정되어 있었다.*
+
+*** 해결
+**** 서비스 IP 변경
+- 레지스트리 수정으로 들어간다. 
+- HKEY_LOCAL_MACHINE\SOFTWARE\PLUTEXT_SERVICE_ARGS 로 찾아 들어간다. 
+- SERVICE_ARGS 값이 localhost:9016 으로 되어 있다. 
+- 이 것을 [로컬IP]:9016 으로 바꿔준다.
+- 제어판 > 설정 > 로컬 서비스에서 'PlutextDocumentServices'를 찾아 서비스를 재시작한다.
+
+
+**** 로컬 PC의 방화벽 설정 변경
+- 외부로부터의 접속을 로컬 방화벽에서 막고 있는 경우가 있다. 
+- 방화벽 설정에서 허용할 서비스에 pdsd.exe를 추가해준다.
+
+* 기타 정보
+** 컨버팅 서비스를 로컬 PC에 설치한 경우(Windows)
+- 컨버팅 서버 exe 파일 위치 : C:\Program Files (x86)\PlutextDocumentServices\pdsd.exe
+- 로그파일 위치 : C:\ProgramData\PLUTEXT\logs\pdsd.log
+- 설정 값 : HKEY_LOCAL_MACHINE\SOFTWARE\PLUTEXT_SERVICE_ARGS
+- 설정 값에서 서비스 IP/포트나 로그 파일 경로, VERBOSE 설정등을 바꿀 수 있다.
+- 서버 재시작을 하고 싶은 경우 : 제어판 > 설정 > 로컬 서비스에서 'PlutextDocumentServices' 라는 것이 등록되어 있다. 이 것을 중지하고 재시작하면 된다.
+
+
 * 참고자료
 - wml 설명 : https://www.tutorialspoint.com/wml/wml_elements.htm
 - 소스코드 : https://github.com/plutext/docx4j/blob/master/src/main/java/org/docx4j/
