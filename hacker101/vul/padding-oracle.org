@@ -1,0 +1,235 @@
+#+TITLE: Padding Oracle Attack
+#+AUTHOR: jwmoon
+
+* 개요
+hacker 101의 padding oracle attack 취약점 설명 [fn:1] 을 번역한 문서입니다. 
+
+* Description
+Padding oracles occur when a server, upon decrypting data, differentiates between validly padded and invalidly padded data; i.e. the server responds differently when the padding is correct and when the encrypted message is padded incorrectly. Traditional padding oracle bugs apply in cases where data is encrypted with Cipher Block Chaining mode(CBC), controllable by an attacker, and does not include authentication (e.g. via an HMAC).
+
+- 패딩 오라클은 서버가 데이터를 해독할 때 적절하게 패딩된 데이터와 적절하지 않게 패딩된 데이터에 대해 다르게 반응할 때 발생한다. 
+- 전통적으로 패딩 오라클 버그는 CBC모드를 사용하면서 HMAC 같은 인증 메커니즘을 사용하지 않을 때 발생한다. 
+
+* Security Impact 
+Given control of data and a padding oracle, an attacker can wholly decrypt said data. This is possible without any knowledege of the key material.
+
+공격자는 키 없이도 전체 데이터를 얻어낼 수 있다. 
+
+* Remidiation
+There are a number of aspects to the proper remediation of padding oracle vulnerabilities. The server should never differentiate between different kinds of decryption errors; sending back a generic, identical error regardless of the cause of errors. Additionally, all encrypted data should contain an authentication method, for instance an HMAC. This will prevent any vulnerabilities related to tampering with ciphertext.
+
+- 서버는 여러 종류의 복호화 에러에 대해 서로 다른 응답을 하면 안된다. (응답을 통해 유추할 수 있기 때문) 에러의 원인과는 상관이 없는 일반적인 에러 메세지를 내보내라. 
+- 모든 암호화된 데이터는 HMAC과 같은 인증 수단을 포함하고 있어야 한다. 이를 통해 암호문이 변조되었는지를 검출할 수 있다. 
+
+* Detail
+** Stream Cipher Reuse
+Looking back at stream ciphers, we see that we generate a stream of ramdom bytes which are XORred with the plaintext to produce ciphertext. Any time you feed a given key into a stream cipher, it's always going to generate the same output bytes. This is expected, and it's why decryption works exactly the same as encryption. 
+
+스트림 암호를 살펴보면 랜덤 바이트 스트림(유사난수,PRNG)을 생성하는 것을 볼 수 있다. 그리고 이 랜덤 바이트 스트림은 평문과 XOR 연산되어 암호문을 생성한다. 스트림 암호에 주어진 키를 입력하면 항상 동일한 아웃풋 바이트를 생성한다. 이 것이 기대되는 동작이며, 복호화와 암호화가 정확히 동일하게 이루어지는 이유이다. 
+
+But let's consider the case of two pieces of data (A and B) being encrypted with the same key (K, generating steam S).
+
+하지만 다음과 같은 동일한 키로부터 암호화된 두 개의 데이터 조각을 생각해보자.(A와 B) 
+
+#+BEGIN_SRC bash
+A_enc[0] = S[0] ^ A[0];
+B_enc[0] = S[0] ^ B[0];
+A_enc[1] = S[1] ^ A[1];
+B_enc[1] = S[1] ^ B[1];
+#+END_SRC
+
+This is not a problem for modern stream ciphers like eSTREAM, which take a nonce along with the key. This means that as long as you don't reuse a given key-nonce pair, you're safe.
+
+이 것은 키와 함께 임시값(nonce)를 받는 eSTREAM 과 같은 최근의 스트림 암호에서는 문제가 안된다. 이 말은 키-임시값 쌍을 재사용하지 않는 이상 안전하다는 말이다. 
+
+However, the most common stream cipher you'll see is RC4, which is lacking this feature. Thus you'll often see the RC4 key be XORed with a nonce prior to encryption/decryption. This is not perfect, but it mitigates the issue. 
+
+그러나 가장 일반적인 스트림 암호 RC4 를 보면 이런 측면이 부족하다. 그래서 우리는 RC4 키가 암호화/해독전에 임시값과 XOR 되는 것을 종종 보게 된다. 이 것은 완벽하진 않지만 문제를 경감시켜주기는 한다. 
+
+
+** ECB Block Reordering
+Since we know that blocks encrypted with ECB are independent, there's nothing stopping us from arbitrarily reordering them; they'll still decrypt properly if this happens. 
+
+우리는 EBC 모드로 암호화한 블록이 독립적이라는 것을 알고 있다. 때문에, 그리고 우리는 마음대로 블록을 재배열할 수 있다. 암호화 블록 순서가 바껴도 암호 알고리즘은 적절히 해독해줄 것이다. 
+
+So consider a DES-EBC-encrypted cookie containing the following data: admin=0; username=daeken
+
+그러면 다음과 같은 데이터를 포함하고 DES-EBC 로 암호화된 쿠키를 생각해보자. 
+
+#+BEGIN_SRC bash
+admin=0;username=daeken
+#+END_SRC
+
+
+Because DES uses 8-byte blocks, this means we'd encrypt the following blocks (with @ as padding -- we'll talk about that part later):
+
+DES는 8바이트 블록을 사용하기 때문에, 우리는 다음과 같은 블록으로 암호화 할 수 있다. (@는 패딩, 패딩은 후에 상세 설명)
+
+#+BEGIN_SRC bash
+admin=0;
+username
+=daeken@
+#+END_SRC
+
+
+But let's say we control our username. We don't need to be able to encrypt or decrypt data to make ourselves an admin. If we set our username to paddingadmin=1; we get these blocks:
+
+그러나 우리가 username을 변조한다고 해보자. 우리는 관리자(admin)가 되기 위해 암호화나 복호화를 할 수 없어도 된다. 만약 우리가 username에 paddingadmin=1 을 설정하면 다음과 같은 블록을 얻게 된다.
+
+#+BEGIN_SRC bash
+admin=0;
+username
+=padding
+admin=1;
+#+END_SRC
+
+Once we have the encrypted from of this new cookie, we simply take the last block and put it in place of the first. Suddenly, this decrypts to a valid admin cookie! This attack is absolutely trivial and inherent to EBC.
+
+이 새로운 쿠키로 암호화한 후, 우리는 마지막 블록을 가져와서 첫 번째 블록으로 세팅한다. (역주: admin=0; 가 암호화된 블록은 버리고 admin=1; 가 암호화된 블록을 사용한다.)
+갑자기 이 것은 유효한 관리자 쿠키로 해독된다! 이 공격은 완전히 별 것아닌(널리 알려져 있는) EBC 고유의 공격이다. 
+
+** EBC Decryption
+Likewise, if we have some ability to decrypt ECB ciphertext, we can use the same block concept to decrypt other pieces of data. 
+
+마찬가지로 만약 우리가 (어떤)EBC 암호문을 해독할 수 있는 능력을 가지면, 우리는 다른 데이터 조각을 해독하기 위해 같은 방법을 사용할 수 있다. 
+
+Simply take the ciphertext block in question and put it into the middle of data that you're able to decrypt. So long as they use the same key, this data will decrypt cleanly and you're able to compromise the ciphertext in question. 
+
+문제의 암호문 블록을 가져와서 해독할 수 있는 데이터의 중간에 놓기만 하면 된다. 동일한 키를 사용하는 한, 데이터는 깔끔하게 해독될 것이고 문제를 적절히 해결할 수 있을 것이다.
+
+** Mitigation 
+These flaws -- and most others we'll talk about -- rely on one fact: we may not be able to see the data or even guess at the contents, but we can tamper with the ciphertext and the server will decrypt it.
+
+이 흐름 -- 그리고 우리가 앞으로 논의할 다른 것들 -- 은 하나의 사실에 기반한다. : 우리는 평문을 볼 수 없거나 예측할 수 없지만, 암호문은 변경할 수 있고 서버는 그 것을 해독할 것이라는 것이다.
+
+The solution to this is simple: encrypt your data, then append a MAC of the encrypted data. 
+
+해결책은 간단하다. : 데이터를 암호화한 후에 그 암호문의 MAC을 덧붙인다. 
+
+** Never MAC-then-Encrypt
+You'll note that I said before that you should encrypt first. This is critical, but something that many crypto protocols get wrong. 
+
+그 전에 내가 암호화를 먼저해야 한다고 말했을 것이다. 이 것은 아주 중요하지만 많은 암호화 프로토콜이 잘못 구현하고 있다. 
+
+When you MAC then encrypt, you have to decrypt the data and then validate the MAC. This introduces a multitude of problems, such as padding oracles. 
+
+MAC을 먼저 구한 후에 암호화를 하게 되면, 데이터를 먼저 해독한 후에 MAC을 검증해야 한다. 이 것은 다수의 문제를 양산한다. 특히 패딩 오라클과 같은. 
+
+** Padding
+Most commonly, data encrypted with a block cipher will not fall neatly on a block boundary and even if it does, there's nothing stopping you from chopping blocks off the end; the data will be truncated, but will decrypt properly. So we always pad data, even if it's a multiple of the block size. 
+
+일반적으로 블록 암호로 암호화 된 데이터는 블록 경계에서 깔끔하게 떨어지지 않는다. 또한 떨어진다고 하더라도 블록의 끝에서 블록을 자르지 못하도록 막지는 않는다. 데이터는 잘리지만 제대로 해독된다. 따라서 우리는 블록 크기의 배수일지라도 항상 데이터를 채우도록 한다. 
+
+** PKCS #7
+The most common padding system you'll see in use is PKCS#7, and it's extraordinarily simple. If you need a byte of padding, it's a single 01 byte. If you need two bytes of padding, it's two 02 bytes.
+
+가장 일반적으로 사용되는 패딩 시스템은 PKCS # 7이며 매우 간단하다. 하나의 패딩 바이트가 필요하면 그 값은 0x01 이다. 두 개의 패딩이 필요하면 그 값은 두 개의 0x02 바이트가 된다.
+
+So if you have a block size of 8, here are some samples:
+
+따라서 만약 8바이트 블록 사이즈를 사용한다면 다음과 같이 패딩이 들어가게 된다.
+
+#+BEGIN_SRC bash
+daeken => daeken\x02\x02
+hacker101 => hacker101\x07\x07\x07\x07\x07\x07\x07
+somedatagoeshere => somedatagoeshere\x08\x08\x08\x08\x08\x08\x08\x08
+#+END_SRC
+
+Now, padding has to be validated during decryption so that you can ensure that the data was received properly; if there's a mismatch, something went wrong. 
+
+이제 암호 해독 중에 패딩 유효성 검사가 수행되어야 한다. 데이터가 올바르게 수신되었는지 확인하기 위해서 말이다. 만약 불일치가 있으면 뭔가 오류가 발생한다. 
+
+In PKCS#7, you can simply look at the last byte of the last block and see how many padding bytes there are, then check that those all match. 
+
+PKCS #7에서는 마지막 블록의 마지막 바이트를 보고 얼마나 많은 패딩 바이트가 있는지 확인한 다음 그 것들이 모두 일치하는지 확인할 수 있다.
+
+** Padding Oracle
+Padding oracle attacks come into play when you have CBC-mode data that is padded with PKCS#7. 
+
+패딩 오라클 공격은 PKCS #7으로 패딩된 CBC모드 암호화 데이터가 있을 때 가능하다. 
+
+If the server behaves differently when decrypting improperly padded data than properly padded data, this is an oracle -- you can send it data and know whether or not it's correctly padded. 
+
+만약 서버가 올바르게 패딩된 데이터와 부적절하게 패딩된 데이터를 복호화할 때 다르게 동작한다면, 그 것이 오라클이다. 데이터를 보냈을 때의 반응으로 올바르게 패딩되었는지를 알 수 있다. 
+
+If you remember, I mentioned that flipping a bit in one CBC ciphertext block will cause that bit position to be flipped in the next block's plaintext.
+
+기억할지 모르겠지만 어떤 CBC 암호문 블럭에서 하나의 비트를 뒤집으면, 다음 평문 블록의 해당 비트의 위치 값이 뒤집힌다고 말했었다. 
+
+Due to that simple bit of design, a padding oracle can allow us to use the server to completely decrypt data without knowing the key ourselves.
+
+이 단순한 비트 변화 설계 때문에 패딩 오라클 공격을 사용하면 키를 몰라도 서버의 응답을 통해 데이터를 완전히 해독할 수 있다. 
+
+When exploiting a padding oracle, we start from the last byte of the second-to-last block. Modifications there will affect the last byte of the last block of the data.
+
+패딩 오라클을 시도할 때 끝에서 두 번째 블록의 마지막 바이트부터 시작한다. 그 바이트를 수정하면 마지막 블록의 마지막 바이트에 영향을 줄 것이다. (역주: 이전 블록의 암호화 값이 다음 블록의 평문값으로 들어가므로 끝에서 두번째 블록의 마지막 바이트를 수정하면 마지막 블록의 마지막 바이트 값에 영향을 줄 것이다.)
+
+Our goal is to determine what byte of ciphertext in block N-1 will cause the plaintext of block N to be 0x1 when XORed together. Once we know this, we know that the plaintext of that byte in block N is cipher ^0x1.
+
+우리의 목표는 N-1번째 암호 블록 중 어떤 바이트가 N번 평문 블록과 XOR 되었을 때 0x1이 되는지를 알아내는 것이다. 이것을 알게되면 N번째 블록에서 해당 바이트의 평문은 =암호문^0x1= 이라는 것을 알게 된다.
+
+So let's say we have this data:
+
+그러면 다음과 같은 데이터를 가지고 있다고 해보자. 
+
+#+BEGIN_SRC bash
+hacker101\x07\x07\x07\x07\x07\x07\x07
+#+END_SRC
+
+We get out some ciphertext blob; for the purposes of this explanation, we'll say it's :
+
+암호문을 꺼낸다. 설명의 편의를 위해 다음과 같다고 해보자. 
+
+#+BEGIN_SRC bash
+deadbeefcafe0123
+feedface456789ab
+#+END_SRC
+
+To decrypt the second block, you decrypt it using your cipher, then you XOR that with the first ciphertext block to get your plaintext. 
+
+두 번째 암호 블록을 해독하려면 당신의 암호(?)를 사용하여 해독한 다음, 첫 번째 암호 블록과 XOR하여 평문을 얻어낸다.
+
+So with our example, we know that when you decrypt the block feedface456789ab, you must get something where the =last byte^0x23= (the last byte of the previous block) == 0x07.
+
+따라서 이 예제에서 블록 feedface456789ab 을 해독 할 때 0x23 (이전 블록의 마지막 바이트)과 XOR 했을 때 0x07 이 되는 마지막 바이트를 가져와야 한다는 것을 알 수 있다. 
+
+Any other value will cause a padding error -- except one! If instead of 0x07 our last became 0x01, that's valid too; that means that there's only one byte of padding. 
+
+다른 값을 지정하면 패딩 오류가 발생한다(하나만 제외하고)! 0x07 대신 0x01이되면 유효한 값이 된다. 이는 한 바이트만 패딩이라는 것을 의미한다. 
+
+So if we try all 255 other possible values for the last byte of our plaintext, we know that one of them will certainly not give us a padding error, because it'll set the final byte to 0x01.
+
+따라서 평문의 마지막 바이트에 대해 255 개의 다른 가능한 값을 시도하면, 그 중 하나는 분명히 패딩 에러를 발생시키지 않으며 그 이유는 최종 바이트를 0x01로 설정하기 때문이라는 것을 알 수 있다. 
+
+Once we know this value, we simply XOR that byte with 0x03 (to change the final padding to 0x02) and repeat the same thing for the byte before it -- one of them will make it so the last two bytes are 0x02 x02.
+
+이 값을 알게되면 해당 바이트를 (마지막 패딩이 0x02가 되도록)0x03과 XOR 하고 앞에 바이트에 대해 동일한 작업을 반복한다. 그래서 마지막 두 바이트가 0x02 0x02가 된다. 
+
+By performing this across all the bytes in a block, then walking back from there along the blocks, we can find the plaintext value of every single byte of this data.
+
+블록의 모든 바이트에 대해 이 작업을 수행 한 다음, 블록을 따라서 거꾸로 돌아오면 (역주: 얻어낸 중간값과 입력값을 XOR 하는 작업)  이 데이터의 모든 단일 바이트의 평문값을 얻을 수 있다. 
+
+I cut out some details for simplicity, but this is the basic process. Google around for "padding oracle attack" and you 'll find more in-depth examples and code to execute the attack. 
+
+단순화를 위해 세부 정보를 생략했지만 이것이 기본 프로세스이다. Google에서 "패딩 오라클 공격"을 검색하면 더 자세한 설명과 공격을 실행하기위한 코드를 찾을 수 있다.
+
+
+** Mitigation
+
+
+
+** Hash Extension
+
+
+** Mitigation
+
+
+
+
+
+
+
+
+
+
+[fn:1] https://www.hacker101.com/vulnerabilities/padding_oracle.html
