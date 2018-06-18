@@ -18,7 +18,7 @@ Given control of data and a padding oracle, an attacker can wholly decrypt said 
 * Remidiation
 There are a number of aspects to the proper remediation of padding oracle vulnerabilities. The server should never differentiate between different kinds of decryption errors; sending back a generic, identical error regardless of the cause of errors. Additionally, all encrypted data should contain an authentication method, for instance an HMAC. This will prevent any vulnerabilities related to tampering with ciphertext.
 
-- 서버는 여러 종류의 복호화 에러에 대해 서로 다른 응답을 하면 안된다. (응답을 통해 유추할 수 있기 때문) 에러의 원인과는 상관이 없는 일반적인 에러 메세지를 내보내라. 
+- 서버는 여러 종류의 복호화 에러에 대해 서로 다른 응답을 하면 안된다. (역:응답을 통해 유추할 수 있기 때문) 에러의 원인과는 상관이 없는 일반적인 에러 메세지를 내보내라. 
 - 모든 암호화된 데이터는 HMAC과 같은 인증 수단을 포함하고 있어야 한다. 이를 통해 암호문이 변조되었는지를 검출할 수 있다. 
 
 * Detail
@@ -83,10 +83,10 @@ username
 admin=1;
 #+END_SRC
 
-Once we have the encrypted from of this new cookie, we simply take the last block and put it in place of the first. Suddenly, this decrypts to a valid admin cookie! This attack is absolutely trivial and inherent to EBC.
+Once we have the encrypted from of this new cookie, we simply take the last block and put it in place of the first. Suddenly, this decrypts to a valid admin cookie! This attack is absolutely trivial and inherent to ECB.
 
 이 새로운 쿠키로 암호화한 후, 우리는 마지막 블록을 가져와서 첫 번째 블록으로 세팅한다. (역주: admin=0; 가 암호화된 블록은 버리고 admin=1; 가 암호화된 블록을 사용한다.)
-갑자기 이 것은 유효한 관리자 쿠키로 해독된다! 이 공격은 완전히 별 것아닌(널리 알려져 있는) EBC 고유의 공격이다. 
+갑자기 이 것은 유효한 관리자 쿠키로 해독된다! 이 공격은 완전히 별 것아닌(널리 알려져 있는) ECB 고유의 공격이다. 
 
 ** EBC Decryption
 Likewise, if we have some ability to decrypt ECB ciphertext, we can use the same block concept to decrypt other pieces of data. 

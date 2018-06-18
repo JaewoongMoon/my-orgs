@@ -1,0 +1,82 @@
+#+TITLE: Nexpose API 분석
+
+* API 목록
+** Asset
+자산 정보, 목록
+
+/api/3/assets
+
+- 페이지(page)와 페이지당 아이템 수(size)를 지정할 수 있다. 
+
+
+
+** Asset discovery
+자산 발견
+
+** Asset group
+자산 그룹
+
+** Credential
+
+
+** Policy
+정책
+
+** Policy Override
+
+** Remediation
+*** 개요
+- 경감방법 확인
+
+*** URL
+/api/3/assets/{id}/vulnerabilities/{vulnerabilityId}/solution
+
+- 어떤 자산에서 발견된 어떤 취약점인지를 지정을 해야 볼 수 있는 거구나...
+
+
+** Report
+레포트
+
+** Scan
+스캔
+
+** Scan Engin
+스캔 엔진
+
+** Scan Template
+스캔 템플릿
+
+** Site
+사이트 정보, 목록
+
+** Tag
+태그
+
+** User
+사용자
+
+** Vulnerability
+취약점
+
+/api/3/vulnerabilities/{id}
+
+*** Solutions
+솔루션 목록
+
+/api/3/solustions
+
+*** Vulnerability Check
+취약점 체크
+
+*** Vulnerability Result
+취약점 결과 
+
+*** Administration
+관리
+
+
+* 알아낸점
+- 취약점과 솔루션은 M:N 관계인 것 같다. 취약점 하나당 여러 개의 해결 방법이 있을 수 있고, 하나의 해결방법으로 여러 개의 취약점이 해결되기도 한다. 
+- 사이트에서 해결방법 리스트만 뽑을 수는 없는 것 같다. 사이트 내의 서버별 해결방법 리스트는 얻을 수 있다. 
+- 그리고 넥스포즈 WebUI에서 각 정보의 ID를 얻을수 없는 것이 문제다. 예를들어 이번에 진행한 스캔결과에 대한 취약점 목록이라던가 얻고 싶은데 이번에 진행한 스캔에 대한 ID를 알 수가 없다. 전체 스캔 결과를 얻어와서 뒤져보기 전까지는... 결국 전부다 동기화를 한다음에 찾아야 하는 것인가? 뭔가 좋은 방법은 없을지...
+

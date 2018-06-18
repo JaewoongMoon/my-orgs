@@ -1,0 +1,12 @@
+#+TITLE: 패딩
+
+* 개요
+- 블록암호 중 CBC 모드와 ECB 모드에서 사용되는 기술
+- CFB, OFB, CTR 등은 스트림 암호처럼 동작하기 때문에 (왜?) 패딩이 필요없다고 한다. [fn:2]
+
+
+[fn:1] https://www.di-mgt.com.au/cryptopad.html
+[fn:2] https://crypto.stackexchange.com/questions/25434/how-openssl-padding-for-aes-cfb-iv
+
+
+
