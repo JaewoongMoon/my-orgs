@@ -1,0 +1,65 @@
+
+* Section 1
+요약
+
+* Section 2
+검색된 시스템
+
+검색된 시스템 목록 (IP, 운영체제, 위험점수, 호스트명)
+
+
+* Section 3 
+검색된 취약점
+
+** 레벨 상인 취약성들
+상세 취약점별 영향을 받는 노드를 알려준다. 
+
+** 중인 취약점들
+
+...
+
+
+* Section 4
+검색된 서비스
+IP와 열린 포트, 구동중인 서비스들을 알려줌
+
+** unknown
+
+** HTTP
+
+** HTTPS
+
+** NTP
+
+** SNMP
+
+** SSH
+
+** Xwindows
+
+** eklogin (Kerberos (v4) encrypted rlogin)
+
+** klogin (Kerberos (v4/v5))
+
+** kshell (krcmd Kerberos (v4/v5))
+
+** portmapper
+
+
+* Section 5
+검색된 사용자 및 그룹
+
+
+* Section 6
+검색된 데이터 베이스
+
+* Section 7
+검색된 파일 및 디렉토리
+
+* Section 8
+정책 평가
+
+* Section 9
+스파이더링된 웹 사이트
+
+

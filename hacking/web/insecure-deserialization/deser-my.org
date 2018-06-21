@@ -1,0 +1,59 @@
+#+TITLE: Java Deser 취약점 페이로드 분석 in ysoserial
+
+* 개요/배경
+- Java deser 공격의 기본에 대해서는 이해했다.  
+- 다음 단계로 실제로 CVE가 발표된 취약점, 특히 apache common collection 관련 취약점은 어떻게 성립하는지를 알고싶어 졌다. 
+- 이 블로그가 아주 잘 설명되어 있다. [fn:1]
+- 하나씩 따라가 보면서 이해도를 높이도록 하자. 
+
+* Ready
+** Y SO SERIAL? - ysoserial.jar
+
+** Gadget Chain
+
+** 필요 배경지식
+
+* Payload only Execute
+** RCE 예제 실행
+
+** 예제 분석
+
+
+* Putting it all together
+** CommonsCollections1 페이로드
+
+
+** Main
+
+** sencondInvocationHandler - 첫번째 Handler
+
+** invocationHandlerToSerialize - 두번째 Handler
+*** Proxy를 이용한 객체 생성
+
+** invocationToSerialize 의 구조
+
+
+* Gadeget Chain Debugging
+** Gadget Chain - ObjectInputStream.readObject()
+
+
+** Gadget Chain - readObject() + Map.entrySet()
+
+
+** Gadget Chain - invoke() -> Payload only Execute
+
+
+
+* Debugging/Error Tip
+
+
+* 마치며..
+
+
+
+
+
+
+
+
+[fn:1] http://redscreen.tistory.com/155

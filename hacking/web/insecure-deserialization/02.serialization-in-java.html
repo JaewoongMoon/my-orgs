@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>직렬화/역직렬화 개념</title>
+<!-- 2018-06-20 수 17:21 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">직렬화/역직렬화 개념</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 개념</a></li>
+<li><a href="#sec-2">2. 왜 필요한가? / 언제쓰이는가?</a></li>
+<li><a href="#sec-3">3. JAVA에서 직렬화/역직렬화하는 방법</a>
+<ul>
+<li><a href="#sec-3-1">3.1. 직렬화된 파일</a></li>
+<li><a href="#sec-3-2">3.2. 헥스 에디터로 열어본 모습</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. 기본지식편</a>
+<ul>
+<li><a href="#sec-4-1">4.1. 직렬화된 객체 바이너리 분석</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 개념</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+직렬화 : 메모리 상에 존재하는 객체를 어떤 데이터 포맷으로 변환하는 것 (나중에 쓰기위해)
+</p>
+
+<p>
+직렬화 개념은 Java에만 있는가?
+</p>
+
+<p>
+직렬화는 대부분의 언어에서 지원한다. <sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>
+</p>
+
+<p>
+역직렬화는 반대 : 데이터 포맷을 입력받아서 객체를 다시 만들어내는 것
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 왜 필요한가? / 언제쓰이는가?</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>데이터로서 보존할 때
+</li>
+<li>통신할 때
+</li>
+<li>예를들면, JSON 이나 XML형식으로 표현된 문자열도 직렬화의 한 예이다.
+</li>
+<li>또한, 각 언어별로 직렬화 메카니즘이 존재. 이 때는 별도의 포맷으로 변환된다. 
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> JAVA에서 직렬화/역직렬화하는 방법</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-java">package serialization;
+
+import java.io.Serializable;
+
+/**
+ * @brief   :
+ * @author  : Jae-Woong Moon(mjw8585@gmail.com)
+ * @Date    : 2017. 11. 22.
+ */
+public class User implements Serializable{
+
+	private String name;
+	private String password;
+	private String email;
+	private int age;
+
+	public User(String name, String password, String email, int age){
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.age = age;
+	}
+
+	public String toString(){
+		return "(" + name +", " + password + ", " + email + ", " + age + ")"; 
+	}
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-java">package serialization;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+/**
+ * @brief   :참고 : http://flowarc.tistory.com/entry/Java-%EA%B0%9D%EC%B2%B4-%EC%A7%81%EB%A0%AC%ED%99%94Serialization-%EC%99%80-%EC%97%AD%EC%A7%81%EB%A0%AC%ED%99%94Deserialization
+ * @author  : Jae-Woong Moon(mjw8585@gmail.com)
+ * @Date    : 2017. 11. 22.
+ */
+public class TestClass {
+
+	private static final String path = "user.ser"; //프로젝트 루트에 저장됨. 
+
+	public static void main(String[] args) {
+		serialize();
+		deserialize();
+	}
+
+	public static void serialize(){
+		try{
+			FileOutputStream fos = new FileOutputStream(path);
+			BufferedOutputStream bos = new BufferedOutputStream(fos);
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+
+			User u1 = new User("User1", "1234", "ldd@naver.com", 30);
+			User u2 = new User("User2", "5678", "teser@gmail.com", 25);
+
+			ArrayList list =new ArrayList&lt;&gt;();
+			list.add(u1);
+			list.add(u2);
+
+			out.writeObject(u1);
+			out.writeObject(u2);
+			out.writeObject(list);
+			out.close();
+			System.out.println("직렬화 완료");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public static void deserialize(){
+		try {
+			FileInputStream fis = new FileInputStream(path);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			ObjectInputStream in = new ObjectInputStream(bis);
+
+			User u1 = (User) in.readObject();
+			User u2 = (User) in.readObject();
+			ArrayList list = (ArrayList) in.readObject();
+
+			System.out.println(u1.toString());
+			System.out.println(u2.toString());
+			System.out.println("count : " + list.size());
+			System.out.println(list.toString());
+
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 직렬화된 파일</h3>
+<div class="outline-text-3" id="text-3-1">
+
+<div class="figure">
+<p><img src="./img/java-serial-ex1.png" alt="java-serial-ex1.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 헥스 에디터로 열어본 모습</h3>
+<div class="outline-text-3" id="text-3-2">
+
+<div class="figure">
+<p><img src="./img/java-serial-ex2.png" alt="java-serial-ex2.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 기본지식편</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 직렬화된 객체 바이너리 분석</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+바이너리에 클래스에 대한 각종 정보를 나타내는 플래그를 포함한다. 
+</p>
+
+<ul class="org-ul">
+<li>필드의 타입, 직렬화되는 필드의 개수 등..
+</li>
+</ul>
+
+<p>
+순서는 필드명, 타입, 값 순으로 저장된다는 것. 
+</p>
+
+<p>
+AC ED : 매직넘버
+</p>
+
+<p>
+00 05 : 버전
+</p>
+
+<p>
+73 72 : CONTENT ELEMENT (TC<sub>OBJECT</sub>, TC<sub>CLASSDESC</sub>) 나머지 데이터의 구조를 추론하는데에 쓰인다.
+</p>
+
+<p>
+중요한 것은 스트림이 저장되는 것에도 분명히 문법이 있다는 것. 
+</p>
+
+<p>
+스트림에 쓰여진 각 오브젝트들은 핸들을 부여받는다. 
+</p>
+
+<p>
+핸들은 0x7E0000부터 시작한다. (스트림이 리셋되면 0x7E0000부터 다시 시작)
+</p>
+
+
+
+<p>
+스트림안에 저장된 오브젝트는 로드되면 바로 인스턴스화 된다. 모든 스트림이 해석되기 전에&#x2026;
+</p>
+
+<p>
+이 말은 페이로드는 검증전에 역직렬화되고 실행된다는 것! 위험하구만!
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+<a href="https://ko.wikipedia.org/wiki/%EC%A7%81%EB%A0%AC%ED%99%94">https://ko.wikipedia.org/wiki/%EC%A7%81%EB%A0%AC%ED%99%94</a>
+</p></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Created: 2018-06-20 수 17:21</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
