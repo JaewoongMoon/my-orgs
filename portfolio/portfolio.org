@@ -64,7 +64,7 @@ https://github.com/JaewoongMoon/my-orgs
 - cve-2015-5161（zend framework xxe）紹介
 - https://www.slideshare.net/ted0201/jp-xxe-injection20170627moon
 
-[[./img/xxe-injection-2.jpg]]
+[[./xxe-injection-2.jpg]]
 
 ** CTF紹介と問題を解く実習
 - 2016年12月
