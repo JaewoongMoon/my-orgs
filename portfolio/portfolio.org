@@ -28,7 +28,7 @@ https://github.com/JaewoongMoon/my-orgs
 * 診断ツール開発プロジェクト
 | 順番 | 名前      | ソースコード                              | 説明                                                   |
 |------+-----------+-------------------------------------------+--------------------------------------------------------|
-|    1 | Davis     | プライベート                              | 診断管理/脆弱性管理/結果レポート自動生成/サーバー管理                |
+|    1 | Davis     | プライベート                              | 診断管理/脆弱性管理/結果レポート自動生成/サーバー及びSW資産管理          |
 |    2 | Katana    | https://github.com/JaewoongMoon/katana    | ブラインドSQLインジェクションの自動化ツール（診断用）  |
 |    3 | Fuzz      | https://github.com/JaewoongMoon/fuzz      | ウェブパラメータに攻撃ペイロードセッティング（診断用） |
 |    4 | unsafeweb | https://github.com/JaewoongMoon/unsafeweb | 脆弱に開発されているサイト。ウェブ攻撃テスト用         |
@@ -63,6 +63,8 @@ https://github.com/JaewoongMoon/my-orgs
 - xxe基本攻撃とアプリケーション攻撃実習
 - cve-2015-5161（zend framework xxe）紹介
 - https://www.slideshare.net/ted0201/jp-xxe-injection20170627moon
+
+[[./img/xxe-injection-2.jpg]]
 
 ** CTF紹介と問題を解く実習
 - 2016年12月
