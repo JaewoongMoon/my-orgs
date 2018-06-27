@@ -28,13 +28,16 @@ https://github.com/JaewoongMoon/my-orgs
 * 診断ツール開発プロジェクト
 | 順番 | 名前      | ソースコード                              | 説明                                                   |
 |------+-----------+-------------------------------------------+--------------------------------------------------------|
-|    1 | Davis     | プライベート                              | 診断レポートの自動生成                                 |
+|    1 | Davis     | プライベート                              | 診断管理/脆弱性管理/結果レポート自動生成/サーバー管理                |
 |    2 | Katana    | https://github.com/JaewoongMoon/katana    | ブラインドSQLインジェクションの自動化ツール（診断用）  |
 |    3 | Fuzz      | https://github.com/JaewoongMoon/fuzz      | ウェブパラメータに攻撃ペイロードセッティング（診断用） |
 |    4 | unsafeweb | https://github.com/JaewoongMoon/unsafeweb | 脆弱に開発されているサイト。ウェブ攻撃テスト用         |
 
 
 * セキュリティセミナー/研究資料
+** padding oracle脆弱性の原理と防御方法 (韓国語)
+- 2018年6月
+- https://github.com/JaewoongMoon/my-orgs/blob/master/hacking/crypto/padding-oracle/padding-oracle-for-seminar.org
 
 ** ブラインドSQLインジェクション実習と自動化ツールの紹介
 - 2018年3月
