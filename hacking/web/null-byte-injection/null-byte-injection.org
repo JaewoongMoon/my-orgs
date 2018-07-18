@@ -1,4 +1,9 @@
-#+TITLE: Null Byte Injection
+#+TITLE: Null byte injection
+
+* 개요
+- C/C++, PHP 등에서 널바이트 문자열(%00, 0x00)은 문자열의 끝을 의미하기 때문에 특정 확장자를 숨기기 위한 목적으로 사용될 수 있다. [fn:1]
+
+
 * 기본지식
 문자열의 끝을 표시하는 특정한 값이 각 언어마다 존재한다.
 
@@ -21,3 +26,9 @@ http://demo.testfire.net/default.aspx?content=../../../../boot.ini%00.txt
 	
 * 참고 URL
 http://resources.infosecinstitute.com/null-byte-injection-php/#gref
+
+[fn:1] http://4rgos.tistory.com/8
+
+
+
+

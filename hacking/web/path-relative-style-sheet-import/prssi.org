@@ -1,0 +1,87 @@
+#+TITLE: Path-relative style sheet import (PRSSI)
+
+* 배경
+- burp 에서 추천해주어서 이 공격의 존재를 알게 되었다. 
+- 2014년에 Gareth Heyes 가 처음으로 소개했다고 한다. 
+
+* 기초 지식
+- 
+
+* 공격 개요
+** 브라우저를 쿼크 모드로 동작하게 한다. 
+쿼크모드인 경우 새로운 스타일시트가 삽입되었을 때 페이지를 다시 렌더링 한다는 듯하다.
+브라우저를 쿼크 모드로 동작하게 하는 방법은 몇 가지가 있다. 
+- 브라우저가 doctype을 세팅하는데 실패하면 쿼크 모드가 켜지게 된다. 
+- 혹은 다음과 같은 오래된 doctype을 사용하는 경우에 쿼크 모드가 켜진다. 
+#+BEGIN_SRC xml
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+#+END_SRC
+
+- IE를 사용하는 경우 문서의 doctype이 올바르더라도 다음과 같은 메타태그가 있으면 쿼크 모드가 동작된다. 
+#+BEGIN_SRC xml
+<meta http-equiv="X-UA-Compatible"content="IE=EmulateIE7">
+#+END_SRC
+
+
+
+
+
+* 기타 
+** 브라우저가 quirk 모드로 동작중인지 알 수 있는 방법은?
+- javascript 콘솔에서 *document.compatMode* 를 쳐본다. [fn:2]
+- 'CSS1Compat' 이 출력된다면 표준 모드이고 그 이외의 문자열이 출력된다면 쿼크 모드이다. 
+- 실제로 위의 오래된 doctype을 설정한 웹 페이지에서는 'BackCompat' 이라는 문자열이 출력된 것을 확인하였다. 
+
+** jsp 테스트 환경에서 URL 뒤에 패스를 붙이면 에러 페이지가 반환된다. 이렇게 동작하는 이유는?
+- 기본동작이 이렇다. 즉 정확하게 URL이 매핑되었을 때만 해당 페이지가 제동되는 것이 원래 동작이라는 것이다. 
+- 뒤에 여러가지 패스를 붙여도 동작하도록 하는 것은 'wildcard url mapping' 이라고 부른다. 
+- 이 것은 웹 서버에 설정을 추가 (룰 추가) 해서도 가능하고 어플리케이션의 컨트롤러에 wildcard url (/foo/* 와 같은)을 추가하는 것으로도 가능하다. 
+
+** IE 버전별 CSS 인젝션 결과 
+다음과 괕은 jsp 소스코드로 테스트 환경을 구성하였다. 
+
+#+BEGIN_SRC jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> -->
+<!-- old doctype - quirk mode trigger -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">   
+<html>
+<head>
+<%
+	String url = request.getRequestURI();
+	String decoded = java.net.URLDecoder.decode(url, "UTF-8"); //URL 디코딩되지 않는 경우 공격 성립되지 않음
+%>
+
+<!-- <meta http-equiv="X-UA-Compatible"content="IE=EmulateIE7"> -->
+<title>Insert title here</title>
+<link href="<%= decoded%>/styles/my.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+This is a text.
+
+</body>
+</html>
+#+END_SRC
+
+- 테스트 페이로드는 다음과 같다. 
+#+BEGIN_SRC bash
+%0a{}*{color:red;}///
+#+END_SRC
+
+전체 URL은 다음과 같다. 
+#+BEGIN_SRC bash
+http://localhost:8080/prssi-server/index/%0a{}*{color:red;}///
+#+END_SRC
+
+- 테스트해본 결과 IE 5,6,7 버전은 쿼크 모드가 동작중이지 않더라도 CSS 인젝션이 가능했다. 
+- IE 8 버전은 쿼크 모드가 동작중일 때 CSS 인젝션이 가능했다. 
+- IE 9 는 테스트가 실패
+- IE 11이상부터는 CSS 인젝션이 불가능했다. 
+
+
+If we can fool the CSS parsing into ignoring the illegal syntax before our intended code we can get the CSS parser to load our code.
+
+
+[fn:1] https://portswigger.net/blog/detecting-and-exploiting-path-relative-stylesheet-import-prssi-vulnerabilities
+[fn:2] https://stackoverflow.com/questions/627097/how-to-tell-if-a-browser-is-in-quirks-mode
+[fn:3] http://www.thespanner.co.uk/2014/03/21/rpo/
