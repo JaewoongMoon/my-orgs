@@ -1,0 +1,29 @@
+
+
+* What is a web application vulnerabilty?
+
+* Environment setup
+
+* Web application fundamental - HTTP, session, same-origin policy, CORS
+
+* Web application security bugs
+
+* Representative security function 
+** Authentication 
+
+** Account management
+
+** Authorization
+
+** Printing log
+
+* Character code and security
+
+* Introduction to Vulnerability Diagnosis
+
+* To increase security level of Web site 
+
+* Development management for secure web application
+
+
+

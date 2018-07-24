@@ -1,0 +1,284 @@
+#+TITLE: 버프 확장 샘플 프로그램 
+
+* 개요
+PortSwigger 에서 제공하는 버프 스위트 확장 샘플 프로그램들 [fn:1] 을 실행한 결과를 정리한 문서입니다. 
+
+
+* 샘플 프로그램 목록
+** Hello world
+extender-how-to-start.org 문서에 기록
+
+** Event listeners
+소스코드 : https://github.com/PortSwigger/example-event-listeners
+
+#+BEGIN_SRC Java
+package burp;
+
+import java.io.PrintWriter;
+
+public class BurpExtender implements IBurpExtender, IHttpListener, 
+        IProxyListener, IScannerListener, IExtensionStateListener
+{
+    private IBurpExtenderCallbacks callbacks;
+    private PrintWriter stdout;
+    
+    //
+    // implement IBurpExtender
+    //
+    
+    @Override
+    public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks)
+    {
+        // keep a reference to our callbacks object
+        this.callbacks = callbacks;
+        
+        // set our extension name
+        callbacks.setExtensionName("Event listeners");
+        
+        // obtain our output stream
+        stdout = new PrintWriter(callbacks.getStdout(), true);
+        
+        // register ourselves as an HTTP listener
+        callbacks.registerHttpListener(this);
+        
+        // register ourselves as a Proxy listener
+        callbacks.registerProxyListener(this);
+        
+        // register ourselves as a Scanner listener
+        callbacks.registerScannerListener(this);
+        
+        // register ourselves as an extension state listener
+        callbacks.registerExtensionStateListener(this);
+    }
+
+    //
+    // implement IHttpListener
+    //
+
+    @Override
+    public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse messageInfo)
+    {
+        stdout.println(
+                (messageIsRequest ? "HTTP request to " : "HTTP response from ") +
+                messageInfo.getHttpService() +
+                " [" + callbacks.getToolName(toolFlag) + "]");
+    }
+
+    //
+    // implement IProxyListener
+    //
+
+    @Override
+    public void processProxyMessage(boolean messageIsRequest, IInterceptedProxyMessage message)
+    {
+        stdout.println(
+                (messageIsRequest ? "Proxy request to " : "Proxy response from ") +
+                message.getMessageInfo().getHttpService());
+    }
+
+    //
+    // implement IScannerListener
+    //
+
+    @Override
+    public void newScanIssue(IScanIssue issue)
+    {
+        stdout.println("New scan issue: " + issue.getIssueName());
+    }
+
+    //
+    // implement IExtensionStateListener
+    //
+
+    @Override
+    public void extensionUnloaded()
+    {
+        stdout.println("Extension was unloaded");
+    }
+#+END_SRC
+
+배울 수 있는 것 
+- HTTP 이벤트, 프록시 이벤트, 스캔 이슈, 확장 프로그램 언로드 이벤트 등을 캡처하는 방법
+
+실행결과
+
+[[./img/event-listener.png]]
+
+** Traffic redirector
+
+
+** Custom logger
+- 소스코드 : https://github.com/PortSwigger/custom-logger/tree/master/java
+
+배울 수 있는 것
+간단한 커스텀 로거를 만들면서 다음을 배운다. 
+- 새로운 탭을 추가하기 (ITab)
+- 탭안의 UI를 구성하기 (extends AbstractTableModel)
+- 화면에 표시되는 메세지를 핸들링하기 (IMessageEditorController)
+
+*** 새로운 탭 추가하기
+#+BEGIN_SRC Java
+ // implement ITab
+    //
+
+    // 탭의 이름을 리턴한다. 
+    @Override
+    public String getTabCaption()
+    {
+        return "Logger";
+    }
+
+    // UI 오브젝트(주로 Swing 오브젝트) 를 리턴하면 된다. 
+    @Override
+    public Component getUiComponent()
+    {
+        return splitPane; 
+    }
+#+END_SRC
+
+*** 탭 
+
+
+** Custom editor tab
+- 소스 코드 : https://github.com/PortSwigger/example-custom-editor-tab
+
+배울수 있는 것
+- 새로운 에디터 탭을 추가하기 (IMessageEditorTabFactory)
+
+** Custom scan insertion points
+- 소스코드: https://github.com/PortSwigger/example-custom-scan-insertion-points
+
+#+BEGIN_SRC Java
+package burp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BurpExtender implements IBurpExtender, IScannerInsertionPointProvider
+{
+    private IExtensionHelpers helpers;
+
+    //
+    // implement IBurpExtender
+    //
+    
+    @Override
+    public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks)
+    {
+        // obtain an extension helpers object
+        helpers = callbacks.getHelpers();
+        
+        // set our extension name
+        callbacks.setExtensionName("Serialized input scan insertion point");
+        
+        // register ourselves as a scanner insertion point provider
+        callbacks.registerScannerInsertionPointProvider(this);
+    }
+
+    //
+    // implement IScannerInsertionPointProvider
+    //
+    
+    @Override
+    public List<IScannerInsertionPoint> getInsertionPoints(IHttpRequestResponse baseRequestResponse)
+    {
+        // retrieve the data parameter
+        IParameter dataParameter = helpers.getRequestParameter(baseRequestResponse.getRequest(), "data");
+        if (dataParameter == null)
+            return null;
+        
+        // if the parameter is present, add a single custom insertion point for it
+        List<IScannerInsertionPoint> insertionPoints = new ArrayList<IScannerInsertionPoint>();
+        insertionPoints.add(new InsertionPoint(baseRequestResponse.getRequest(), dataParameter.getValue()));
+        return insertionPoints;
+    }
+
+    //
+    // class implementing IScannerInsertionPoint
+    //
+    private class InsertionPoint implements IScannerInsertionPoint
+    {
+        private byte[] baseRequest;
+        private String insertionPointPrefix;
+        private String baseValue;
+        private String insertionPointSuffix;
+
+        InsertionPoint(byte[] baseRequest, String dataParameter)
+        {
+            this.baseRequest = baseRequest;
+            
+            // URL- and base64-decode the data
+            dataParameter = helpers.bytesToString(helpers.base64Decode(helpers.urlDecode(dataParameter)));
+
+            // parse the location of the input string within the decoded data
+            int start = dataParameter.indexOf("input=") + 6;
+            insertionPointPrefix = dataParameter.substring(0, start);
+            int end = dataParameter.indexOf("&", start);
+            if (end == -1)
+                end = dataParameter.length();
+            baseValue = dataParameter.substring(start, end);
+            insertionPointSuffix = dataParameter.substring(end, dataParameter.length());
+        }
+
+        // 
+        // implement IScannerInsertionPoint
+        //
+        
+        @Override
+        public String getInsertionPointName()
+        {
+            return "Base64-wrapped input";
+        }
+
+        @Override
+        public String getBaseValue()
+        {
+            return baseValue;
+        }
+
+        @Override
+        public byte[] buildRequest(byte[] payload)
+        {
+            // build the raw data using the specified payload
+            String input = insertionPointPrefix + helpers.bytesToString(payload) + insertionPointSuffix;
+            
+            // Base64- and URL-encode the data
+            input = helpers.urlEncode(helpers.base64Encode(input));
+            
+            // update the request with the new parameter value
+            return helpers.updateParameter(baseRequest, helpers.buildParameter("data", input, IParameter.PARAM_BODY));
+        }
+
+        @Override
+        public int[] getPayloadOffsets(byte[] payload)
+        {
+            // since the payload is being inserted into a serialized data structure, there aren't any offsets 
+            // into the request where the payload literally appears
+            return null;
+        }
+
+        @Override
+        public byte getInsertionPointType()
+        {
+            return INS_EXTENSION_PROVIDED;
+        }
+    }
+}
+#+END_SRC
+
+- 젠장할 이 소스코드만으로는 동작을 안한다. 이전의 Custom Editor 코드와 병합해야 쓸 수 있는데 병합부분은 설명이 없다.
+- 삽질을 하면서 될 때까지 합쳐보는 수 밖에 없다. 
+- 합치는게 아니라 별도 extention jar로 만들어서 버프에 로딩하면 되는 듯 하다! (물론 합쳐도 되지만)
+
+
+
+** Custom scanner checks
+
+
+
+** Custom session tokens
+
+** Intruder payloads
+
+
+[fn:1] https://portswigger.net/burp/extender

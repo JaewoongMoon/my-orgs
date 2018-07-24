@@ -1,47 +1,81 @@
 #+TITLE: Burp Extender API Summaries
-* list
-| num | interface name                   | description                                                                          |
-|-----+----------------------------------+--------------------------------------------------------------------------------------|
-|   1 | IBurpCollaboratorClientContext   |                                                                                      |
-|   2 | IBurpCollaboratorInteraction     |                                                                                      |
-|   3 | IBurpExtender                    | 프로그램의 진입점 (모든 확장프로그램은 이 인터페이스를 구현해야함).                  |
-|   4 | IBurpExtenderCallbacks           | 이 인터페이스의 구현체를 IBurpExtender 에 등록.(확장프로그램 이름,역할 등 지정 가능) |
-|   5 | IContextMenuFactory              | 메뉴 추가 관련                                                                             |
-|   6 | IContextMenuInvocation           | 메뉴 추가 관련                                                                             |
-|   7 | ICookie                          | 쿠키에 접근하고자 할 때 사용                                                                     |
-|   8 | IExtensionHelpers                | 요청/응답을 분석하거나 새로운 요청/응답을 만들 수 있다.                              |
-|   9 | IExtensionStateListener          | 확장 프로그램의 상태 관련                                                                       |
-|  10 | IHttpListener                    | Http 요청이나 응답을 캐치할 수 있다.                                                 |
-|  11 | IHttpRequestResponse             | 특정 요청 / 응답 객체에 접근할 수 있다.                                              |
-|  12 | IHttpRequestResponsePersisted    |                                                                                      |
-|  13 | IHttpRequestResponseWithMarkers  |                                                                                      |
-|  14 | IHttpService                     |                                                                                      |
-|  15 | IInterceptedProxyMessage         |                                                                                      |
-|  16 | IIntruderAttack                  |                                                                                      |
-|  17 | IIntruderPayloadGenerator        |                                                                                      |
-|  18 | IIntruderPayloadGeneratorFactory |                                                                                      |
-|  19 | IIntruderPayloadProcessor        |                                                                                      |
-|  20 | IMenuItemHandler                 |                                                                                      |
-|  21 | IMessageEditor                   | Request 뷰어, Response 뷰어를 만들 수 있다.                                          |
-|  22 | IMessageEditorController         | Request 뷰어나 Response 뷰어에서 상세정보를 볼 수 있게 해준다.                       |
-|  23 | IMessageEditorTab                |                                                                                      |
-|  24 | IMessageEditorTabFactory         |                                                                                      |
-|  25 | IParameter                       |                                                                                      |
-|  26 | IProxyListener                   |                                                                                      |
-|  27 | IRequestInfo                     |                                                                                      |
-|  28 | IResponseInfo                    |                                                                                      |
-|  29 | IResponseKeywords                |                                                                                      |
-|  30 | IResponseVariations              |                                                                                      |
-|  31 | IScanIssue                       |                                                                                      |
-|  32 | IScanQueueItem                   |                                                                                      |
-|  33 | IScannerCheck                    |                                                                                      |
-|  34 | IScannerInsertionPoint           |                                                                                      |
-|  35 | IScannerInsertionPointProvider   |                                                                                      |
-|  36 | IScannerListener                 |                                                                                      |
-|  37 | IScopeChangeListener             |                                                                                      |
-|  38 | ISessionHandlingAction           |                                                                                      |
-|  39 | ITab                             | 이 인터페이스를 구현하면 Burp에서 하나의 새로운 탭으로 추가된다.                     |
-|  40 | ITempFile                        |                                                                                      |
-|  41 | ITextEditor                      |                                                                                      |
 
-* Exercise with samples
+* 개요
+버프 스위트의 확장 인터페이스들을 간략히 정리하는 문서입니다. 
+
+** 특징
+- 인터페이스 이름으로 어느정도 추측할 수 있다. 
+- 예를들어 이벤트 리스너 종류들은 ~Listener 라는 이름을 가지고 있다. 
+
+* 인터페이스 목록 
+| num | interface name                   | type           | description                                                                                      |
+|-----+----------------------------------+----------------+--------------------------------------------------------------------------------------------------|
+|   1 | IBurpCollaboratorClientContext   |                |                                                                                                  |
+|   2 | IBurpCollaboratorInteraction     |                |                                                                                                  |
+|   3 | IBurpExtender                    | Mandatory      | 프로그램의 진입점 (모든 확장프로그램은 이 인터페이스를 구현해야함).                              |
+|   4 | IBurpExtenderCallbacks           | Logic          | 이 인터페이스의 구현체를 IBurpExtender 에 등록.(확장프로그램 이름,역할 등 지정 가능)             |
+|   5 | IContextMenuFactory              | UI             | 상단 메뉴 추가 관련(?)                                                                           |
+|   6 | IContextMenuInvocation           | UI             | 상단 메뉴 추가 관련(?)                                                                           |
+|   7 | ICookie                          | Domain         | 쿠키에 접근하고자 할 때 사용                                                                     |
+|   8 | IExtensionHelpers                | Logic          | 여러가지 헬프 메서드들이 있다. 예를들면, 요청/응답을 분석하거나 새로운 요청/응답을 만들 수 있다. |
+|   9 | IExtensionStateListener          | Event Listener | 확장 프로그램이 로드되거나 언로드되는 이벤트를 캐치한다.                                         |
+|  10 | IHttpListener                    | Event Listener | Http 요청/응답이 Burp로 들어오는 이벤트를 캐치한다.                                              |
+|  11 | IHttpRequestResponse             | Domain         | 특정 요청 / 응답 객체에 접근할 수 있다.                                                          |
+|  12 | IHttpRequestResponsePersisted    |                |                                                                                                  |
+|  13 | IHttpRequestResponseWithMarkers  |                |                                                                                                  |
+|  14 | IHttpService                     |                |                                                                                                  |
+|  15 | IInterceptedProxyMessage         |                |                                                                                                  |
+|  16 | IIntruderAttack                  |                |                                                                                                  |
+|  17 | IIntruderPayloadGenerator        |                |                                                                                                  |
+|  18 | IIntruderPayloadGeneratorFactory |                |                                                                                                  |
+|  19 | IIntruderPayloadProcessor        |                |                                                                                                  |
+|  20 | IMenuItemHandler                 |                |                                                                                                  |
+|  21 | IMessageEditor                   | UI             | Request 뷰어, Response 뷰어를 만들 수 있다.                                                      |
+|  22 | IMessageEditorController         |                | Request 뷰어나 Response 뷰어에서 상세정보를 볼 수 있게 해준다.                                   |
+|  23 | IMessageEditorTab                | UI             | 새로운 에디터 탭(을 구성하는 ui                                                                  |
+|  24 | IMessageEditorTabFactory         | UI             | 새로운 에디터 탭을 추가해주는 Factory                                                            |
+|  25 | IParameter                       | Domain         | 하나의 HTTP 파라메터의 상세 정보(이름,값,타입)를 얻을 수 있다.                                   |
+|  26 | IProxyListener                   | Event Listener | Burp Proxy가 요청/응답을 인터셉트하는 이벤트를 캐치한다.                                         |
+|  27 | IRequestInfo                     | Domain         | HTTP 요청 정보 (모든 파라메터를 포함)                                                            |
+|  28 | IResponseInfo                    | Domain         |                                                                                                  |
+|  29 | IResponseKeywords                | Domain         |                                                                                                  |
+|  30 | IResponseVariations              | Domain         |                                                                                                  |
+|  31 | IScanIssue                       | Domain         | 스캔 이슈를 정의하는 도메인 객체. IScannerCheck 객체와 주로 한쌍으로 사용될 것이다.              |
+|  32 | IScanQueueItem                   | Domain         |                                                                                                  |
+|  33 | IScannerCheck                    |                | 패시브/액티브 스캐너 체크 로직을 추가할 수 있다.                                                                     |
+|  34 | IScannerInsertionPoint           |                | 액티브 스캐너가 체크들에서 페이로드의 삽입 포인트를 지정해주는 역할을 한다.     |
+|  35 | IScannerInsertionPointProvider   |                | IScannerInsertionPoint 객체를 생성하고 burp에 등록해주는 역할을 한다.                            |
+|  36 | IScannerListener                 | Event Listener | Burp가 HTTP응답을 토대로 스캔을 진행한 결과, 보안이슈로 판명됐을 때의 이벤트를 캐치한다.         |
+|  37 | IScopeChangeListener             | Event Listener | 스코프가 바끼는 이벤트(언제인가?)를 캐치하는 것으로 보인다.                                      |
+|  38 | ISessionHandlingAction           |                |                                                                                                  |
+|  39 | ITab                             | UI             | 이 인터페이스를 구현하면 Burp에서 하나의 새로운 탭으로 추가된다.                                 |
+|  40 | ITempFile                        |                |                                                                                                  |
+|  41 | ITextEditor                      | UI             | 텍스트에디터 UI를 만들 수 있다. 텍스트 값 get/set , 수정가능여부 설정등이 가능하다.              |
+|     |                                  |                |                                                                                                  |
+
+This interface is used to define an insertion point for use by active Scanner checks. Extensions can obtain instances of this interface by registering an IScannerCheck, or can create instances for use by Burp's own scan checks by registering an IScannerInsertionPointProvider.
+
+
+* 메서드 목록 
+
+| interface name                 | method name           | description                                                                                                     |
+|--------------------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------|
+| IMessageEditorTab              | getTabCaption         | 탭 이름을 리턴                                                                                                  |
+| IMessageEditorTab              | getUiComponent        | UI 객체(에디터탭 화면을 구성하는 객체)를 리턴                                                                   |
+| IMessageEditorTab              | isEnabled             | 이 에디터탭을 보여줄 것인가를 리턴                                                                              |
+| IMessageEditorTab              | setMessage            | 해당 에디터탭을 선택했을 때 호출된다. 요청/응답 내용을 수정한 결과를 UI에 세팅한다.                             |
+| IMessageEditorTab              | getMessage            | 다른 에디터탭(Raw, Params, Headers, Hex)을 선택했을 때 호출된다.                                                |
+| IMessageEditorTab              | isModified            | 다른 에디터탭의 화면을 갱신할지 여부. true라면 getMessage 에서 리턴한 값으로 업데이트된다.                      |
+| IMessageEditorTab              | getSelectedData       | 선택된 데이터(텍스트) 리턴                                                                                      |
+| IScannerInsertionPointProvider | getInsertionPoints    | List<InsertionPoint> 객체를 만들어서 리턴                                                                       |
+| IScannerInsertionPoint         | getInsertionPointName | 이 InsertionPoint의 이름을 리턴                                                                                 |
+| IScannerInsertionPoint         | getBaseValue          | 기본 값을 리턴 (이 기본값이 에디터탭에서 하이라이팅되어 보인다.)                                                |
+| IScannerInsertionPoint         | buildRequest          | (수정된) 요청 내용을 byte[] 로 리턴                                                                             |
+| IScannerInsertionPoint         | getPayloadOffsets     | 페이로드 오프셋을 int[] 로 리턴                                                                                 |
+| IScannerInsertionPoint         | getInsertionPointType | 어느 위치-URL,BODY,COOKIE 등-에 인풋되는 것인지를 나타내는 타입을 리턴. 타입은 해당 인터페이스에 정의되어 있다. |
+|                                |                       |                                                                                                                 |
+
+
+
+* ref
+[fn:1] https://portswigger.net/burp/extender
