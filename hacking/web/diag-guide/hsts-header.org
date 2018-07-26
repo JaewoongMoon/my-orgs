@@ -2,3 +2,34 @@
 
 * HSTS 헤더 미설정
 ** 개요
+
+많은 유저들이 사이트 URL 앞에 https:// 를 붙이지 않고 사이트에 접속하고 있습니다. 이 경우 기본적으로 HTTP 평문 통신을 하게 되기 때문에 보안상 위험합니다. 
+이를 방지하기 위해 HSTS (Http Strict Transport Security) 가 개발되었습니다. 어떤 사이트가 웹브라우저의 HSTS 호스트 목록에 저장되면, 다음에 해당 사이트에 접속할 때 https:// 를 붙이지 않더라도 웹브라우저가 https:// 를 붙여서 접속하게 됩니다. 
+
+
+** 해결방법
+HTTP 응답에 HSTS 헤더가 추가되도록 합니다. 이 때, 적절한 max-age 와 도메인 설정을 합니다. 
+
+예를 들어 다음 헤더는 서브 도메인을 포함하여 31536000초(=1년) 동안 브라우저의 HTST 호스트 목록에 등록되도록 하는 헤더입니다.
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+
+
+** Ref
+https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
+
+
+* HSTSヘッダ未設定
+** 概要
+多くのユーザーがサイトのURLの前にhttps：//を付けずにサイトに接続しています。この場合、基本的にはHTTP平文通信をすることになるため、セキュリティ上危険です。
+これを防止するために、HSTS（Http Strict Transport Security）が開発されました。あるサイトが、WebブラウザのHSTSホストのリストに保存されると、次に該当サイトにアクセスする際に、ユーザがhttps：//を付けなくても、Webブラウザがhttps：//を付けて接続されます。
+
+
+** 解決方法
+HTTP応答にHSTSヘッダが追加されるようにします。このとき、適切なmax-ageとドメインの設定をします。
+
+たとえば、次のヘッダーは、サブドメインを含めて、31536000秒（=1年）の間には、ブラウザのHTSTホストリストに登録されるようにするヘッダです。
+Strict-Transport-Security：max-age = 31536000; includeSubDomains
+
+
+** Ref
+https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
