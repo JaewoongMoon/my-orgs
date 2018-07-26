@@ -1,0 +1,11 @@
+#+TITLE: User Defined Session Management
+
+
+* ユーザ定義セッション管理メカニズム
+** 概要
+Webサーバーで提供している基本的なセッション管理メカニズムを使用せずに個別に実装されたセッション管理メカニズムを使用しています。
+
+
+** Ref
+https://www.owasp.org/index.php/Top_10_2007-Broken_Authentication_and_Session_Management
+

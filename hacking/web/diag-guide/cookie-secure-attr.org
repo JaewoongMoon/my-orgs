@@ -1,0 +1,17 @@
+#+TITLE: Cookie doesn't have Secure attribute
+
+
+** 概要
+
+
+** 解決方法
+
+Java系列のサーバの場合は以下を参照してください。
+
+#+BEGIN_SRC xml
+<session-config>
+ <cookie-config>
+  <secure>true</secure>
+ </cookie-config>
+</session-config>
+#+END_SRC

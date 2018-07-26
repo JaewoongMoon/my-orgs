@@ -23,7 +23,7 @@
 |  11 | IHttpRequestResponse             | Domain         | 특정 요청 / 응답 객체에 접근할 수 있다.                                                          |
 |  12 | IHttpRequestResponsePersisted    |                |                                                                                                  |
 |  13 | IHttpRequestResponseWithMarkers  |                |                                                                                                  |
-|  14 | IHttpService                     |                |                                                                                                  |
+|  14 | IHttpService                     | Domain         | IHttpRequestResponse에서 얻을 수 있다. 호스트, 포트, 프로토콜 정보등을 가지고 있다.              |
 |  15 | IInterceptedProxyMessage         |                |                                                                                                  |
 |  16 | IIntruderAttack                  |                |                                                                                                  |
 |  17 | IIntruderPayloadGenerator        |                |                                                                                                  |
@@ -42,8 +42,8 @@
 |  30 | IResponseVariations              | Domain         |                                                                                                  |
 |  31 | IScanIssue                       | Domain         | 스캔 이슈를 정의하는 도메인 객체. IScannerCheck 객체와 주로 한쌍으로 사용될 것이다.              |
 |  32 | IScanQueueItem                   | Domain         |                                                                                                  |
-|  33 | IScannerCheck                    |                | 패시브/액티브 스캐너 체크 로직을 추가할 수 있다.                                                                     |
-|  34 | IScannerInsertionPoint           |                | 액티브 스캐너가 체크들에서 페이로드의 삽입 포인트를 지정해주는 역할을 한다.     |
+|  33 | IScannerCheck                    |                | 패시브/액티브 스캐너 체크 로직을 추가할 수 있다.                                                 |
+|  34 | IScannerInsertionPoint           |                | 액티브 스캐너가 체크들에서 페이로드의 삽입 포인트를 지정해주는 역할을 한다.                      |
 |  35 | IScannerInsertionPointProvider   |                | IScannerInsertionPoint 객체를 생성하고 burp에 등록해주는 역할을 한다.                            |
 |  36 | IScannerListener                 | Event Listener | Burp가 HTTP응답을 토대로 스캔을 진행한 결과, 보안이슈로 판명됐을 때의 이벤트를 캐치한다.         |
 |  37 | IScopeChangeListener             | Event Listener | 스코프가 바끼는 이벤트(언제인가?)를 캐치하는 것으로 보인다.                                      |
@@ -73,7 +73,9 @@ This interface is used to define an insertion point for use by active Scanner ch
 | IScannerInsertionPoint         | buildRequest          | (수정된) 요청 내용을 byte[] 로 리턴                                                                             |
 | IScannerInsertionPoint         | getPayloadOffsets     | 페이로드 오프셋을 int[] 로 리턴                                                                                 |
 | IScannerInsertionPoint         | getInsertionPointType | 어느 위치-URL,BODY,COOKIE 등-에 인풋되는 것인지를 나타내는 타입을 리턴. 타입은 해당 인터페이스에 정의되어 있다. |
-|                                |                       |                                                                                                                 |
+| IScannerCheck                  | doPassiveScan         | baseRequestResponse를 파라메터로 받는다. 패시브 스캔에서는 요청/응답에 특정 문자열이 포함되는지 여부로 이슈인지 여부를 판단한다. |
+| IScannerCheck                  | doActiveScan          | baseReuqestResponse와 insertionPoint를 파라메터로 받는다. 액티브 스캔에서는 페이로드를 요청에 넣어서 요청을 보낸다음 응답에 특정 문자열이 포함되어 있을 경우 이슈로 판단한다. |
+|                                |                       |                                                                                                                                                                               |
 
 
 

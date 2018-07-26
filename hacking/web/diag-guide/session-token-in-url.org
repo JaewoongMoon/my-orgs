@@ -1,0 +1,33 @@
+#+TITLE: Session/CSRF token in URL
+
+* Session/CSRF token in URL
+** 概要
+URLに含まれる機密情報は、ユーザーのブラウザ、Webサーバのログ、またはリバースプロキシサーバーのログなどさまざまな場所に記録される可能性があります。
+これにより、攻撃者に該当情報が知られる危険性も高くなります。
+
+** Issue Background
+Sensitive information within URL may be logged in various locations, including the user's browser, the web server, and any forward or reverse proxy servers between the two endpoints.
+URLs may also be displayed on-screen, bookmarked or emailed around by users. They may be disclosed to third parties via the Referer header when any off-site links are followed. 
+Placing session tokens into the URL increases the risk that they will be captured by an attacker. 
+
+URL 내에 포함된 민감한 정보는 사용자의 브라우저, 웹 서버 로그, 또는 리버스 프록시 서버 로그 등 다양한 위치에 기록될 수 있습니다.
+URL에 세션 토큰/CSRF 토큰을 노출할 경우 공격자에게 알려질 위험이 높아집니다.
+
+** Issue Remediation
+Applications should use an alternative mechanism for transmitting session totkens, such as HTTP cookies or hidden fields in forms that are submitted using the POST method. 
+
+CSRFトークンが含まれているページを参照するときは、POSTメソッドを使用することを推奨します。
+
+토큰을 전달할 때는 POST 메서드를 사용하는 것을 추천합니다. 
+
+
+** Detail
+Many implementations of synchronizer tokens include the challenge token in GET (URL) requests as well as POST requests. 
+This is often implemented as a result of sensitive server-side operations being invoked as a result of embedded links in the page or other general design patterns. 
+These patterns are often implemented without knowledge of CSRF and an understanding of CSRF prevention design strategies.
+While this control does help mitigate the risk of CSRF attacks, the unique per-session token is being exposed for GET requests. 
+CSRF tokens in GET requests are potentially leaked at several locations: browser history, HTTP log files, network appliances that make a point to log the first line of an HTTP request, and Referer headers if the protected site links to an external site.
+
+
+** ref
+https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet#Disclosure_of_Token_in_URL

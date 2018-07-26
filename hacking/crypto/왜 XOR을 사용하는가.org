@@ -32,3 +32,5 @@ https://crypto.stackexchange.com/questions/14782/why-does-ctr-mode-xor-the-plain
 
 아마도 XOR을 하지 않으면 중복되는 암호화 블락이 출현하기 쉽기 때문인 것 같다. (확실하지 않음. 대충 느낌이 그렇다.)
 
+
+추가정보) 칸 아카데미에서 정답을 찾았다. XOR 을 쓰지 않으면 정보가 노출된다. (AND, OR 등) CBC 펭귄 이미지처럼...

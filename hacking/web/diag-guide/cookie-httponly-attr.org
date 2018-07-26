@@ -1,0 +1,28 @@
+#+TITLE: Cookie doesn't have HttpOnly attribute
+
+** 概要
+If the HttpOnly attribute is set on a cookie, then the cookie's value cannot be read or set by client-side JavaScript. This measure makes certain client-side attacks, such as cross-site scripting, slightly harder to exploit by preventing them from trivially capturing the cookie's value via an injected script.
+
+쿠키에 HttpOnly 속성이 설정되어 있으면, 해당 쿠키 값은 클라이언트 측 자바스크립트에서 접근할 수 없습니다. 
+
+
+** 解決方法
+There is usually no good reason not to set the HttpOnly flag on all cookies. Unless you specifically require legitimate client-side scripts within your application to read or set a cookie's value, you should set the HttpOnly flag by including this attribute within the relevant Set-cookie directive.
+You should be aware that the restrictions imposed by the HttpOnly flag can potentially be circumvented in some circumstances, and that numerous other serious attacks can be delivered by client-side script injection, aside from simple cookie stealing.
+
+
+Java系列のサーバの場合は以下を参照してください。
+
+#+BEGIN_SRC xml
+<session-config>
+ <cookie-config>
+  <http-only>true</http-only>
+ </cookie-config>
+</session-config>
+#+END_SRC
+
+
+
+** Ref
+https://www.owasp.org/index.php/HttpOnly
+

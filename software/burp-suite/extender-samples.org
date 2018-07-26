@@ -271,10 +271,15 @@ public class BurpExtender implements IBurpExtender, IScannerInsertionPointProvid
 - 합치는게 아니라 별도 extention jar로 만들어서 버프에 로딩하면 되는 듯 하다! (물론 합쳐도 되지만)
 
 
-
 ** Custom scanner checks
+- 직접 스캔 체크 로직을 만들어 본다. 
 
+https://github.com/PortSwigger/example-scanner-checks/tree/master/java
 
+- 커스텀 스캔 체크의 설명은 영어만 쓸 수 있고, Issue Background 와 Issue remidiation 만 작성할 수 있다는 제약이 있다. 
+- Issue detail, Vulnerability classifications, References, 은 작성할 수 없다. 
+
+[[./img/custom-scan-check.png]]
 
 ** Custom session tokens
 

@@ -1,0 +1,16 @@
+#+TITLE: Session Does not destroied
+
+* セッション情報未破棄
+** 概要
+ログアウト後、セッション破棄処理がされないため、ログアウトする前に利用したセッションキーを再利用することができます。
+
+** Security Impact
+一つのセッションキーが攻撃者に漏洩される場合、永続的なセッションハイジャック状態になります。
+
+** 解決方法
+ログアウト時には、セッションキーを確実に破棄します。
+
+** Ref
+https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Automatic_Session_Expiration
+
+
