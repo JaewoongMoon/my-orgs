@@ -1,0 +1,44 @@
+#+TITLE: Misuse of CSRF Token
+
+* 개요
+- CSRF 공격을 막기 위한 유효한 방법으로 여러 사이트에서 사용되고 있는 것이 HTTP응답에 CSRF 토큰을 심어주는 방법이다. 
+- CSRF 토큰의 목적은 중요한 요청(Form 전송 등)을 자신이 서비스하는 웹 페이지에서 온 것이지를 판단하는 것이다. (자신의 페이지에서 온 요청 이외의 요청은 무시)
+
+
+* 논의점
+- CSRF 토큰을 매 요청마다 새로 만드는 것이 좋은가? 혹은 세션마다 한개의 값만 가지고 있는 것이 좋은가?
+- 이 논의에 대한 답은 여기[fn:1] 에서 찾을 수 있었다. 
+- 결론은 세션당 하나의 CSRF 토큰으로 충분하다는 내용이다. 
+- 매 요청마다 새로운 CSRF 토큰을 발행할 경우, 사용성에 큰 문제가 발생한다. 
+- 예를들어 사용자가 어떤 폼을 입력할 때 제출전 마음이 바껴서 백버튼을 누르고 내용을 수정하고 다시 제출하는 시나리오를 생각해보자.
+- 요청마다 새로운 CSRF 토큰을 발행하는 경우엔 제출을 시도할 경우 서버에서 보낸 에러 메세지가 출력될 것이다.
+- 요약하자면 매 요청마다 새로운 CSRF 토큰을 발행하는 것은 보안성은 거의 향상시키지 않으면서 사용성은 크게 떨어트리기 때문에 세션마다 CSRF 토큰을 발행하는 것이 좋다.
+- 다만 매 요청마다 CSRF 토큰을 발행하는 것도 약간의 보안향상 효과는 있다. 
+- 사이트에 XSS 공격이 가능할 경우 세션별 CSRF 토큰 발급 방식에 비해 적절한 CSRF 토큰을 얻는 것이 어려워지기 때문이다. (그러나 어려워진다는 것이지 못 얻어낸다는 것은 아니다. )
+
+
+* 설정
+** spring security 3.x
+*** 서버측 스프링 시큐리티 설정 파일
+#+BEGIN_SRC XML
+<http>
+  <csrf />
+</http>
+#+END_SRC 
+
+*** JSP 에서 CSRF 토큰 출력하기 
+JSP 에서 다음과 같은 태그를 쓸 수 있다. 
+
+#+BEGIN_SRC JSP
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<sec:csrfMetaTags />
+#+END_SRC
+
+HTML 에 다음과 같은 메타 태그가 출력된다.
+#+BEGIN_SRC HTML
+<meta name="_csrf_parameter" content="_csrf" />
+<meta name="_csrf_header" content="X-CSRF-TOKEN" />
+<meta name="_csrf" content="e5bcca08-df97-4fae-9d6c-38d737a84e72" />
+#+END_SRC
+
+[fn:1] https://security.stackexchange.com/questions/22903/why-refresh-csrf-token-per-form-request

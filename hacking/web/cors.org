@@ -1,0 +1,46 @@
+#+TITLE: CORS
+
+* 개요/배경
+- Cross-Origin Resource Sharing
+- Javascript 활용이 활발해지면서 동일 오리진 정책을 넘어서 사이트 간에 데이터를 교환(크로스 도메인)하려는 요구가 강해졌다. 
+- Javascript는 기본적으로 동일 출처 정책이 있기 때문에 크로스 사이트간 데이터교환(Ajax요청 등)이 불가능하다. 
+- 이 제한을 극복하고자 제안된 것이 CORS 임.
+- 조건이 갖추어진 환경(헤더에 접근 허용 도메인 지정 등) 하에서 데이터 교환을 할 수 있다. 
+- 중요한 것은 *리소스를 가진 서버측에서 권한을 설정* 해준다는 점이다. 
+- 클라이언트 측 요청은 여러 구현 방법이 있지만 주로 XMLHttpRequest를 사용
+
+XMLHttpRequest 샘플 코드 
+#+BEGIN_SRC Javascript
+<script>
+  var req = new XMLHttpRequest();
+  req.open('GET', 'http://a-url');
+  req.onreadystatechange = function() {
+    if (req.readyState == 4 && req.status == 200) {
+      alert(req.responseText);
+    }
+  };
+req.send(null);
+</script>
+#+END_SRC
+
+
+- CORS는 JSONP 의 대체수단으로 쓰일 수 있다. [fn:1]
+
+
+크로스 도메인 에러가 발생하면 브라우저에서 다음과 같은 메세지를 출력한다. [fn:2]
+#+BEGIN_SRC bash
+XMLHttpRequest cannot load [FQDN]. 
+No 'Access-Control-Allow-Origin' header is present on the requested resource.
+Origin '[FQDN]' is therefore not allowed access.
+#+END_SRC
+
+서버측에서 지정할 수 있는 헤더는 다음과 같은 것이 있다. 
+
+- Access-Control-Allow-Methods : 사용가능한 HTTP 요청 메서드 지정
+- Access-Control-Max-Age : 권한 확인을 위한 Preflight 요청이 캐시될 시간(초) 지정
+- Access-Control-Allow-Headers : 요청 헤더에 포함되는 헤더 값, 예를들어 "x-requested-with" 라고 지정할 경우 Ajax 요청만 허용할 수 있다. 
+- Access-Control-Allow-Origin : 접근을 허용할 클라이언트 도메인을 지정할 수 있다. "*" 로 지정할 경우 모든 도메인에서 접근가능하다.
+
+
+[fn:1] https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+[fn:2] http://ooz.co.kr/232
