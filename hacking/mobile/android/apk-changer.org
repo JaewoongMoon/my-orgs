@@ -1,0 +1,32 @@
+#+TITLE: APK Changer
+
+* 개요
+- apk 을 수정하기 위한 커맨드 라인 프로그램
+- 필요한 apktool 버전을 모두 내장하고 있는 all-in-one 패키지이다. 
+- 그래서 용량도 꽤 된다. 
+
+* 설치
+- https://github.com/Furniel/Apk-Changer/releases
+- 윈도우즈 설치파일을 다운로드/실행한다.
+- 기본 C:\ApkChanger 에 설치된다. 
+
+* 최초실행/환경설정
+- apkchanger.exe 를 더블클릭한다. 
+- 최초 실행시 환경 설정을 실시한다. 어떤 apktool 버전을 사용할 것인지 등.
+- 친절하게도 추천 항목을 표시해준다. 
+
+실행화면 샘플
+[[./img/apk-changer.png]]
+
+
+* 기능
+** decompile
+[[./img/apk-changer-decompile-menu.png]]
+
+디컴파일이 성공하면 out 폴더가 생기고 그 안에 결과물이 저장된다. 
+
+* 트러블슈팅
+** decompile apk를 선택하면 No apks in working folder Put apk in working folder and try again. 출력될 때
+place-files-here-for-modding 이라는 폴더에 apk을 넣어준다음에 다시 실행하면 된다. 
+
+

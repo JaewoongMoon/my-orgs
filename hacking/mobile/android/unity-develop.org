@@ -1,0 +1,27 @@
+#+TITLE: 유니티 개발 과정 살펴보기
+
+* 개요/목표
+간단한 샘플 프로그램을 개발해보고 IL2CPP 동작과정을 이해한다. 
+
+
+* 유니티 설치 
+유니티 Personal 버전은 무료다. 웹 검색으로 설치파일을 다운로드받아 설치한다. 
+
+
+* 참고
+** 유니티로 개발한 앱이 안드로이드에서 실행되는 흐름
+1. AndroidManifest.xml 의 main activity 에서 UnityPlayerActivity 가 구동된다. 
+2. UnityPlayerActivity의 onCreate 메소드가 실행된다.
+3. onCreate 메서드에서 new UnityPlayer 가 실행된다.
+4. UnityPlayer의 Static initializer 내에서 libmain.so 가 로드된다. 
+5. libmain.so의 JNI_Onload 에서 NativeLoader 의 load, unload 메서드와 libmain.so 내의 함수를 링크한다. 
+6. UnityPlayer의 Constructor가 실행된다.
+7. Constructor에서 NativeLoader의 load 메서드(=libmain.so의 함수)가 실행된다.
+8. libmain.so 함수에서 libmono.so, libunity.so 를 로드한다.
+9. libunity.so의 JNI_Onload 에서 NativeXXX 함수를 UnityPlayer의 메서드와 링크한다.
+10. 이후 UnityPlayer 와 libunity.so 가 게임 처리 진행.
+
+
+* REF
+https://engineering.linecorp.com/ja/blog/detail/110
+

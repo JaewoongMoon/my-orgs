@@ -1,0 +1,27 @@
+#+TITLE: IL2CPP 
+
+* 개요
+안드로이드 게임 진단 중 C# dll로 떨어지지 않는 게임에 대해서 조사한 결과를 정리하는 문서이다. 
+주로 라인 게임 엔지니어가 정리한 내용[fn:1] 을 참고하였다. 
+
+* Mono
+- .NET Framework 호환 환경을 제공하는 오픈 소스 소프트웨어
+- Unity는 이를 이용하여 멀티 플랫폼을 제공하고 있다. 
+
+
+* IL2CPP
+- IL (Intermidiate Language, 중간코드)을 C++파일(CPP)로 변환하는 툴이다. 
+- 컴파일하면 libil2cpp.so 내에 게임 소스 코드가 저장된다. 
+- 이 so파일을 디컴파일/분석하기 위해서는 유료인 IDA PRO가 가장 좋은 툴이다. 
+- 참고로 메소드 명, 참조문자열은 \assets\bin\Data\Managed\Metadata\global-metadata.dat에 저장되고, libil2cpp.so 가 동적으로 읽게된다. 
+- 따라서 IDA에서 so파일만 열어서는 메서드명과 참조문자열을 볼 수 없다. 그래서 구조체,오브젝트 베이스로 이 것들을 복원하는 IDA Script(unity_metadata_loader)를 사용한다. 
+
+
+
+
+
+
+* Ref
+[fn:1] https://engineering.linecorp.com/ja/blog/detail/110
+
+[fn:2] https://blogs.unity3d.com/kr/2015/05/06/an-introduction-to-ilcpp-internals/

@@ -80,7 +80,23 @@ file:jd.org
 file:apktool.org
 
 ** C# 코드 분석
-게임 앱이라면 유니티로 개발되어 있는 경우가 많다. 유니티는 주로 C#으로 개발된다. 
+file:c-sharp-code-diag.org
+
+** C++ 코드 분석
+C#코드가 없고 대신 /lib/armeabi-v7a 에 so 파일들이 있는 경우가 있다. 이 경우는 il2cpp 를 사용해서 C++ 코드로 변환한 것이다. 
+
+il2cpp 를 사용한 경우 볼 수 있는 파일은 다음과 같다. 
+
+| file name            | description                  |
+|----------------------+------------------------------|
+| libcri_ware_unity.so | ?                            |
+| libil2cpp.so         | 어플리케이션(게임) 소스 코드 |
+| libmain.so           | 아마도 메인? 용량은 작다.    |
+| libunity.so          | 유니티 라이브러리로 추정     |
+
+
+il2cpp 에 대한 자세한 내용은 다음 문서를 참조한다. 
+file:il2cpp.org
 
 
 
