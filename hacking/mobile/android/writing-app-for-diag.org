@@ -1,0 +1,39 @@
+#+TITLE: 테스트 앱 개발
+#+AUTHOR: jwmoon
+
+* 개요
+- 진단/테스트를 위한 기본적인 안드로이 앱 개발 과정을 설명한다. 
+
+
+* 안드로이드 스튜디오 설치
+- 구글에서 안드로이드 스튜디오로 검색해서 설치한다. 
+
+
+* 첫 앱 빌드
+** 안드로이드 프로젝트 생성
+File > New > New Project 를 선택한다. 
+
+어플리케이션 이름과 회사 도메인(패키지 경로) 를 입력하고 Next 를 클릭한다. 
+
+[[./img/new-project.png]]
+
+
+타겟 기기를 선택하는 화면이 나온다. 일단 선택되어 있는 기본값(Phone and Tablet, API 15) 으로 한 상태에서 Next를 클릭한다.
+
+[[./img/target-device.png]]
+
+추가할 액티비티를 선택하는 화면이 나온다. 기본 선택 값(Empty Activity)인 상태에서 Next를 클릭한다. 
+
+[[./img/add-activity.png]]
+
+
+
+
+[[./img/customize-activity.png]]
+
+
+
+
+
+* Ref
+- 첫앱빌드 : https://developer.android.com/training/basics/firstapp/creating-project?hl=ko
