@@ -35,15 +35,39 @@ Show advanced options 체크박스를 체크한다. 그러면 다음과 같이 �
 
 [[./img/3-proxy-setting-4.png]]
 
+** 안드로이드에 burp 인증서 설치하기
+안드로이드에 신뢰하는 인증서로 burp 인증서를 설치해두면 HTTPS 통신을 burpsuite에서 캡처할 수 있다. 
 
-** HTTP 프록시 사용시 주의점
-- 프록시를 사용중이면 구글 플레이 스토어에서 앱을 다운로드할 수 없다. 귀찮지만 앱을 다운로드하려면 프록시를 끈 상태에서 받아야 한다. 
+상세 설치과정은 https://support.portswigger.net/customer/portal/articles/1841102-installing-burp-s-ca-certificate-in-an-android-device 를 참고한다. 
+
+설치 순서를 대략 정리하면 다음과 같다. 
+
+1. 트래픽이 프록시로 향하도록 설정된 브라우저에서 http://burp 에 접속한다. 
+2. 우측 상단의 CA Certificate 를 클릭해서 cacert.der 파일을 다운로드한다. 
+3. cacert.der 파일의 이름을 cacert.cer 로 변경한다. 
+4. cacert.cer 을 안드로이드 기기로 복사한다. (실기계일 경우 이메일 활용, 에뮬레이터는 마운트된 폴더로 복사) 복사하는 경로는 /sdcard/Download 로 한다. 
+5. 녹스에서 Settings > PERSONAL > Security > Install from SD card 로 들어가서 cacert.cer 을 선택하면 설치완료.
+
+** 참고사항
+- burp 인증서 설치과정을 생략하면 프록시를 사용중일 때 구글 플레이 스토어에서 앱을 다운로드할 수 없다. HTTPS 통신을 사용할 수 없게 되기 때문이다. 프록시를 끄던가 burp 인증서를 설치해야 한다. 
 
 
 * TCP 패킷 캡처 
-- 앱에 따라 안드로이드에서 프록시 기능이 켜져 있으면 제대로 동작하지 않는 경우도 있다. 
-- 이럴 때는 패킷 캡처 앱을 사용한다. 
-- 'Packet Capture'라는 앱을 설치하고 설정과정에서 몇 번의 버튼 터치로 SSL 인증서도 설치할 수 있다. 
+- 앱에서 HTTP/HTTPS 통신을 사용하지 않는 경우는 burp로 트래픽을 캡처할 수가 없다. 
+- 이럴 때는 "Packet Capture" 앱을 사용한다. 
+
+** SSL 인증서 설치
+- 'Packet Capture' 앱에서 SSL 인증서를 설치할 수 있다.
+- Settings > Status 를 클릭하면 다음과 같은 화면이 나타난다. 
+
+[[./img/packet-capture-attention.png]]
+
+인증서를 설치하려면 안드로이드 화면 잠금을 설정해야 한다는 내용이다. PIN 또는 패스워드를 설정한다. 
+
+인증서 설치가 완료된 화면이다. 
+
+[[./img/packet-capture-certificate-installed.png]]
+
 - SSL 인증서를 설치하면 HTTPS 패킷도 볼 수 있다. 
 
 

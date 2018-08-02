@@ -22,7 +22,11 @@
 ** 트러블슈팅
 최신버전의 녹스 (6.x 이상) 에서는 Game Guardian 이 설치되지 않는 문제가 있다. (2018.7.27)
 
+[[./img/game-guardian-fail-nox-6.png]]
+
 다른 메모리 변조 툴인 Game Hacker 를 설치해봤지만 'Your device x86 CPU architecture is not supported!' 가 출력되면서 실패. 
+
+녹스 5 버전을 설치하고 다시 시도해보니 잘 된다. 녹스 버전을 올리면 안되겠군.
 
 
 
