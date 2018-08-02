@@ -11,11 +11,12 @@
 # 개요<a id="sec-1" name="sec-1"></a>
 
 -   틈틈히 정리한 기술문서를 정리하는 저장소입니다.
--   프로그래밍과 보안에 관한 것이 주된 내용입니다.
+-   프로그래밍과 보안이 주된 주제입니다.
+-   대부분의 파일은 이맥스의 org-mode 로 작성하였습니다.
 
 # 디렉토리<a id="sec-2" name="sec-2"></a>
 
-주료 디렉토리는 다음과 같습니다. 
+주요 디렉토리는 다음과 같습니다. 
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 

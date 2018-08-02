@@ -26,10 +26,16 @@ File > New > New Project 를 선택한다.
 
 [[./img/add-activity.png]]
 
-
-
+액티비티의 이름과 레이아웃 이름을 적는 화면이다. 기본 값 그대로 두고 Finish 를 클릭하면 프로젝트 생성이 완료된다. 
 
 [[./img/customize-activity.png]]
+
+
+** 중요 파일 확인
+
+
+
+** 프로젝트 빌드 / 실행
 
 
 
