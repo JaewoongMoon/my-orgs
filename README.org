@@ -1,5 +1,11 @@
 
+* 개요 
+- 틈틈히 정리한 기술문서를 정리하는 저장소입니다. 
+- 프로그래밍과 보안에 관한 것이 주된 내용입니다.
+
 * 디렉토리
+
+주료 디렉토리는 다음과 같습니다. 
 
 | directory 1         | directory2      | description                 |
 |---------------------+-----------------+-----------------------------|
@@ -11,7 +17,7 @@
 | hacking             | forensic        | 포렌식 관련                 |
 | hacking             | mobile          | 모바일 앱 해킹 관련         |
 | hacking             | network         | 네트워크 관련               |
-| hacking             | system          | 시스템(OS) 해킹 관련 |
+| hacking             | system          | 시스템(OS) 해킹 관련        |
 | hacking             | web             | 웹 해킹 관련                |
 | hardware            | [hardware part] | 하드웨어 관련               |
 | language            | clojure         | 클로저 관련                 |
@@ -30,4 +36,6 @@
 | software            | terminal        | 터미널 프로그램             |
 | software            | webserver       | 웹서버, WAS                 |
 | software            | wordpress       | 워드프레스                  |
+| translate           | -               | 심심할 때 번역한 것들       |
+
 

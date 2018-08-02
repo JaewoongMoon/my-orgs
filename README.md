@@ -2,12 +2,20 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. 디렉토리</a></li>
+<li><a href="#sec-1">1. 개요</a></li>
+<li><a href="#sec-2">2. 디렉토리</a></li>
 </ul>
 </div>
 </div>
 
-# 디렉토리<a id="sec-1" name="sec-1"></a>
+# 개요<a id="sec-1" name="sec-1"></a>
+
+-   틈틈히 정리한 기술문서를 정리하는 저장소입니다.
+-   프로그래밍과 보안에 관한 것이 주된 내용입니다.
+
+# 디렉토리<a id="sec-2" name="sec-2"></a>
+
+주료 디렉토리는 다음과 같습니다. 
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -214,6 +222,13 @@
 <td class="left">software</td>
 <td class="left">wordpress</td>
 <td class="left">워드프레스</td>
+</tr>
+
+
+<tr>
+<td class="left">translate</td>
+<td class="left">-</td>
+<td class="left">심심할 때 번역한 것들</td>
 </tr>
 </tbody>
 </table>
