@@ -20,10 +20,17 @@
 
 
 * 기능
+먼저 작업할 apk 파일을 place-files-here-for-modding 에 넣어준다. 
+
 ** decompile
 [[./img/apk-changer-decompile-menu.png]]
 
 디컴파일이 성공하면 out 폴더가 생기고 그 안에 결과물이 저장된다. 
+
+** compile 
+디컴파일된 파일중에서 변경하고 싶은 부분을 변경한 후 3번 메뉴 Compile apk 를 선택한다. 
+
+
 
 * 트러블슈팅
 ** decompile apk를 선택하면 No apks in working folder Put apk in working folder and try again. 출력될 때

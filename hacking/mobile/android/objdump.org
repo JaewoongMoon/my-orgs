@@ -56,6 +56,10 @@ objdump: can't use supplied machine arm
 arm-none-eabi-objdump -D -b binary -m arm -M force-thumb [파일명]
 #+END_SRC
 
+-M roce-thumb 를 넣는 것과 안 넣는 것의 차이에 대해서 나중에 알아보자. 넣고 안넣고에 따라 완전히 다른 결과가 나온다. 
+넣으면 훨씬 큰 용량이 파일이 떨어진다. 
+
+참고로 이번엔 안 넣었을 때 정확한 결과가 나왔다. 
 
 
 

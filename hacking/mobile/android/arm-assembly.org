@@ -1,0 +1,21 @@
+#+TITLE: ARM Assembly 정리
+
+* Assembly op code
+
+
+| opcode | 약자                      | 의미                               | action                     |
+|--------+---------------------------+------------------------------------+----------------------------|
+| bl     | branch with link          |                                    | R14 := R15, R15 := address |
+| cmp    | compare                   |                                    |                            |
+| mov    | move register or constant | 레지스터에 값을 저장한다.          | Rd := Op2                  |
+| add    | add                       |                                    |                            |
+| ldr    | load register from memory | 메모리상의 값을 레지스터에 로드    | Rd := (address)            |
+| b      | branch                    | R15 := address                     |                            |
+| str    | store register to memory  | 레지스터의 값을 메로리에 기록한다. | <address> := Rd            |
+|        |                           |                                    |                            |
+
+
+
+* 참고자료
+- ARM opcode : http://bear.ces.cwru.edu/eecs_382/ARM7-TDMI-manual-pt2.pdf
+
