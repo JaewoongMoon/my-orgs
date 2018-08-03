@@ -1,0 +1,70 @@
+#+TITLE: Objdump
+
+* 개요
+- GNU 바이너리 유틸리티의 일부
+- 라이브러리, 컴파일된 오브젝트 모듈, 공유 오브젝트 파일(so), 독립 실행파일 등의 바이너리의 정보를 보여주는 프로그램 [fn:1]
+- ELF 파일을 어셈블리어로 보여주는 역어셈블러로 사용할 수 있다. 
+- BFD 라이브러리를 사용한다고 한다. BFD (Binary File Descriptor library) 라이브러리는 오브젝트 파일을 다루는데 추상을 제공하기 위한 라이브러리이다. 다시말해 오브젝트 파일 형식이 어떤 것이던 동일한 루틴을 사용해 오브젝트 파일에 접근하기 위한 기술이다. [fn:5]
+
+* 설치
+여기[fn:2] 에서 mingw를 다운로드 받아 설치한다. 
+
+설치된 디렉토리의 bin 폴더에 가면 objdump.exe 파일이 있다. 여기를 PATH로 등록해서 커맨드라인으로 사용하면 된다.
+
+* 사용법
+#+BEGIN_SRC bash
+objdump [옵션] [파일명]
+#+END_SRC
+
+자주쓰는 옵션은 다음과 같다. 
+
+| option | description                                                                                              |
+|--------+----------------------------------------------------------------------------------------------------------|
+| D      | 모두 디스어셈블                                                                                          |
+| s      | 모든 컨텐츠 포함                                                                                         |
+| l      | (line-numbers) 옵션의 행 번호에 대응하는 소스코드를 삽입하여 출력 [fn:3]                                 |
+| x      | 모든 헤더 정보 표시                                                                                      |
+| b      | 타겟 bfd 명을 지정한다. 지정하지 않으면 objdump 가 자동으로 지정. oasis, binary 등이 지정가능한 것 같다. |
+| m      | (machine) 아키텍처를 지정할 수 있다. 예를들어, -marm 이라고 작성해서 arm 아키텍처를 지정가능하다.        |
+|        |                                                                                                          |
+
+모든 옵션은 여기[fn:4] 를 참고 한다.
+
+디스어셈블러로 사용시 명령어 예
+
+#+BEGIN_SRC bash
+odjdump -Dslx [파일명] > objdump.txt
+#+END_SRC
+
+
+* 트러블 슈팅
+모바일 앱에 포함된 so 파일을 리버싱할 때 다음과 같은 에러가 발생했다. 
+objdump: can't use supplied machine arm
+
+이런 경우에는 arm 용으로 컴파일된 arm-elf-objdump 를 사용하면 된다고 한다. [fn:6]
+혹은 arm-eabi-none-objdump 를 사용해서 성공한 사례도 있다.[fn:7]
+여기[fn:9] 에서 윈도우즈용 zip 파일을 다운로드 받아 설치하였다. 
+
+** eabi ?
+- ABI 란 Application Binary Interface의 약자
+- 프로세서와 OS 사이를 연결해주는 아주 낮은 레벨의 인터페이스
+- ARM 기반 CPU와 X86 기반 CPU는 opcode 구성이 아예 다르기 때문에 abi로 중재한다고 한다. [fn:8]
+
+** 재시도
+성공!! 
+#+BEGIN_SRC bash
+arm-none-eabi-objdump -D -b binary -m arm -M force-thumb [파일명]
+#+END_SRC
+
+
+
+
+[fn:1] https://ko.wikipedia.org/wiki/Objdump
+[fn:2] https://sourceforge.net/projects/mingw/files/MinGW/Base/binutils/binutils-2.28/
+[fn:3] http://devanix.tistory.com/188
+[fn:4] https://sourceware.org/binutils/docs/binutils/objdump.html
+[fn:5] http://luto.tistory.com/67
+[fn:6] https://stackoverflow.com/questions/3859453/using-objdump-for-arm-architecture-disassembling-to-arm
+[fn:7] https://qiita.com/eggman/items/f9de9ffa318db0f39043
+[fn:8] http://www.masterqna.com/android/654/armeabi%EC%99%80-armeabi-v7a%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%95%8C%EB%A0%A4%EC%A3%BC%EC%84%B8%EC%9A%94-%E3%85%A0%E3%85%A0
+[fn:9] https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads
