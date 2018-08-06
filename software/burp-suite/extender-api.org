@@ -32,7 +32,7 @@
 |  20 | IMenuItemHandler                 |                |                                                                                                  |
 |  21 | IMessageEditor                   | UI             | Request 뷰어, Response 뷰어를 만들 수 있다.                                                      |
 |  22 | IMessageEditorController         |                | Request 뷰어나 Response 뷰어에서 상세정보를 볼 수 있게 해준다.                                   |
-|  23 | IMessageEditorTab                | UI             | 새로운 에디터 탭(을 구성하는 ui                                                                  |
+|  23 | IMessageEditorTab                | UI             | 새로운 에디터 탭을 구성하는 ui                                                                   |
 |  24 | IMessageEditorTabFactory         | UI             | 새로운 에디터 탭을 추가해주는 Factory                                                            |
 |  25 | IParameter                       | Domain         | 하나의 HTTP 파라메터의 상세 정보(이름,값,타입)를 얻을 수 있다.                                   |
 |  26 | IProxyListener                   | Event Listener | Burp Proxy가 요청/응답을 인터셉트하는 이벤트를 캐치한다.                                         |

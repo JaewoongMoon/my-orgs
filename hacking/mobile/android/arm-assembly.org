@@ -12,7 +12,7 @@
 | ldr    | load register from memory | 메모리상의 값을 레지스터에 로드    | Rd := (address)            |
 | b      | branch                    | R15 := address                     |                            |
 | str    | store register to memory  | 레지스터의 값을 메로리에 기록한다. | <address> := Rd            |
-|        |                           |                                    |                            |
+| bne    | branch if not equal       | 인자의 값과 동일하지 않으면 분기   |                            |
 
 
 

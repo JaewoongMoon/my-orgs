@@ -73,6 +73,8 @@ public class BurpExtender implements IBurpExtender{
 
 [[./img/export-success.png]]
 
+참고 : 코드 빌드는 maven/gradle 을 사용해서 할 수도 있습니다. maven 빌드시 버프스위트 api jar파일을 pom.xml 에 기술한 다음 package 로 goal을 지정해서 빌드하면 됩니다. 
+
 ** 확장 프로그램 로드
 - 버프스위트를 실행시키고 Extender 탭 > Extensions 탭 > Add 버튼을 클릭합니다. 
 
