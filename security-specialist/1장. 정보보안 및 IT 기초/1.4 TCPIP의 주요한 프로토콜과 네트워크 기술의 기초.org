@@ -25,6 +25,14 @@
 
 * 전자메일의 구조
 
+| 명칭                        | 주요역할                  | 제품                          |
+|-----------------------------+---------------------------+-------------------------------|
+| Mail User Agent (MUA)       | 메일 전송 (투고), 수신    | Outlook Express               |
+| Mail Submission Agent (MSA) | 메일 투고 접수, 유저 인증 | sendmail, qmail               |
+| Mail Transfer Agent (MTA)   | 메일 중계 (배송) | sendmail, qmail               |
+| Mail Delivery Agent (MDA)   | 메일 박스에 수납          | mail.local, procmail, Qpopper |
+| Mail Retrieval Agent (MRA)  | 유저 인증, 메일 받아오기  | Qpopper                       |
+
 * DNS의 주요기능
 
 * HTTP에서 사용하고 있는 기본적인 기술
