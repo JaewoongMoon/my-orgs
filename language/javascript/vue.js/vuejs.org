@@ -1,0 +1,56 @@
+#+TITLE: VUE.js 정리
+#+AUTHOR: jwmoon
+
+* 개요
+
+
+* 궁금한 점
+- Vue.extends 와 new Vue 와의 차이점?
+- Vue 생성시 사용되는 다음 메서드들은 무엇을 의미하는가?
+- components
+- computed
+- created
+- mounted
+
+
+* 템플릿 사용하기
+#+BEGIN_SRC javascript
+<div id="tab">
+  <tab-example></tab-example>
+</div>
+<script type="text/x-template" id="tab-template">
+  <div class="module_tab" id="tab" data-module-tab="wrap">
+      <ul>
+        <li v-for="(item, index) in items" :class="[{ on : index == activeIndex }]">
+          <button @click="tabToggle( index )" type="button"><span></span></button>
+          <div class="module_tab__contents"></div>
+        </li>
+      </ul>
+    </div>
+</script>
+
+
+Vue.component('tab-example', {
+  template: '#tab-template', // x-template 스크립트의 ID를 지정한다. 
+  data () {
+    return {
+      activeIndex: 0,
+      items: [{
+        'button': 'tab01',
+        'contents': 'tab01 contents'
+      },{
+        'button': 'tab02',
+        'contents': 'tab02 contents'
+      },{
+        'button': 'tab03',
+        'contents': 'tab03 contents'
+      }]
+    }
+  },
+  methods: {
+    tabToggle (targetIndex) {
+      this.activeIndex = targetIndex;
+    }
+  }
+});
+#+END_SRC
