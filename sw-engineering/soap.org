@@ -1,0 +1,46 @@
+#+TITLE: SOAP
+
+* 개요
+- Simple Object Access Protocol
+- HTTP/HTTPS/SMTP 등을 통해 XML 기반의 메세지를 교환하는 프로토콜
+- 헤더와 바디 엘레먼트가 루트엘레먼트인 Envelop 로 감싸여진 형태를 하고 있다. 
+
+
+* 메세지 형식
+가장 간단한 형식은 다음과 같다. 
+#+BEGIN_SRC xml
+<?xml version="1.0"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope/" soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding">
+<soap:Header>
+...
+</soap:Header>
+
+<soap:Body>
+...
+  <soap:Fault>
+  ...
+  </soap:Fault>
+</soap:Body>
+
+</soap:Envelope>
+#+END_SRC
+
+** 헤더
+- 헤더에는 application specific 정보가 들어간다. (인증,결제 정보 등)
+
+** 바디
+다음과 같은 형태로 기술한다. 
+
+엘레먼트 정보 (아래 예제에서는 m) 를 가지고 있는 네임스페이스를 기술해야 한다. 
+#+BEGIN_SRC xml
+  <m:GetPrice xmlns:m="https://www.w3schools.com/prices">
+    <m:Item>Apples</m:Item>
+  </m:GetPrice>
+#+END_SRC
+
+
+
+
+[fn:1] https://ko.wikipedia.org/wiki/SOAP
+[fn:2] https://www.w3schools.com/xml/xml_soap.asp
+

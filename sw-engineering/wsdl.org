@@ -1,0 +1,32 @@
+#+TITLE: WSDL
+
+* 개요
+- Web Services Description Language, 웹 서비스 기술 언어
+- 주로 SOAP 과 결합하여 인터넷 상에서 웹 서비스를 제공하기 위해 사용된다.
+- 버전 1.1과 버전2.0 이 있다. 버전에 따라 스키마가 다르다. 
+- 버전 2.0이 W3C의 권고안이다.
+
+* 버전 1.1 스펙
+상위 엘레먼트는 다음과 같다. 
+
+** types
+데이터를 기술한다. XML 스키마 용어를 사용한다. 
+
+** message
+일반적으로 하나의 메세지는 하나의 operation 과 대응한다. 
+
+
+** portType
+웹 서비스, 실행가능한 조작, 그 조작을 실행하기 위해서 사용되는 메세지 등
+
+** binding
+인터페이스를 규정하고 SOAP 통합 스타일(RPC/Document)과 트랜스포트(SOAP 프로토콜)을 정의한다. binding 섹션 또한 operation을 정의한다.
+
+** service
+웹 기반 프로토콜에 노출되는 시스템 기능의 집합
+
+
+
+
+
+[fn:1] https://ko.wikipedia.org/wiki/WSDL
