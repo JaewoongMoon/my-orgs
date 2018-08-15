@@ -1,4 +1,17 @@
 #+TITLE: X-XSS-Protection Header
 
-* X-XSS-Protection 헤더 미설정
-** 개요
+ X-XSS-Protection 헤더 미설정
+
+* 개요
+X-XSS-Protection 헤더를 설정하면 웹 브라우저에게 내장 XSS Filter 를 사용하도록 지시할 수 있습니다. 이 헤더를 설정하는 것으로 XSS 공격이 성립할 확률을 낮출 수 있습니다. 
+
+헤더는 다음과 같은 모습입니다. 
+
+X-XSS-Protectionヘッダーを設定すると、Webブラウザに組み込まXSS Filterを使用するように指示することができます。このヘッダを設定することでXSS攻撃が成立する確率を下げることができます。
+
+ヘッダは、次のような姿です。
+
+X-XSS-Protection: 1; mode=block
+
+* 해결방법
+

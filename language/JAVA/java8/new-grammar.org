@@ -1,0 +1,21 @@
+#+TITLE: Java 8 새로운 문법
+
+
+* 개요 
+java8에서 추가된 새로운 문법을 정리한다. 주로 함수형 언어와 같은 특징이 추가되었다고 한다 (람다 등).
+
+
+* steam, map, collect 
+List 객체의 뒤에서 stream().map().collect() 와 같은 식으로 추가되는 문법이 보인다. 
+
+일단 직관적으로 봤을 때 javascript의 map 처럼 list를 순회하는 코드를 작성할 때 쓰이는 것으로 보인다. 
+
+무슨 뜻일까? 하나씩 살펴본다. 
+
+** steam
+
+
+** map
+
+
+** collect
