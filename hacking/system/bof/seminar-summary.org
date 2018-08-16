@@ -38,6 +38,16 @@
 - 실습 환경 Kali Linux
 
 
+* BOF history
+- 1972년에 처음으로 공개된 문서에 등장[fn:1]
+- 최초로 악용된 사례는 1988년 모리스 웜
+- 2001년 코드레드
+- 2003년 SQL Slammer
+- 2003년 Xbox 해킹
+- PlayStation2 해킹 
+- nintendo wii 해킹(Twilight Hacking)
 
 
 
+* Ref
+[fn:1] https://en.wikipedia.org/wiki/Buffer_overflow#History

