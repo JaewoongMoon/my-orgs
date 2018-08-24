@@ -1,0 +1,67 @@
+
+
+* files 
+- Main Source files are below.
+
+| num | file name   | description |
+|-----+-------------+-------------|
+|   1 | actors.c    | actors      |
+|   2 | ai.c        |             |
+|   3 | automap.c   |             |
+|   4 | blit.c      |             |
+|   5 | cdogs.c     |             |
+|   6 | cdogsed.c   |             |
+|   7 | charsed.c   |             |
+|   8 | defs.c      |             |
+|   9 | draw.c      |             |
+|  10 | drawtools.c |             |
+|  11 | events.c    |             |
+|  12 | files.c     |             |
+|  13 | game.c      |             |
+|  14 | gamedata.c  |             |
+|  15 | grafx.c     |             |
+|  16 | hiscores.c  |             |
+|  17 | input.c     |             |
+|  18 | joystick.c  |             |
+|  19 | keyboard.c  |             |
+|  20 | mainmenu.c  |             |
+|  21 | map.c       |             |
+|  22 | menu.c      |             |
+|  23 | mission.c   |             |
+|  24 | objs.c      |             |
+|  25 | password.c  |             |
+|  26 | pics.c      |             |
+|  27 | prep.c      |             |
+|  28 | sounds.c    |             |
+|  29 | sprcomp.c   |             |
+|  30 | text.c      |             |
+|  31 | triggers.c  |             |
+|  32 | utils.c     |             |
+
+* methods
+
+| file name  | method                 | description |
+|------------+------------------------+-------------|
+| mainmenu.c | LookForCustomCampaigns |             |
+| mainmenu.c | SetupBuiltin           |             |
+| mainmenu.c | SelectCampaign         |             |
+| mainmenu.c | SelectMain             |             |
+| mainmenu.c | FitColor               |             |
+| mainmenu.c | PaletteAdjust          |             |
+| mainmenu.c | SelectOptions          |             |
+| mainmenu.c | ChangeControl          |             |
+| mainmenu.c | DisplayControls        |             |
+| mainmenu.c | SelectControls         |             |
+| mainmenu.c | KeyAvailable           |             |
+| mainmenu.c | ChangeKey              |             |
+| mainmenu.c | ChangeMapKey           |             |
+| mainmenu.c | DisplayKeys            |             |
+| mainmenu.c | ShowAllKeys            |             |
+| mainmenu.c | HighlightKey           |             |
+| mainmenu.c | SelectKeys             |             |
+| mainmenu.c | SelectVolume           |             |
+| mainmenu.c | MakeSelection          |             |
+| mainmenu.c | ShowCredits            |             |
+| mainmenu.c | MainMenu               |             |
+| mainmenu.c | LoadConfig             |             |
+| mainmenu.c | SaveConfig             |             |
