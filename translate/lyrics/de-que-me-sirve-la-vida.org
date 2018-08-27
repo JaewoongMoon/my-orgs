@@ -1,12 +1,15 @@
 #+TITLE: ¿De qué me sirve la vida? 
-#+DATE: 2018.05.01~
+#+DATE: 2018.05.01, 2018.08.27, 
 
 * lyric
+¿De qué me sirve la vida? 
+내 인생의 쓰임은 무엇일까?
+
 Estoy a punto de emprender un viaje
 나는 여행을 떠나려고 하고 있어
 
 con rumbo hacia lo desconocido
-방향을 알지못한 채
+어느 쪽으로 가야할 지 방향을 알지못한 채
 
 no sé si algún día vuelva a verte
 어느 날 너를 다시 볼 수 있을지 모르겠어 
@@ -19,6 +22,43 @@ Por más que suplique no me abandones
 
 dijiste no soy yo, es el destino
 너는 내가 아니라고 말했지, 이 것은 운명이야 
+
+entonces entendi que aunque te amaba 
+그리고 나서 나는 이해했어 비록 너를 사랑하지만 
+
+tenia que elegir otro camino 
+나는 다른 길을 선택해야 했어.
+
+De que me sirve la vida si eres lo que yo pido 
+내 인생의 쓰임은 무엇일까? 만약 누군가 내게 물어본다면 
+
+los recuerdos no me alcanzan pero me mantienen vivo 
+기억들은 나에게 닿지 않지만 나를 살아있게 해준다고 
+
+de que me sirve la vida si no la vivo con tigo 
+너와 함께하지 않는 삶이라면 내 삶의 의미는 뭐지? 
+
+de que me sirve la esperanza si es lo ultimo que muere 
+마지막이 죽는 것이라면 내 희망이란 뭐지?
+
+Y sin ti ya lo es perdido.
+그리고 너 없이는 이미 잃어버린 것과 같아
+
+Escucha bien amor lo que te digo 
+pues creo no habra otra ocacion 
+para decirte que no me arrepiento 
+de haberte entregado el corazon 
+
+Por mas que suplique no me abandones 
+dijiste no soy yo es el destino 
+entonces entendi que aunque te amaba 
+tenia que elegir otro caminoo oho.. 
+
+De que me sirve la vida si eres lo que yo pido los recuerdos no me alcanzan pero me mantienen vivo de que me sirve la vida si no la vivo con tigo de que me sirve la esperanza si es lo ultimo que muere
+Y sin ti ya lo eh perdidoo... 
+
+De que me sirve la vida si eres lo que yo pido los recuerdos no me alcanzan pero me mantienen vivo de que me sirve la vida de que me sirve la esperanza si es lo ultimo que muere...
+Y sin ti ya lo eh perdidoo...
 
 
 
