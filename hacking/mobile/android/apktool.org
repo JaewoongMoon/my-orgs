@@ -4,21 +4,32 @@
 * 개요
 - 리패키징이나 동적디버깅을 위한 어셈블리코드 (smali 코드) 획득에 사용한다. 
 
+* 설치
+- https://ibotpeaches.github.io/Apktool/ 를 참고해서 설치한다. 
+
 * 사용방법
 
-** 디스어셈블
+** 디스어셈블 
 - apk 파일의 소스코드를 가지고 있지 않고 컴파일된 소스만 가지고 있을 때 역어셈블한 코드를 디버거에 로딩하는 것이 가능한 경우도 있다. 이럴 때 디스어셈블 기능을 이용한다. 
 - 또는 코드를 변조한 후 재패키징해서 다시 안드로이드에 설치해서 실행해볼 때 사용할 수도 있다. 
 
 #+BEGIN_SRC bash
-apktool d [apk파일명] [결과가저장될폴더]
+apktool d [apk파일명] -o [결과가저장될폴더]
 #+END_SRC
 
+[[./img/apktool-decompile.png]]
 
-** 코드 재서명(재패키징)
+** APK 재패키징 (빌드)
 #+BEGIN_SRC bash
 apktool b [디렉토리명] -o [apk파일명]
 #+END_SRC
+
+[[./img/apktool-build.png]]
+
+재패키징이 완료된 후 코드사인을 하면 앱을 에뮬레이터에 정상적으로 설치할 수 있게 된다. 
+
+코드사인은 ApkChanger를 사용하거나 수동으로 키를 생성한 후(~/.android/debug.keystore) 기본 JDK에 포함되어 있는 JarSigner 등을 이용해서 서명한다. 
+
 
 *** 트러블슈팅
 다음과 같은 에러나 나면서 재패키징이 되지 않았다. 

@@ -6,60 +6,102 @@
 - dll 파일을 분석하기 위한 툴로 무료 .NET 디컴파일러인ILSpy 를 사용한다. 
 
 
-* C# 코드 위치
-보통 apk의 압축을 풀면 /assets/bin/Data/Managed/Assembly-CSharp.dll 파일이 있다. 이 파일을 ILSpy에 로드해서 확인한다. 
+* 디컴파일러 설치  
+- 디컴파일러는 컴파일된 C# 코드 (dll)를 디컴파일해서 원래 소스 코드를 보여준다. 
+- c# 디컴파일러는 .NET Reflextor, JustDecompile, ILSpy 등이 있다. 
+- .NET Reflextor 가 가장 기능이 좋다고 알려져 있으나 유료이다. (처음 30일간만 무료로 사용가능하다.)
+- ILSpy와 JustDecompile 무료 디컴파일러이다. 
+- 이 문서에서는 ILSpy 를 기준으로 설명한다. 
 
-
-* ILSpy 설치 
-다음 URL을 참고해서 설치한다. 
+다음 URL을 참고해서 설치한다. (2018년 8월 기준 안정적인 3.2버전을 설치하는 것을 추천한다. )
 
 https://github.com/icsharpcode/ILSpy/releases
 
-* Reflexil 확장 애드온 설치
-- C# 어셈블리 코드를 수정할 수 있는 플러그인이다. 
-- 다운로드 : http://reflexil.net/
-- 다운로드하면 zip 파일이 다운로드된다. 
-- 압축을 풀면 dll 파일이 있다. 이 것을 IlSpy가 설치된 폴더에 복사한다.
-- 사용방법 : http://resources.infosecinstitute.com/damn-vulnerable-thick-client-app-part-10/#gref
+** C# 코드 로드 
+apk의 압축을 풀면 /assets/bin/Data/Managed/Assembly-CSharp.dll 파일이 있다. 이 파일을 디컴파일러에 로드해서 확인한다. 
 
-* 사용방법
-** 구동하기
-- Ilspy를 재구동하면reflexil이 설치되어 있다. 
+이 때 주의할점은 Assembly-CSharp.dll 파일을 따로 별도 폴더에 복사한 후에 로드하면 안된다는 것이다. 
+
+/assets/bin/Data/Managed/ 안의 dll파일들을 참조하고 있으므로 굳이 별도 폴더에서 수정하고 싶다면 dll파일들 전체를 복사해야 한다. 
+
+
+** reflexil 확장 애드온 설치
+reflexil 이라는 애드온 프로그램을 설치하면 소스코드를 어셈블리 코드로 변환해서 볼 수 있다. 
+- C# 어셈블리 코드를 수정 또는 추가할 수 있기 때문에 아주 유용하다. 
+- 다운로드 : https://github.com/sailro/Reflexil/releases
+- 2018 년 8월 기준 가장 최신버전은 2.2이다. 
+- reflexil.for.ILSpy.2.2.AIO.bin.zip 를 다운로드받는다. (참고로 AIO는 all-in-one의 약자로 예상된다.)
+- 압축을 풀면 dll 이 하나 있다. 이 것을 IlSpy가 설치된 폴더에 복사한다.
+
+[[./img/reflexil-0.png]]
+
+** reflexil  구동하기
+- Ilspy를 재구동하면 reflexil이 설치되어 있다. 
 - 톱니바퀴를 클릭하면 다음과 같이 어셈블리 코드를 보여주는 패널이 나타난다.
 
-** 어셈블리 코드 수정
-- 어셈블리 코드 라인을 하나 클릭하고 마우스 오른쪽 버튼을 누르면..
-- 새로운 어셈블리 코드를 만들거나 , 혹은 수정, 삭제 할 수 있다.
+[[./img/reflexil-1.png]]
+
+[[./img/reflexil-2.png]]
+
+* 어셈블리 코드 수정
+- 어셈블리 코드 라인을 하나 클릭하고 마우스 오른쪽 버튼을 눌러서 새로운 어셈블리 코드를 만들거나 혹은 수정, 삭제 할 수 있다.
+
+[[./img/reflexil-3.png]]
+
 - Create new 나 Edit 를 눌렀을 때 나오는 어셈블리 코드 입력화면에서 코드 입력 
+
+[[./img/reflexil-4.png]]
+
 - 결과확인 : 메서드에서 마우스오른쪽 버튼을 누른 후 Update ILSpy object model을 선택하면
 - C#코드에서 추가된 코드을 볼 수 있다.
 
-*** 사용예) 로그로 파라메터 출력하기
+[[./img/reflexil-update-object-model.png]]
+
+** 사용 예 : 로그로 파라메터 출력하기
+
 예를들어 특정 파라메터의 값을 로그로 출력하고 싶다고 하자. 
-- 그러면 어셈블리 언어로 표현했을 때  
-- 특정 파라메터 로드 , Log 명령 로드의 두 개 라인이 된다.
-- 그러면 적절한 위치에 다음의 두개 명령어를 순서대로 추가하면된다.
+그러면 어셈블리 언어로 표현했을 때 특정 파라메터 로드 , Log 명령 로드의 두 개의 명령어를 추가해야 한다. 적절한 위치에 다음의 두개 명령어를 순서대로 추가하면된다.
 		
-ldag.0는 출력하고 싶은 파라메터명
+*** 파라메터 추가 
+- 먼저 출력하고자 하는 파라메터를 지정한다. 
+- 새로운 값을 추가하거나 기존 값을 지정할 수 있다. 
+- 참고로, 스트링을 의미하는 OpCode는 ldstr 이다. 
 		
-Log 메서드를 호출
+*** Log 메서드를 호출
+- 메서드 호출을 의미하는 OpCode는 call이다. OpCode 에 call을 입력하고 Operand type은 Method reference를 선택한다. 
+
+[[./img/insert-call-opcode.png]]
+
+- Operand를 클릭하면 다음과 같이 호출할 수 있는 메서드를 선택하라는 팝이 뜬다.
+
+[[./img/method-select-popup.png]]
+
+- 그러면 여기서 UnityEngine의 Log 메서드를 찾으면 된다. 경로는 UnityEngine > UnityEngine.dll > UnityEngine > Debug > Log 이다.
+
+[[./img/debug-method-select.png]]
+		
+- 마지막으로 insert하고자 하는 위치를 선택해서 어셈블리 명령을 추가한다. (Append는 가장 마지막에 추가, 밑의 두 개는 선택된 라인의 앞이나 뒤에 추가를 의미한다.)
+
+- 어셈블리 코드를 추가한 후 해당 메서드에서 Update ILSpy object model 을 클릭한다. 그러면 다음과 같이 추가된 코드가 보인다. 
+
+[[./img/debug-method-added.png]]
 
 
-*** 사용예 ) 메서드 호출 어셈블리 코드 추가하기
-- 오퍼랜드를 클릭하면 호출할 수 있는 메서드를 선택하라는 창이 뜬다.
-		
-- 그러면 여기서 UnityEngine의 Log 메서드를 찾으면 된다.
-		경로는 UnityEngine > UnityEngine > Debug > Log 이다.
-		
-- 마지막으로 insert하고자 하는 위치를 선택한다. 
-		Append는 가장 마지막에 추가, 밑의 두 개는 선택된 라인의 앞이나 뒤에 추가
-		
+* 저장/재컴파일
+** 저장 
+수정이 완료되었다면 dll파일을 저장한다. ILSpy 파일 익스플로러에서 수정한 모듈명 (Assembly-CSharp) 을 선택한뒤 마우스 오른쪽 버튼 클릭하여 저장한다.
+
+[[./img/reflexil-saveas.png]]
 
 
-** 저장
-수정한 모듈명 (Assembly-CSharp) 을 선택한뒤 마우스 오른쪽 버튼 클릭하여 저장한다.
+
+** 재컴파일
+APkChanger를 이용해서 apk 를 다시 만든다. 
+
 
 * 작업요령
+작업요령은 다음과 같다. 
+
 1. 공격가능해보이는 코드를 찾는다. 
 
 2. 해당 코드가 사용되는지 확인한다. 
@@ -68,5 +110,6 @@ Log 메서드를 호출
 3. 해당 코드가 동작한다는 확인이 들면 실제 코드를 수정해본다. 
 
 
-* 어셈블리코드 참고 
-https://en.wikipedia.org/wiki/List_of_CIL_instructions
+* 참고 자료
+- 어셈블리코드 : https://en.wikipedia.org/wiki/List_of_CIL_instructions
+- reflexil 사용방법 : http://resources.infosecinstitute.com/damn-vulnerable-thick-client-app-part-10/#gref
