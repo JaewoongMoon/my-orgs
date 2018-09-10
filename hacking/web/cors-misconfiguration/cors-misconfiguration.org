@@ -1,0 +1,58 @@
+#+TITLE: CORS 설정 미스 취약점 
+
+* 개요/배경
+- burp 에서 찾아주는 취약점 'Cross-Origin resource sharing:arbitrary origin trusted' 이 어떤 취약점인지 연구한 문서이다. 
+- 간단히 요약하자면 중요/민감한 정보를 제공하는 사이트에서 CORS 설정이 잘못되어 임의의 도메인을 신뢰하게 될 경우 악의적인 사이트로부터 정보 유출 공격을 받을 수 있다는 내용이다. 
+
+* 시나리오
+
+[[./img/scenario.png]]
+
+내가 이해한 것은 다음과 같다. 
+
+** 전제조건
+공격이 성립하려면 다음 두 조건을 만족해야 한다. 
+
+- 피해자 A가 중요한 정보를 제공하는 사이트 B에 접근권한을 가지고 있다. 
+- 사이트 B에는 CORS 취약점(임의의 사이트 신뢰)이 있다. 
+
+** 공격 성립 시나리오 
+- 공격자 C는 피해자 A를 악의적인 사이트로 유도한다.
+- 악의적인 사이트는 피해자 A에게 CORS payload 를 내려보낸다. 
+- 이어서 공격자는 피해자 A를 사이트 B에서 ApiKey를 얻는 URL에 접속하게 한다. 
+- 이 때 Origin에 해커의 사이트 D를 설정하고 API key 획득에 성공하면 사이트 D로 전송하도록 한다. 
+- 사이트 B는 CORS 취약점이 있기 때문에 사이트 D를 신뢰하게 된다.
+- 이로인해 동일출처정책이 깨져 사이트B의 데이터가 사이트D로 전송되게 된다.  *(이 부분은 테스트를 꼭 해보자.)*
+
+
+* NULL ORIGIN
+- who has the null origin?
+- local file, maybe?
+
+null origin example
+#+BEGIN_SRC html
+<iframe sandbox='allow-scripts allow-forms' src='
+data: text/html, <!DOCTYPE html>
+  <script>
+    var req = new XMLHttpRequest();
+  </script>
+'></iframe>
+#+END_SRC
+
+** Impact
+- Google user account detail theft
+- Encrypted wallet theft
+
+
+* 기타 
+** CORS 멀티 도메인 설정 문제 
+- Access-Control-Allow-Origin 헤더에는 하나의 도메인만 설정가능하다. 여러개의 도메인 (서브도메인을 포함)을 지정하고 싶으면 어떻게 해야 하는가?
+
+*** 가능한 해결책
+- Dynamic generation (추천하지 않는다.)
+- 유저가 제공한 특별한 URL에 맞춘 응답 (마찬가지로 추천하지 않는다.)
+- 방법이 없는 상태?
+
+
+* 참고 자료 
+[fn:1] https://portswigger.net/blog/exploiting-cors-misconfigurations-for-bitcoins-and-bounties

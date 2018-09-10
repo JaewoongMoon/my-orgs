@@ -10,8 +10,8 @@
 - 클라이언트 측 요청은 여러 구현 방법이 있지만 주로 XMLHttpRequest를 사용
 
 XMLHttpRequest 샘플 코드 
-#+BEGIN_SRC Javascript
-<script>
+
+#+BEGIN_SRC js
   var req = new XMLHttpRequest();
   req.open('GET', 'http://a-url');
   req.onreadystatechange = function() {
@@ -20,11 +20,9 @@ XMLHttpRequest 샘플 코드
     }
   };
 req.send(null);
-</script>
 #+END_SRC
 
-
-- CORS는 JSONP 의 대체수단으로 쓰일 수 있다. [fn:1]
+- *CORS는 JSONP 의 대체수단으로 쓰일 수 있다.* [fn:1]
 
 
 크로스 도메인 에러가 발생하면 브라우저에서 다음과 같은 메세지를 출력한다. [fn:2]
@@ -36,11 +34,13 @@ Origin '[FQDN]' is therefore not allowed access.
 
 서버측에서 지정할 수 있는 헤더는 다음과 같은 것이 있다. 
 
-- Access-Control-Allow-Methods : 사용가능한 HTTP 요청 메서드 지정
-- Access-Control-Max-Age : 권한 확인을 위한 Preflight 요청이 캐시될 시간(초) 지정
-- Access-Control-Allow-Headers : 요청 헤더에 포함되는 헤더 값, 예를들어 "x-requested-with" 라고 지정할 경우 Ajax 요청만 허용할 수 있다. 
-- Access-Control-Allow-Origin : 접근을 허용할 클라이언트 도메인을 지정할 수 있다. "*" 로 지정할 경우 모든 도메인에서 접근가능하다.
-
+- Access-Control-Allow-Methods : 요청시 사용가능한 HTTP 요청 메서드를 지정한다. 
+- Access-Control-Max-Age : 권한 확인을 위한 Preflight 요청이 캐시될 시간(초) 지정한다. 
+- Access-Control-Allow-Headers : 허용할 요청 헤더 값을 지정한다.  예를들어 "x-requested-with" 라고 지정할 경우 Ajax 요청만 허용한다. 
+- Access-Control-Allow-Origin : 서버 입장에서 자신의 사이트의 컨텐츠에 접근을 허용할 클라이언트 도메인을 지정할 수 있다. "*" 로 지정할 경우 모든 도메인으로 부터의 접근을 허용한다. 
+- Access-Control-Allow-Credentials : 응답이 클라이언트 페이지에 노출될지 여부를 지정한다. true로 지정할 경우 페이지에 노출가능하게 된다. [fn:3]
 
 [fn:1] https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 [fn:2] http://ooz.co.kr/232
+[fn:3] https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
+
