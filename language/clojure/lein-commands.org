@@ -1,21 +1,114 @@
 #+TITLE: 라이닝언 커맨드 정리
 #+AUTHOR: jwmoon
-#+DATE: 2018.04.13 
+#+DATE: 2018.04.13 , 2018.09.12
 
 
 * 개요
 클로저로 개발하는 프로젝트에서 자주 쓰이는 커맨드들을 정리해둔 문서입니다.
 
-* 커맨드 목록
-** 프로젝트 생성
+* Leiningen?
+- Java 진영의 Maven 같은 존재이다. 
+- 클로저 프로젝트를 빌드해준다. 
+- 기본적인 명령어 형태는 lein [태스크명] [기타 옵션]  이다. 
 
-luminus라는 웹 프로젝트 템플릿으로 프로젝트를 생성한다.
+* 기본 커맨드 
+** 새로운 클로저 프로젝트 만들기
+
+#+BEGIN_SRC bash
+lein new app [프로젝트명]
+#+END_SRC
+
+- 'new' 는 새로운 프로젝트를 생성하는 태스크이다. 
+- 'app' 이라는 프로젝트 템플릿을 사용해서 프로젝트를 생성한다.
+
+** 프로젝트 실행하기
+프로젝트로 이동 후...
+
+#+BEGIN_SRC bash
+lein run
+#+END_SRC
+
+** Jar 파일로 빌드하기
+jar 파일을 만들어주는 태스크는 두 개가 있다. 
+
+- jar : 프로젝트 파일을 jar로 만들어 준다. 
+- uberjar : 프로젝트 파일과 의존파일들을 함께 jar로 만들어 준다. 
+
+uberjar 을 사용하면 두 버전의 jar 를 모두 만들어주므로 uberjar 을 사용하면 된다. 
+
+프로젝트로 이동 후...
+
+#+BEGIN_SRC bash
+lein uberjar
+#+END_SRC
+
+실행하면 target/uberjar/[프로젝트명]-0.1.0-SNAPSHOT-standalone.jar 파일이 생겼을 것이다. 
+
+이 것을 자바 프로젝트에서 가져다 쓰면 된다.
+
+참고로 java 에서 실행하려면 다음 커맨드를 참고한다. 
+
+#+BEGIN_SRC bash
+java -jar target/uberjar/[프로젝트명]-0.1.0-SNAPSHOT-standalone.jar
+#+END_SRC
+
+*** 이클립스 자바 프로젝트에 jar 추가하기 
+- 자바 프로젝트에 jar 를 추가해서 작업하려면 *standalone 이 붙은 jar 파일을 추가한다.*
+- 상단 import 문에서 클로저 프로젝트명을 찾으면 보일 것이다!
+- 예를 들어 say_hello 라는 이름의 프로젝트라면 다음처럼 사용할 수 있다. 
+
+클로저 소스 코드는 다음과 같다고 하자. 
+#+BEGIN_SRC clojure 
+(ns say-hello.core
+  (:gen-class
+   :methods [#^{:static true} [hello [String] void] ] ; 여기서 public 메서드를 지정해줘야 한다.
+   ))
+
+(defn hello
+  "Say Hello"
+  [param]
+  (println "Hey man hello!" param))
+
+; 이 랩퍼 펑션이 없으면 java에서 호출할 수가 없다!
+(defn -hello
+  "A Java-callable wrapper around the 'hello' function."
+  [param]
+  (hello param))
+
+
+(defn -main
+  "I don't do a whole lot ... yet."
+  [& args]
+  (hello "jay"))
+#+END_SRC
+
+그러면 자바 소스 코드에서는 다음과 같이 사용할 수 있다. 
+
+#+BEGIN_SRC java
+package lit;
+
+import say_hello.*;
+
+public class Test {
+
+	public static void main(String[] args) {
+		core.hello("jay");
+	}
+}
+#+END_SRC
+
+
+* 웹 프로젝트 관련 커맨드 
+** 웹 프로젝트 생성하기 
 
 #+BEGIN_SRC bash
 lein new luminus [프로젝트명]
 #+END_SRC
 
-** 서버 구동
+- new 는 새로운 프로젝트를 생성하는 태스크이다. 
+- luminus라는 웹 프로젝트 템플릿으로 프로젝트를 생성한다.
+
+** 서버 구동하기 
 - 링 서버 구동
 - 간단 웹 서버, 3000번 포트로 구동
 - ring 은 라이닝언의 태스크이고,
@@ -27,6 +120,8 @@ lein ring server
 
 
 
-* 참고자료
-- clojure web development essential
 
+* 참고자료
+- https://www.braveclojure.com/getting-started/
+- clojure web development essential 
+- https://dzone.com/articles/java-clojure-interop-calling
