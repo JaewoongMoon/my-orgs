@@ -1,5 +1,5 @@
 #+TITLE: ¿De qué me sirve la vida? 
-#+DATE: 2018.05.01, 2018.08.27, 
+#+DATE: 2018.05.01, 2018.08.27, 2018.09.18
 
 * lyric
 ¿De qué me sirve la vida? 
@@ -45,24 +45,43 @@ Y sin ti ya lo es perdido.
 그리고 너 없이는 이미 잃어버린 것과 같아
 
 Escucha bien amor lo que te digo 
+내가 하는 말을 잘 들어봐 
+
 pues creo no habra otra ocacion 
+난 다른 기회가 없을 거라고 믿어 
+
 para decirte que no me arrepiento 
+너에게 난 후회하지 않는다고 말하면서 
+
 de haberte entregado el corazon 
+너에게 나의 마음을 전해 
 
 Por mas que suplique no me abandones 
 dijiste no soy yo es el destino 
 entonces entendi que aunque te amaba 
 tenia que elegir otro caminoo oho.. 
 
-De que me sirve la vida si eres lo que yo pido los recuerdos no me alcanzan pero me mantienen vivo de que me sirve la vida si no la vivo con tigo de que me sirve la esperanza si es lo ultimo que muere
-Y sin ti ya lo eh perdidoo... 
+De que me sirve la vida si eres lo que yo pido 
 
-De que me sirve la vida si eres lo que yo pido los recuerdos no me alcanzan pero me mantienen vivo de que me sirve la vida de que me sirve la esperanza si es lo ultimo que muere...
-Y sin ti ya lo eh perdidoo...
+los recuerdos no me alcanzan pero me mantienen vivo 
+
+de que me sirve la vida si no la vivo con tigo 
+
+de que me sirve la esperanza si es lo ultimo que muere
+
+Y sin ti ya lo eh perdido... 
+
+De que me sirve la vida si eres lo que yo pido 
+los recuerdos no me alcanzan pero me mantienen vivo 
+de que me sirve la vida 
+
+de que me sirve la esperanza si es lo ultimo que muere...
+
+Y sin ti ya lo eh perdio...
 
 
 
 
 * ref 
-https://lyricstranslate.com/en/de-que-me-sirve-la-vida-what-use-life-me.html
+- https://lyricstranslate.com/en/de-que-me-sirve-la-vida-what-use-life-me.html
 
