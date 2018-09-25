@@ -1,0 +1,33 @@
+#+TITLE: HTTP CC 공격 
+
+* 개요
+- 2009년 7월 발생했던 DDos 대란의 트래픽을 분석해보면 HTTP CC 공격을 응용한 Web 트래픽이 다수를 차지했다고 한다. 
+
+* 원리
+- 클라이언트가 User-Agent 헤더에 *Cache-Cotrol: no-store, must-revalidate* 를 설정해서 전송한다. 
+- 이 헤더를 설정한 후에 어떤 동작을 하는가에 따라 아래 두 가지 의견이 있다. 어떤 것이 맞을까?
+
+** 의견 1. 서버측 처리가 변경됨
+서버는 위와 같은 헤더가 설정된 요청이 들어오면 동일한 요청이라도 들어와도 304 (Not Modify) 응답을 보내지 못하고 계속 신규 요청처럼 처리하게 된다고 한다. (서버 부담 상승)
+
+*** 검증 
+- Apache 2.2.25 환경에서 테스트 해보니 위 의견처럼 동작하지 않았다. 
+- 클라이언트에서 Cache-Control: no-store,must-revalidate 헤더가 있건 없건 아파치는 304 응답을 리턴했다. 
+- 아파치가 200 또는 304를 리턴하는데 영향을 주는 클라이언트 헤더는 오직 If-None-Match: [ETAG값] 뿐이었다. 
+- 그리고 DDos 대란시에 사용되었던 트래픽에는 CC 헤더가 User-Agent 안에 설정되어 있었다고 한다. 이것을 왜일까? (테스트 환경에서 CC 헤더를 User-Agent 안에 설정해도 아파치의 응답은 동일했다.)
+
+** 의견 2. 클라이언트측 처리가 변경됨 
+- 브라우저가 해당 요청에 대한 응답을 로컬 캐시에 저장하지 않게 되므로 매번 요청을 보낸다. (브라우저는 로컬 캐시에 저장된 URL에 접속할 때는 캐시된 컨텐츠를 보여주고 실제로 서버에 접속하지 않는다. ) 
+- 따라서 서버에 부담이 가해진다. 
+
+
+
+
+
+* 방어 
+- DDos 장비 도입 
+- 
+
+
+* Ref
+- http://blog.naver.com/PostView.nhn?blogId=linears_&logNo=220937260654&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView

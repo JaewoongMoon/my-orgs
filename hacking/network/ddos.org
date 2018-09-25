@@ -1,37 +1,40 @@
+#+TITLE: DDos 공격 유형 정리 
 
-* DDos 공격 유형
+* 개요
+DDos 공격 유형은 다음과 같은 것들이 있다. 
+
 - UDP/ICMP Flooding
 - SYN Flooding
 - GET Flooding
 - LAND
 - HTTP Continuation
 
-** ICMP Flooding
+* ICMP Flooding
+** 공격 개요 
 - 스머프 공격이라고 부름
 - ICMP 를 네트워크 전체로 브로드 캐스트.
 - 이 때, 보내는 호스트를 공격하고자 하는 호스트(타겟 호스트)로 지정한다. 
 - 그러면 ICMP Replay 기능에 의해 타겟 호스트로 트래픽이 집중된다.
 
-** SYN Flooding
-- 다량의 SYN 패킷을 서버로 전달하여 서버의 대기큐를 가득채운다.
-- 서버는 새로운 클라이언트의 연결요청을 무시하게 되므로 서비스가 불가능해진다.
-
-** GET Flooding
-- 동일한 URL 을 반복 요청
-
-
-** LAND
-- 인위적으로 송신지 IP 주소 및 Port 를 공격대상 웹서버의 IP 주소 및 Port 로 설정하여 트래픽을 전송하는 공격
-
-* 방어방법
-** ICMP 
+** 방어방법 
 - ACL 을 이용한 차단 (UDP 패킷/ICMP 패킷)을 차단 등
 - 인바운드 패킷 임계치 설정
 
-** SYN Flooding
+* SYN Flooding
+** 공격 개요 
+- 다량의 SYN 패킷을 서버로 전달하여 서버의 대기큐를 가득채운다.
+- 서버는 새로운 클라이언트의 연결요청을 무시하게 되므로 서비스가 불가능해진다.
+
+** 방어 방법
 - 방화벽에 IP 당 SYN 요청 임계치 설정
 - First SYN Drop 설정으로 차단 (SYN 패킷을 보내는 클라이언트가 진짜 존재하는지를 파악)
 
+* GET Flooding
+- 동일한 URL 을 반복 요청
+
+
+* LAND
+- 인위적으로 송신지 IP 주소 및 Port 를 공격대상 웹서버의 IP 주소 및 Port 로 설정하여 트래픽을 전송하는 공격
  
 
 * Ref
