@@ -1,0 +1,56 @@
+#+TITLE: Virtualenv
+
+* 개요
+- 다양한 파이썬 실행환경을 만드는 것을 지원해준다. 
+- docker 와 비슷하게 느껴진다. 
+
+
+* 설치
+#+BEGIN_SRC bash
+sudo pip install virtualenv
+#+END_SRC
+
+우분투 환경에서는 sudo 를 빼먹으면 local directory 에 설치되기 때문에 주의!
+
+로컬에 설치된 상태에서 virtualenv 를 실행하면 요런 에러 메세지를 만날 수 있다. 
+
+#+BEGIN_SRC bash
+The program 'virtualenv' is currently not installed. You can install it by typing:
+sudo apt install virtualenv
+#+END_SRC
+
+혹시 위 에러를 만났을 때는 다음 커맨드를 실행한다. [fn:1]
+
+#+BEGIN_SRC bash
+sudo -H pip install virtualenv
+#+END_SRC
+
+
+* 커맨드 
+** 가상 환경 만들기
+#+BEGIN_SRC bash
+virtualenv [디렉토리명] 
+#+END_SRC
+
+** 특정버전 파이썬을 지정
+#+BEGIN_SRC bash
+virtualvenv -p /usr/bin/python2.7 [가상환경 디렉토리 패스] 
+#+END_SRC
+
+** 가상 환경 활성화
+#+BEGIN_SRC bash
+source [가상환경 디렉토리 패스]/bin/activate 
+#+END_SRC
+
+실행하면 셸 앞에 가상환경 이름이 표시된다. 
+
+#+BEGIN_SRC bash
+(venv1) jwmoon@mycom:~/
+#+END_SRC
+
+** 가상 환경 비활성화 
+#+BEGIN_SRC bash
+deactivate
+#+END_SRC
+
+[fn:1] https://github.com/pypa/virtualenv/issues/988

@@ -2,5 +2,7 @@
 
 * MySQL 데몬 시작/종료/상태확인
 ** 우분투
-=service mysql [start/stop/restart/status]=
+#+BEGIN_SRC bash 
+service mysql [start/stop/restart/status]
+#+END_SRC
 

@@ -1,0 +1,25 @@
+#+TITLE: Sendmail
+
+* install
+#+BEGIN_SRC bash
+sudo apt-get install sendmail
+#+END_SRC
+
+* configure
+configure /etc/hosts
+
+#+BEGIN_SRC bash
+127.0.0.1 localhost [yourhostname]
+#+END_SRC
+
+* run sendmailconfig
+
+
+#+BEGIN_SRC bash
+sudo sendmailconfig
+#+END_SRC
+
+
+
+* ref
+https://gist.github.com/adamstac/7462202
